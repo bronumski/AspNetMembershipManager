@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="BuildAll">
+
+	<PropertyGroup>
+		<ToolsFolder>$(MSBuildProjectDirectory)\..\tools</ToolsFolder>
+		<SourceFolder>$(MSBuildProjectDirectory)\..\src</SourceFolder>
+		<AssemblyOutputPath>$(MSBuildProjectDirectory)\..\bin</AssemblyOutputPath>
+		<ExtensionTasksPath>$(ToolsFolder)\MSBuildExtensionPack\</ExtensionTasksPath>
+    <NUnitToolPath>$(ToolsFolder)\NUnit</NUnitToolPath>
+	</PropertyGroup>
+
+	<Import Project="$(ExtensionTasksPath)\MSBuild.ExtensionPack.tasks" />
+
+	<PropertyGroup>
+		<SolutionFileName>Project.sln</SolutionFileName>
+		<OutputFolder>$(MSBuildProjectDirectory)</OutputFolder>
+		<FxCopBinPath>$(ToolsFolder)\Microsoft\FxCop</FxCopBinPath>
+		<FxCopOutputFile>$(OutputFolder)\fxcop-report.xml</FxCopOutputFile>
+    <NunitOutputFile>$(OutputFolder)\NunitResults.xml</NunitOutputFile>
+		<DocumentationProject></DocumentationProject>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Version-Major>0</Version-Major>
+		<Version-Minor>0</Version-Minor>
+		<Version-Macro>0</Version-Macro>
+		<Version-Build Condition=" '$(build_number)' == '' " >0</Version-Build>
+		<Version-Build Condition=" '$(build_number)' != '' " >$(build_number)</Version-Build>
+	</PropertyGroup>
+
+
+	<Target Name="BuildAll" DependsOnTargets="Build;PostBuild;GenerateReports;Document" />
+
+	<Target Name="BuildVersionNumbers">
+		<PropertyGroup>
+			<Version-MajorMinor>$(Version-Major).$(Version-Minor)</Version-MajorMinor>
+			<Version-MajorMinorMacro>$(Version-Major).$(Version-Minor).$(Version-Macro)</Version-MajorMinorMacro>
+			<Version-File>$(Version-MajorMinorMacro).$(Version-Build)</Version-File>
+			<Version-Assembly>$(Version-MajorMinor).0.0</Version-Assembly>
+			<Version-Product>$(Version-MajorMinorMacro)</Version-Product>
+		</PropertyGroup>
+	</Target>
+
+	<Target Name="Version" DependsOnTargets="BuildVersionNumbers">
+
+		<Message Text="##teamcity[buildNumber '$(Version-File)']" />
+
+		<MSBuild.ExtensionPack.Framework.AssemblyInfo
+		  AssemblyInfoFiles="$(SourceFolder)\VersionInfo.cs"
+		  AssemblyFileVersion="$(Version-File)"
+		  AssemblyVersion="$(Version-Assembly)"
+		  AssemblyConfiguration="Release" />
+
+	</Target>
+
+	<Target Name="Build" DependsOnTargets="Version">
+
+		<MSBuild  Projects="$(SourceFolder)\$(SolutionFileName)"
+				 Targets="Clean;Rebuild"
+				 Properties="Configuration=Release;Architecture=Any" />
+
+	</Target>
+
+	<Target Name="PostBuild" DependsOnTargets="Build" />
+
+	<Target Name="GetTargetAssemblies" DependsOnTargets="Build" />
+
+	<Target Name="GenerateReports" DependsOnTargets="GetTargetAssemblies;Test;FxCopReport" />
+
+  <Target Name="Test" DependsOnTargets="Build">
+
+    <ItemGroup>
+      <TestAssemblies Include="$(SourceFolder)\**\*.Tests\bin\release\*Tests.dll"/>
+    </ItemGroup>
+
+    <MSBuild.ExtensionPack.CodeQuality.NUnit Version="2.6.1" Assemblies="@(TestAssemblies)" ToolPath="$(NUnitToolPath)" OutputXmlFile="$(NunitOutputFile)">
+      <Output TaskParameter="Total" PropertyName="ResultTotal"/>
+      <Output TaskParameter="NotRun" PropertyName="ResultNotRun"/>
+      <Output TaskParameter="Failures" PropertyName="ResultFailures"/>
+      <Output TaskParameter="Errors" PropertyName="ResultErrors"/>
+      <Output TaskParameter="Inconclusive" PropertyName="ResultInconclusive"/>
+      <Output TaskParameter="Ignored" PropertyName="ResultIgnored"/>
+      <Output TaskParameter="Skipped" PropertyName="ResultSkipped"/>
+      <Output TaskParameter="Invalid" PropertyName="ResultInvalid"/>
+    </MSBuild.ExtensionPack.CodeQuality.NUnit>
+    <Message Text="ResultTotal: $(ResultTotal)"/>
+    <Message Text="ResultNotRun: $(ResultNotRun)"/>
+    <Message Text="ResultFailures: $(ResultFailures)"/>
+    <Message Text="ResultErrors: $(ResultErrors)"/>
+    <Message Text="ResultInconclusive: $(ResultInconclusive)"/>
+    <Message Text="ResultIgnored: $(ResultIgnored)"/>
+    <Message Text="ResultSkipped: $(ResultSkipped)"/>
+    <Message Text="ResultInvalid: $(ResultInvalid)"/>
+  </Target>
+  
+	<Target Name="FxCopReport" Condition="@(TargetAssemblies) != ''">
+
+		<Message Text="##teamcity[progressStart 'Running FxCop...']" />
+
+		<MSBuild.ExtensionPack.CodeQuality.FxCop
+		  TaskAction="Analyse"
+		  FxCopPath="$(FxCopBinPath)\FxCopCmd.exe"
+		  Files="@(TargetAssemblies)"
+		  OutputFile="$(FxCopOutputFile)"
+		  Rules="@(FxCopRuleAssemblies)"
+		  DependencyDirectories="$(AssemblyOutputPath)"
+		  Dictionary="$(SourceFolder)\AnalysisDictionary.xml"
+	   />
+
+		<Message Text="##teamcity[importData type='FxCop' path='$(FxCopOutputFile)']" />
+
+		<Message Text="##teamcity[progressFinish 'FxCop completed.']"/>
+
+	</Target>
+
+	<Target Name="Document" DependsOnTargets="Build" Condition=" '$(DocumentationProject)' != '' ">
+
+		<Message Text="##teamcity[progressStart 'Building Documentation...']"/>
+
+		<MSBuild Projects="$(MSBuildProjectDirectory)\$(DocumentationProject)"
+				 Targets="Clean;Build"
+				 Properties="Configuration=Release;Architecture=Any" />
+
+		<Message Text="##teamcity[progressFinish 'Documentation completed.']"/>
+
+	</Target>
+
+</Project>

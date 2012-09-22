@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetMembershipManager.App", "AspNetMembershipManager.App\AspNetMembershipManager.App.csproj", "{257E84FE-E1AC-445E-A86E-8FFF18CBA35B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetMembershipManager.Core", "AspNetMembershipManager.Core\AspNetMembershipManager.Core.csproj", "{7BE8CE53-B751-4682-A770-46FC2F237280}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetMembershipManager.Tests", "AspNetMembershipManager.Tests\AspNetMembershipManager.Tests.csproj", "{D00EFA2E-5E7F-4DC5-800A-732BCCBE48CE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{A8546F5C-28FE-46F3-A9A4-652C8255E720}"
+	ProjectSection(SolutionItems) = preProject
+		nuget.config = nuget.config
+		ProductInfo.cs = ProductInfo.cs
+		VersionInfo.cs = VersionInfo.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Files", "Build Files", "{8D5BCEDC-0A53-4258-8252-A306C2420AEC}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\Build.proj = ..\build\Build.proj
+		..\build\Build.targets = ..\build\Build.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{1E2BAA19-58A1-4BB3-B013-05BDBA84D1A2}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{257E84FE-E1AC-445E-A86E-8FFF18CBA35B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{257E84FE-E1AC-445E-A86E-8FFF18CBA35B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{257E84FE-E1AC-445E-A86E-8FFF18CBA35B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{257E84FE-E1AC-445E-A86E-8FFF18CBA35B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BE8CE53-B751-4682-A770-46FC2F237280}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BE8CE53-B751-4682-A770-46FC2F237280}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BE8CE53-B751-4682-A770-46FC2F237280}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BE8CE53-B751-4682-A770-46FC2F237280}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D00EFA2E-5E7F-4DC5-800A-732BCCBE48CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D00EFA2E-5E7F-4DC5-800A-732BCCBE48CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D00EFA2E-5E7F-4DC5-800A-732BCCBE48CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D00EFA2E-5E7F-4DC5-800A-732BCCBE48CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

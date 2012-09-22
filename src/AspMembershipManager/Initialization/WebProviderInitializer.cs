@@ -9,8 +9,6 @@ using System.Reflection;
 using System.Web.Configuration;
 using System.Web.Management;
 using System.Web.Security;
-using Ice;
-using Ice.Collections.Specialized;
 
 namespace AspMembershipManager.Initialization
 {
@@ -65,7 +63,7 @@ namespace AspMembershipManager.Initialization
 
             if (!typeof(TProvider).IsAssignableFrom(providerType))
             {
-                throw new Exception("Invalid provider type '{0}', it is not assignable to '{1}".Composite(providerType, typeof(TProvider)));
+                throw new Exception(string.Format("Invalid provider type '{0}', it is not assignable to '{1}", providerType, typeof(TProvider)));
             }
 
             var provider = (TProvider)Activator.CreateInstance(providerType);
@@ -113,5 +111,16 @@ namespace AspMembershipManager.Initialization
 
         public MembershipProvider MembershipProvider { get; private set; }
         public RoleProvider RoleProvider { get; private set; }
+    }
+
+    public static class NameValueCollectionExtensions
+    {
+        public static IDictionary<string, string> ToDictionary(this NameValueCollection collection)
+        {
+            return collection.Keys.Cast<string>()
+                .Where(x => x != null)
+                .Select(k => new KeyValuePair<string, string>(k, collection[k]))
+                .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+        }
     }
 }

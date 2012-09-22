@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Configuration.Provider;
 using System.Linq;
-using System.Reflection;
 using System.Web.Security;
 using System.Windows;
 using AspMembershipManager.Initialization;
 using AspMembershipManager.Role;
 using AspMembershipManager.User;
-using Ice;
-using Ice.Reflection;
 
 namespace AspMembershipManager
 {

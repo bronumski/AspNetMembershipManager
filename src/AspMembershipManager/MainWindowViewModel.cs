@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Web.Security;
-using Ice;
 
 namespace AspMembershipManager
 {
@@ -68,4 +68,22 @@ namespace AspMembershipManager
 			return new RoleDetails(source, roleProvider);
 		}
 	}
+
+    public interface IMapper<in TSource, out TDestination>
+    {
+        TDestination Map(TSource source);
+    }
+
+    public static class MapperExtensions
+    {
+        public static IEnumerable<TOutput> MapAll<TInput, TOutput>(this IMapper<TInput, TOutput> mapper, IEnumerable<TInput> input)
+        {
+            return input.Select(mapper.Map);
+        }
+
+        public static Converter<TInput, TOutput> GetConverter<TInput, TOutput>(this IMapper<TInput, TOutput> mapper)
+        {
+            return mapper.Map;
+        }
+    }
 }

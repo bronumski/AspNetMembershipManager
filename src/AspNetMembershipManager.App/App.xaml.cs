@@ -2,7 +2,7 @@
 using System.IO;
 using System.Windows;
 
-namespace AspMembershipManager
+namespace AspNetMembershipManager
 {
 	/// <summary>
 	/// Interaction logic for App.xaml

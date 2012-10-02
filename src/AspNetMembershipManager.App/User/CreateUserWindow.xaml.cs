@@ -1,7 +1,7 @@
 ﻿using System.Web.Security;
 using System.Windows;
 
-namespace AspMembershipManager.User
+namespace AspNetMembershipManager.User
 {
     /// <summary>
     /// Interaction logic for CreateUserWindow.xaml

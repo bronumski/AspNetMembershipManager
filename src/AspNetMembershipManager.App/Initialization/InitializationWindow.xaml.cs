@@ -1,8 +1,6 @@
-﻿using System.Web.Security;
-using System.Windows;
-using AspNetMembershipManager;
+﻿using System.Windows;
 
-namespace AspMembershipManager.Initialization
+namespace AspNetMembershipManager.Initialization
 {
 	/// <summary>
 	/// Interaction logic for InitializationWindow.xaml

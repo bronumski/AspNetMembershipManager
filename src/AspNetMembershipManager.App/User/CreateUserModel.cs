@@ -1,8 +1,8 @@
 using System.ComponentModel;
 
-namespace AspMembershipManager.User
+namespace AspNetMembershipManager.User
 {
-    public class CreateUserModel : INotifyPropertyChanged
+    class CreateUserModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

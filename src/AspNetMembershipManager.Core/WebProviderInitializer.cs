@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web.Configuration;
 using System.Web.Management;
+using System.Web.Profile;
 using System.Web.Security;
 using AspNetMembershipManager.Collections.Specialized;
 
@@ -41,6 +42,7 @@ namespace AspNetMembershipManager
             var membershipProviderSection = remoteWebConfigurationGroup.Membership.Providers[remoteWebConfigurationGroup.Membership.DefaultProvider];
 
             var membershipProvider = GetProviderFromConfig<MembershipProvider>(membershipProviderSection);
+
             typeof(ProviderCollection).GetField("_ReadOnly", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(Membership.Providers, false);
             Membership.Providers.Clear();
             Membership.Providers.Add(membershipProvider);
@@ -48,6 +50,14 @@ namespace AspNetMembershipManager
             var roleProviderSection = remoteWebConfigurationGroup.RoleManager.Providers[remoteWebConfigurationGroup.RoleManager.DefaultProvider];
             
             var roleProvider = GetProviderFromConfig<RoleProvider>(roleProviderSection);
+
+			var profileProviderSection = remoteWebConfigurationGroup.Profile.Providers[remoteWebConfigurationGroup.Profile.DefaultProvider];
+
+			var profileProvider = GetProviderFromConfig<ProfileProvider>(profileProviderSection);
+
+			typeof(ProviderCollection).GetField("_ReadOnly", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(ProfileManager.Providers, false);
+			ProfileManager.Providers.Clear();
+			ProfileManager.Providers.Add(profileProvider);
 
 		    return new Providers(membershipProvider, roleProvider);
 		}

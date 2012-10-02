@@ -1,4 +1,4 @@
-﻿<Window x:Class="AspMembershipManager.User.CreateUserWindow"
+﻿<Window x:Class="AspNetMembershipManager.User.CreateUserWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Create user" Height="344" Width="396" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
@@ -6,7 +6,7 @@
         <GroupBox Header="User details" Height="176" HorizontalAlignment="Left" Margin="12,12,0,0" Name="groupBox1" VerticalAlignment="Top" Width="350">
             <Grid>
                 <Label Content="Username:" Height="28" HorizontalAlignment="Left" Margin="6,15,0,0" Name="label1" VerticalAlignment="Top" />
-                <TextBox Text="{Binding Username}" Height="23" HorizontalAlignment="Left" Margin="112,17,0,0" Name="txtUserName" VerticalAlignment="Top" Width="220" />
+                <TextBox Text="" Height="23" HorizontalAlignment="Left" Margin="112,17,0,0" Name="txtUserName" VerticalAlignment="Top" Width="220" />
                 <Label Content="Password:" Height="28" HorizontalAlignment="Left" Margin="6,49,0,0" Name="label2" VerticalAlignment="Top" />
                 <TextBox Text="{Binding Password}" Height="23" HorizontalAlignment="Left" Margin="112,51,0,0" Name="txtPassword" VerticalAlignment="Top" Width="220" />
             	<Label Content="Confirm password:" Height="28" HorizontalAlignment="Left" Margin="6,85,0,0" Name="label3" VerticalAlignment="Top" />

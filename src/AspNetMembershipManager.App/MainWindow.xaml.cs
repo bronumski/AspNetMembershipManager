@@ -2,12 +2,13 @@
 using System.Linq;
 using System.Web.Security;
 using System.Windows;
-using AspMembershipManager.Initialization;
-using AspMembershipManager.Role;
-using AspMembershipManager.User;
-using AspNetMembershipManager;
+using System.Windows.Controls;
+using System.Windows.Input;
+using AspNetMembershipManager.Initialization;
+using AspNetMembershipManager.Role;
+using AspNetMembershipManager.User;
 
-namespace AspMembershipManager
+namespace AspNetMembershipManager
 {
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
@@ -72,5 +73,22 @@ namespace AspMembershipManager
                 viewModel.RefreshRoles(new UserRoleRoleDetailsMapper(providers.RoleProvider).MapAll(providers.RoleProvider.GetAllRoles()));
             }
         }
+
+		private void UserRowDoubleClick(object sender, MouseButtonEventArgs e)
+		{
+			var row = (DataGridRow) sender;
+
+			var user = (MembershipUser) row.DataContext;
+
+			var userDialog = new UserDetailsWindow(user, providers.RoleProvider);
+            var refreshResult = userDialog.ShowDialog();
+
+            if (refreshResult == true)
+            {
+                int totalRecords = 0;
+                viewModel.RefreshMembershipUsers(providers.MembershipProvider.GetAllUsers(0, int.MaxValue, out totalRecords).Cast<MembershipUser>());
+				viewModel.RefreshRoles(new UserRoleRoleDetailsMapper(providers.RoleProvider).MapAll(providers.RoleProvider.GetAllRoles()));
+            }
+		}
 	}
 }

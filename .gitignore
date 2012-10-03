@@ -3,6 +3,7 @@
 [Dd]ebug/
 [Rr]elease/
 [Pp]ackages/
+[Pp]ublish/
 build/_results/
 *.suo
 *.user

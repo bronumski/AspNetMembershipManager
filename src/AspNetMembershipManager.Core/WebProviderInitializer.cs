@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Configuration;
 using System.Configuration.Provider;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web.Configuration;
@@ -22,47 +23,141 @@ namespace AspNetMembershipManager
 		{
 			Configuration localConfiguration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-			var remoteConfigurationFileMap = new ExeConfigurationFileMap {ExeConfigFilename = configFilePath};
+			Configuration remoteConfiguration = LoadRemoteConfiguration(configFilePath);
 
-			Configuration remoteConfiguration = ConfigurationManager.OpenMappedExeConfiguration(remoteConfigurationFileMap, ConfigurationUserLevel.None);
+        	CopyRemoteConfigConnectionStringsToLocalConfig(remoteConfiguration, localConfiguration);
 
-			localConfiguration.ConnectionStrings.SectionInformation.SetRawXml(remoteConfiguration.ConnectionStrings.SectionInformation.GetRawXml());
+        	var remoteWebConfigurationGroup = (SystemWebSectionGroup)remoteConfiguration.GetSectionGroup(SystemWebGroupName);
 
-            var remoteWebConfigurationGroup = (SystemWebSectionGroup)remoteConfiguration.GetSectionGroup(SystemWebGroupName);
+        	((SystemWebSectionGroup) localConfiguration.GetSectionGroup(SystemWebGroupName))
+        		.Profile.SectionInformation.SetRawXml(remoteWebConfigurationGroup.Profile.SectionInformation.GetRawXml());
+        	
+    		localConfiguration.Save();
 
-            localConfiguration.Save();
-            
-            ConfigurationManager.RefreshSection("connectionStrings");
+			if (remoteWebConfigurationGroup == null)
+			{
+				throw new Exception("Invalid configuration");
+			}
 
 			if (createDatabases)
 			{
 			    CreateDatabaseConnectionStringsForProviders(localConfiguration.ConnectionStrings, remoteWebConfigurationGroup);
 			}
 
-            var membershipProviderSection = remoteWebConfigurationGroup.Membership.Providers[remoteWebConfigurationGroup.Membership.DefaultProvider];
+            var membershipProvider = LoadAndInitializeMembershipProvider(remoteWebConfigurationGroup);
 
-            var membershipProvider = GetProviderFromConfig<MembershipProvider>(membershipProviderSection);
+        	var roleProvider = LoadAndInitializeRoleProvider(remoteWebConfigurationGroup);
 
-            typeof(ProviderCollection).GetField("_ReadOnly", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(Membership.Providers, false);
-            Membership.Providers.Clear();
-            Membership.Providers.Add(membershipProvider);
+        	var profileProvider = LoadAndInitializeProfileProvider(remoteWebConfigurationGroup);
 
-            var roleProviderSection = remoteWebConfigurationGroup.RoleManager.Providers[remoteWebConfigurationGroup.RoleManager.DefaultProvider];
-            
-            var roleProvider = GetProviderFromConfig<RoleProvider>(roleProviderSection);
-
-			var profileProviderSection = remoteWebConfigurationGroup.Profile.Providers[remoteWebConfigurationGroup.Profile.DefaultProvider];
-
-			var profileProvider = GetProviderFromConfig<ProfileProvider>(profileProviderSection);
-
-			typeof(ProviderCollection).GetField("_ReadOnly", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(ProfileManager.Providers, false);
-			ProfileManager.Providers.Clear();
-			ProfileManager.Providers.Add(profileProvider);
-
-		    return new Providers(membershipProvider, roleProvider);
+        	return new Providers(membershipProvider, roleProvider, profileProvider);
 		}
 
-        private static TProvider GetProviderFromConfig<TProvider>(ProviderSettings providerSettings) where TProvider : ProviderBase
+    	private static ProfileProvider LoadAndInitializeProfileProvider(SystemWebSectionGroup remoteWebConfigurationGroup)
+    	{
+    		var profileConfiguration = remoteWebConfigurationGroup.Profile;
+
+			if (profileConfiguration.Inherits != string.Empty && Type.GetType(profileConfiguration.Inherits) == null)
+			{
+				var profileTypeAssembly = GetAssemblyForProfileType(profileConfiguration);
+
+				AppDomain.CurrentDomain.AssemblyResolve += (obj, args) =>
+				{
+					if (args.Name == profileTypeAssembly.FullName)
+					{
+						return profileTypeAssembly;
+					}
+					return null;                                    		
+				};
+				AppDomain.CurrentDomain.TypeResolve += (obj, args) =>
+				{
+					if (args.Name.StartsWith(profileConfiguration.Inherits))
+					{
+						return profileTypeAssembly;
+					}
+					return null;
+				};
+			}
+			
+    		var defaultProfileProviderConfiguration = remoteWebConfigurationGroup.Profile.Providers[remoteWebConfigurationGroup.Profile.DefaultProvider];
+
+    		var profileProvider = GetProviderFromConfig<ProfileProvider>(defaultProfileProviderConfiguration);
+			
+			RemoveReadonlyFlagFromProviderCollection(ProfileManager.Providers);
+    		
+			ProfileManager.Providers.Clear();
+    		
+			ProfileManager.Providers.Add(profileProvider);
+
+    		return profileProvider;
+    	}
+
+		private static Assembly GetAssemblyForProfileType(ProfileSection profileSection)
+		{
+			var webConfigDirectory = new FileInfo(profileSection.CurrentConfiguration.FilePath).Directory;
+
+			var assemblies = webConfigDirectory.GetFiles("bin\\*.dll");
+
+			foreach (var assemblyFile in assemblies)
+			{
+				var assembly = Assembly.LoadFile(assemblyFile.FullName);
+				var profileType = assembly.GetType(profileSection.Inherits);
+				if (profileType != null)
+				{
+					return assembly;
+				}
+			}
+			throw new Exception(string.Format("Unable to load profile type '{0}'", profileSection.Inherits));
+		}
+
+    	private static MembershipProvider LoadAndInitializeMembershipProvider(SystemWebSectionGroup remoteWebConfigurationGroup)
+    	{
+    		var membershipProviderSection = remoteWebConfigurationGroup.Membership.Providers[remoteWebConfigurationGroup.Membership.DefaultProvider];
+
+    		var membershipProvider = GetProviderFromConfig<MembershipProvider>(membershipProviderSection);
+
+    		RemoveReadonlyFlagFromProviderCollection(Membership.Providers);
+
+    		Membership.Providers.Clear();
+    		Membership.Providers.Add(membershipProvider);
+    		
+			return membershipProvider;
+    	}
+
+    	private static RoleProvider LoadAndInitializeRoleProvider(SystemWebSectionGroup remoteWebConfigurationGroup)
+    	{
+    		var roleProviderSection = remoteWebConfigurationGroup.RoleManager.Providers[remoteWebConfigurationGroup.RoleManager.DefaultProvider];
+
+    		var roleProvider = GetProviderFromConfig<RoleProvider>(roleProviderSection);
+    		return roleProvider;
+    	}
+
+    	private static void CopyRemoteConfigConnectionStringsToLocalConfig(Configuration remoteConfiguration, Configuration localConfiguration)
+    	{
+    		localConfiguration.ConnectionStrings.SectionInformation.SetRawXml(remoteConfiguration.ConnectionStrings.SectionInformation.GetRawXml());
+
+    		localConfiguration.Save();
+
+    		ConfigurationManager.RefreshSection("connectionStrings");
+    	}
+
+		private static void RemoveReadonlyFlagFromProviderCollection(ProviderCollection providerCollection)
+		{
+			typeof(ProviderCollection)
+				.GetField("_ReadOnly", BindingFlags.NonPublic | BindingFlags.Instance)
+				.SetValue(providerCollection, false);
+		}
+
+    	private static Configuration LoadRemoteConfiguration(string configFilePath)
+    	{
+    		var remoteConfigurationFileMap = new ExeConfigurationFileMap {ExeConfigFilename = configFilePath};
+
+    		Configuration remoteConfiguration = ConfigurationManager.OpenMappedExeConfiguration(remoteConfigurationFileMap,
+    		                                                                                    ConfigurationUserLevel.None);
+    		return remoteConfiguration;
+    	}
+
+    	private static TProvider GetProviderFromConfig<TProvider>(ProviderSettings providerSettings) where TProvider : ProviderBase
         {
             Type providerType = null;
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())

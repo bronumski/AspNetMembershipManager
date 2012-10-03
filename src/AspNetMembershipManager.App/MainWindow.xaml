@@ -10,26 +10,20 @@
         <TabControl Height="417" HorizontalAlignment="Left" Margin="12,12,0,0" Name="tabControl1" VerticalAlignment="Top" Width="912" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch">
 			<TabItem Header="Users" Name="tabUsers">
 				<Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="446*" />
-                        <ColumnDefinition Width="456*" />
-                    </Grid.ColumnDefinitions>
-					<DataGrid ItemsSource="{Binding MembershipUsers}" Margin="6,37,6,6" Grid.ColumnSpan="2">
+					<DataGrid ItemsSource="{Binding MembershipUsers}" Margin="6,37,6,6">
 						<DataGrid.RowStyle>
 							<Style TargetType="{x:Type DataGridRow}">
 								<EventSetter Event="MouseDoubleClick" Handler="UserRowDoubleClick"/>
 							</Style>
 						</DataGrid.RowStyle>
 					</DataGrid>
-						<Button Content="Create new user" Height="23" HorizontalAlignment="Left" Margin="336,6,0,0" Name="btnCreateUser" VerticalAlignment="Top" Width="114" Grid.Column="1" Click="btnCreateUser_Click" />
+					<Button Content="Create new user" Height="23" HorizontalAlignment="Left" Margin="782,6,0,0" Name="btnCreateUser" VerticalAlignment="Top" Width="114" Click="btnCreateUser_Click" />
                 </Grid>
 			</TabItem>
 			<TabItem Header="Roles" Name="tabRoles">
 				<Grid>
 					<Button Content="Create new role" Height="23" HorizontalAlignment="Left" Margin="782,6,0,0" Name="btnCreateRole" VerticalAlignment="Top" Width="114" Click="btnCreateRole_Click" />
-					<DataGrid ItemsSource="{Binding Roles}" Margin="6,37,6,6">
-						
-					</DataGrid>
+					<DataGrid ItemsSource="{Binding Roles}" Margin="6,37,6,6" />
 				</Grid>
 			</TabItem>
 		</TabControl>

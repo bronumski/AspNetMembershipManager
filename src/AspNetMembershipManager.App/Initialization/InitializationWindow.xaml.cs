@@ -43,7 +43,7 @@ namespace AspNetMembershipManager.Initialization
 		{
 			try
 			{
-				Providers = new WebProviderInitializer().InitializeFromConfigurationFile(viewModel.ConfigurationPath, viewModel.CreateMembershipDatabases);
+				Providers = new WebProviderInitializer(new ProviderFactory()).InitializeFromConfigurationFile(viewModel.ConfigurationPath, viewModel.CreateMembershipDatabases);
 
 				DialogResult = true;
 				Close();

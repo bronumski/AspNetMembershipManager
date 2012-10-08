@@ -50,11 +50,14 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
     <Compile Include="Collections\Specialized\NameValueCollectionExtensions.cs" />
+    <Compile Include="IProviderFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProviderFactory.cs" />
     <Compile Include="Providers.cs" />
     <Compile Include="WebProviderInitializer.cs" />
     <Compile Include="Web\Security\RoleProviderExtensions.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

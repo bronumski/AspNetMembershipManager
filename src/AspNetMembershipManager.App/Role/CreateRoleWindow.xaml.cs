@@ -20,12 +20,6 @@ namespace AspNetMembershipManager.Role
             DataContext = createRoleModel;
         }
 
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = false;
-            Close();
-        }
-
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
             roleProvider.CreateRole(createRoleModel.Name);

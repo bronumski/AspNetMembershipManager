@@ -33,12 +33,6 @@ namespace AspNetMembershipManager.User
 			DataContext = userDetails;
 		}
 
-		private void btnCancel_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = false;
-            Close();
-        }
-
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
         	foreach (var userInRole in userDetails.Roles)

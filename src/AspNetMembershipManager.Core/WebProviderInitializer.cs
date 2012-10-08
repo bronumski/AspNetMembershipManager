@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Configuration;
 using System.Configuration.Provider;
 using System.Data.SqlClient;
@@ -15,8 +14,15 @@ using AspNetMembershipManager.Collections.Specialized;
 
 namespace AspNetMembershipManager
 {
-    public class WebProviderInitializer
+	public class WebProviderInitializer
 	{
+		private readonly IProviderFactory providerFactory;
+
+		public WebProviderInitializer(IProviderFactory providerFactory)
+		{
+			this.providerFactory = providerFactory;
+		}
+
 		private const string SystemWebGroupName = "system.web";
 
         public Providers InitializeFromConfigurationFile(string configFilePath, bool createDatabases)
@@ -53,7 +59,7 @@ namespace AspNetMembershipManager
         	return new Providers(membershipProvider, roleProvider, profileProvider);
 		}
 
-    	private static ProfileProvider LoadAndInitializeProfileProvider(SystemWebSectionGroup remoteWebConfigurationGroup)
+    	private ProfileProvider LoadAndInitializeProfileProvider(SystemWebSectionGroup remoteWebConfigurationGroup)
     	{
     		var profileConfiguration = remoteWebConfigurationGroup.Profile;
 
@@ -81,7 +87,7 @@ namespace AspNetMembershipManager
 			
     		var defaultProfileProviderConfiguration = remoteWebConfigurationGroup.Profile.Providers[remoteWebConfigurationGroup.Profile.DefaultProvider];
 
-    		var profileProvider = GetProviderFromConfig<ProfileProvider>(defaultProfileProviderConfiguration);
+    		var profileProvider = providerFactory.CreateProviderFromConfig<ProfileProvider>(defaultProfileProviderConfiguration);
 			
 			RemoveReadonlyFlagFromProviderCollection(ProfileManager.Providers);
     		
@@ -110,11 +116,11 @@ namespace AspNetMembershipManager
 			throw new Exception(string.Format("Unable to load profile type '{0}'", profileSection.Inherits));
 		}
 
-    	private static MembershipProvider LoadAndInitializeMembershipProvider(SystemWebSectionGroup remoteWebConfigurationGroup)
+    	private MembershipProvider LoadAndInitializeMembershipProvider(SystemWebSectionGroup remoteWebConfigurationGroup)
     	{
     		var membershipProviderSection = remoteWebConfigurationGroup.Membership.Providers[remoteWebConfigurationGroup.Membership.DefaultProvider];
 
-    		var membershipProvider = GetProviderFromConfig<MembershipProvider>(membershipProviderSection);
+    		var membershipProvider = providerFactory.CreateProviderFromConfig<MembershipProvider>(membershipProviderSection);
 
     		RemoveReadonlyFlagFromProviderCollection(Membership.Providers);
 
@@ -124,11 +130,11 @@ namespace AspNetMembershipManager
 			return membershipProvider;
     	}
 
-    	private static RoleProvider LoadAndInitializeRoleProvider(SystemWebSectionGroup remoteWebConfigurationGroup)
+    	private RoleProvider LoadAndInitializeRoleProvider(SystemWebSectionGroup remoteWebConfigurationGroup)
     	{
     		var roleProviderSection = remoteWebConfigurationGroup.RoleManager.Providers[remoteWebConfigurationGroup.RoleManager.DefaultProvider];
 
-    		var roleProvider = GetProviderFromConfig<RoleProvider>(roleProviderSection);
+    		var roleProvider = providerFactory.CreateProviderFromConfig<RoleProvider>(roleProviderSection);
     		return roleProvider;
     	}
 
@@ -156,27 +162,6 @@ namespace AspNetMembershipManager
     		                                                                                    ConfigurationUserLevel.None);
     		return remoteConfiguration;
     	}
-
-    	private static TProvider GetProviderFromConfig<TProvider>(ProviderSettings providerSettings) where TProvider : ProviderBase
-        {
-            Type providerType = null;
-            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                providerType = assembly.GetType(providerSettings.Type);
-
-                if (providerType != null) break;
-            }
-
-            if (!typeof(TProvider).IsAssignableFrom(providerType))
-            {
-                throw new Exception(string.Format("Invalid provider type '{0}', it is not assignable to '{1}", providerType, typeof(TProvider)));
-            }
-
-            var provider = (TProvider)Activator.CreateInstance(providerType);
-            provider.Initialize(providerSettings.Name, new NameValueCollection(providerSettings.Parameters));
-
-            return provider;
-        }
 
 
 		private void CreateDatabaseConnectionStringsForProviders(ConnectionStringsSection connectionStringsSection, SystemWebSectionGroup webSectionGroup)

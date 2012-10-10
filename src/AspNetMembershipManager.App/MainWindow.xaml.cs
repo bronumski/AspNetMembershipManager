@@ -38,9 +38,9 @@ namespace AspNetMembershipManager
 				try
 				{
 					DataContext = viewModel;
-                    int totalRecords = 0;
-                    viewModel.RefreshMembershipUsers(providers.MembershipProvider.GetAllUsers(0, int.MaxValue, out totalRecords).Cast<MembershipUser>());
-                    viewModel.RefreshRoles(new UserRoleRoleDetailsMapper(providers.RoleProvider).MapAll(providers.RoleProvider.GetAllRoles()));
+
+					RefreshMembers();
+                    RefreshRoles();
 				}
 				catch(Exception ex)
 				{
@@ -58,9 +58,8 @@ namespace AspNetMembershipManager
 
             if (createResult == true)
             {
-                int totalRecords = 0;
-                viewModel.RefreshMembershipUsers(providers.MembershipProvider.GetAllUsers(0, int.MaxValue, out totalRecords).Cast<MembershipUser>());
-            }
+				RefreshMembers();
+			}
         }
 
         private void btnCreateRole_Click(object sender, RoutedEventArgs e)
@@ -70,9 +69,33 @@ namespace AspNetMembershipManager
 
             if (createResult == true)
             {
-                viewModel.RefreshRoles(new UserRoleRoleDetailsMapper(providers.RoleProvider).MapAll(providers.RoleProvider.GetAllRoles()));
+				RefreshRoles();
             }
         }
+		
+		private void DeleteRole(object sender, RoutedEventArgs e)
+		{
+			var model = (sender as Button).DataContext as RoleDetails;
+
+			if (MessageBox.Show("Delete role?", "Delete role", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+			{
+				providers.RoleProvider.DeleteRole(model.Name, false);
+				
+				RefreshRoles();
+			}
+		}
+
+		private void DeleteUser(object sender, RoutedEventArgs e)
+		{
+			var model = (sender as Button).DataContext as MembershipUser;
+
+			if (MessageBox.Show("Delete user?", "Delete user", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+			{
+				providers.MembershipProvider.DeleteUser(model.UserName, true);
+				
+				RefreshMembers();
+			}
+		}
 
 		private void UserRowDoubleClick(object sender, MouseButtonEventArgs e)
 		{
@@ -85,10 +108,22 @@ namespace AspNetMembershipManager
 
             if (refreshResult == true)
             {
-                int totalRecords = 0;
-                viewModel.RefreshMembershipUsers(providers.MembershipProvider.GetAllUsers(0, int.MaxValue, out totalRecords).Cast<MembershipUser>());
-				viewModel.RefreshRoles(new UserRoleRoleDetailsMapper(providers.RoleProvider).MapAll(providers.RoleProvider.GetAllRoles()));
+            	RefreshMembers();
+            	RefreshRoles();
             }
+		}
+
+		private void RefreshMembers()
+		{
+			int totalRecords = 0;
+			viewModel.RefreshMembershipUsers(
+				providers.MembershipProvider.GetAllUsers(0, int.MaxValue, out totalRecords).Cast<MembershipUser>());
+		}
+
+		private void RefreshRoles()
+		{
+			viewModel.RefreshRoles(
+				new UserRoleRoleDetailsMapper(providers.RoleProvider).MapAll(providers.RoleProvider.GetAllRoles()));
 		}
 	}
 }

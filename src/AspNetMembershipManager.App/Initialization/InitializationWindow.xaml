@@ -4,7 +4,7 @@
         Title="Select configuration" Height="142" Width="626" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
 		<TextBox Height="23" Text="{Binding ConfigurationPath}" HorizontalAlignment="Left" Margin="12,39,0,0" Name="txtConfigPath" VerticalAlignment="Top" Width="580" />
-		<Button Content="Browse" Height="23" HorizontalAlignment="Right" Margin="0,70,118,0" Name="btnFindConfigFile" VerticalAlignment="Top" Click="btnFindConfigFile_Click" Width="100" />
+		<Button Content="Browse" IsDefault="True" Height="23" HorizontalAlignment="Right" Margin="0,70,118,0" Name="btnFindConfigFile" VerticalAlignment="Top" Click="btnFindConfigFile_Click" Width="100" />
         <Button Content="Load" IsEnabled="{Binding CanLoad}"  Height="23" HorizontalAlignment="Right" Margin="0,70,12,0" Name="btnLoadConfigFile" VerticalAlignment="Top" Click="btnLoadConfigFile_Click" Width="100" />
 		<Label Content="Select config file of website with membership database you want to administer" Height="28" HorizontalAlignment="Left" Margin="12,12,0,0" Name="label1" VerticalAlignment="Top" />
 		<CheckBox Content="Create and initialize databases if they don't exist" Height="15" HorizontalAlignment="Left" Margin="12,74,0,0" Name="chkCreateMembershipDatabases" VerticalAlignment="Top" IsChecked="{Binding CreateMembershipDatabases}"  />

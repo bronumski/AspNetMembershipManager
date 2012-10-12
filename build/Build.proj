@@ -15,7 +15,7 @@
 		<ItemGroup>
 
 			<TargetAssemblies Include="$(AssemblyOutputPath)\AspNetMembershipManager*.dll" />
-			<TestAssemblies Include="$(SourceFolder)\Tests\**\bin\Release\Ice*.Tests.dll" />
+			<TestAssemblies Include="$(SourceFolder)\Tests\**\bin\Release\AspNetMembershipManager*.Tests.dll" />
 
 		</ItemGroup>
 

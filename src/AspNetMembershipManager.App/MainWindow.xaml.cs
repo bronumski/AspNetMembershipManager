@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Web.Security;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using AspMembershipManager.Initialization;
 using AspMembershipManager.Role;
 using AspMembershipManager.User;
@@ -72,5 +74,10 @@ namespace AspMembershipManager
                 viewModel.RefreshRoles(new UserRoleRoleDetailsMapper(providers.RoleProvider).MapAll(providers.RoleProvider.GetAllRoles()));
             }
         }
+
+	    private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
+	    {
+	        var selectedUser = (MembershipUser) ((DataGridRow) sender).Item;
+	    }
 	}
 }

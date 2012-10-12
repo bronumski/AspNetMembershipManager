@@ -2,7 +2,7 @@ using System.ComponentModel;
 
 namespace AspNetMembershipManager.User
 {
-    class CreateUserModel : INotifyPropertyChanged
+    class CreateUserModel : INotifyPropertyChanged, IDataErrorInfo
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -16,5 +16,27 @@ namespace AspNetMembershipManager.User
             if (handler != null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
         }
+
+    	public string this[string columnName]
+    	{
+    		get
+    		{
+    			switch (columnName)
+    			{
+					case "EmailAddress":
+						if (string.IsNullOrEmpty(EmailAddress) || EmailAddress.Length < 3)
+						{
+							return "Please enter a valid email address";
+						}
+						break;
+    			}
+    			return string.Empty;
+    		}
+    	}
+
+    	public string Error
+    	{
+    		get { throw new System.NotImplementedException(); }
+    	}
     }
 }

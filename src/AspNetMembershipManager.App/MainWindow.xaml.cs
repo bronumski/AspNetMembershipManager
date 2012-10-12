@@ -75,7 +75,7 @@ namespace AspNetMembershipManager
 		
 		private void DeleteRole(object sender, RoutedEventArgs e)
 		{
-			var model = (sender as Button).DataContext as RoleDetails;
+			var model = (RoleDetails)((Button) sender).DataContext;
 
 			if (MessageBox.Show("Delete role?", "Delete role", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 			{
@@ -87,7 +87,7 @@ namespace AspNetMembershipManager
 
 		private void DeleteUser(object sender, RoutedEventArgs e)
 		{
-			var model = (sender as Button).DataContext as MembershipUser;
+			var model = (MembershipUser)((Button) sender).DataContext;
 
 			if (MessageBox.Show("Delete user?", "Delete user", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 			{
@@ -115,7 +115,7 @@ namespace AspNetMembershipManager
 
 		private void RefreshMembers()
 		{
-			int totalRecords = 0;
+			int totalRecords;
 			viewModel.RefreshMembershipUsers(
 				providers.MembershipProvider.GetAllUsers(0, int.MaxValue, out totalRecords).Cast<MembershipUser>());
 		}

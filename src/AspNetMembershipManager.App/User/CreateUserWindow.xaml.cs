@@ -1,7 +1,9 @@
 ﻿using System.Web.Security;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
-namespace AspMembershipManager.User
+namespace AspNetMembershipManager.User
 {
     /// <summary>
     /// Interaction logic for CreateUserWindow.xaml
@@ -21,21 +23,42 @@ namespace AspMembershipManager.User
             DataContext = createUserModel;
         }
 
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = false;
-            Close();
-        }
+		private int errors;
 
-        private void btnOk_Click(object sender, RoutedEventArgs e)
+		private void Validation_Error(object sender, ValidationErrorEventArgs e)
+		{
+			if (e.Action == ValidationErrorEventAction.Added)
+			{
+				errors++;
+			}
+			else
+			{
+				errors--;
+			}
+		}
+
+        private void CreateUser_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = errors == 0;
+			e.Handled = true;
+		}
+
+        private void CreateUser_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             MembershipCreateStatus createStatus;
-            membershipProvider.CreateUser(createUserModel.Username, createUserModel.Password,
+            membershipProvider.CreateUser(createUserModel.Username, txtPassword.Password,
                                           createUserModel.EmailAddress, null, null, true, null,
                                           out createStatus);
 
-            DialogResult = createStatus == MembershipCreateStatus.Success;
-            Close();
+            if (createStatus == MembershipCreateStatus.Success)
+            {
+                DialogResult = e.Handled = true;
+                Close();
+            }
+            else
+            {
+                createUserModel.Error = createStatus.ToString();
+            }
         }
     }
 }

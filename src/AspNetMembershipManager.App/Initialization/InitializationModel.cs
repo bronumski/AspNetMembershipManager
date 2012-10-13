@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.IO;
 
-namespace AspMembershipManager.Initialization
+namespace AspNetMembershipManager.Initialization
 {
 	class InitializationModel : INotifyPropertyChanged
 	{

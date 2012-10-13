@@ -1,8 +1,7 @@
-﻿using System.Web.Security;
+﻿using System;
 using System.Windows;
-using AspNetMembershipManager;
 
-namespace AspMembershipManager.Initialization
+namespace AspNetMembershipManager.Initialization
 {
 	/// <summary>
 	/// Interaction logic for InitializationWindow.xaml
@@ -42,10 +41,17 @@ namespace AspMembershipManager.Initialization
 
 		private void btnLoadConfigFile_Click(object sender, RoutedEventArgs e)
 		{
-			Providers = new WebProviderInitializer().InitializeFromConfigurationFile(viewModel.ConfigurationPath, viewModel.CreateMembershipDatabases);
+			try
+			{
+				Providers = new WebProviderInitializer(new ProviderFactory()).InitializeFromConfigurationFile(viewModel.ConfigurationPath, viewModel.CreateMembershipDatabases);
 
-			DialogResult = true;
-			Close();
+				DialogResult = true;
+				Close();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, "Error loading config", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
 		}
 	}
 }

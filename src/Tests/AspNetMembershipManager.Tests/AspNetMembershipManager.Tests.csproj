@@ -34,13 +34,22 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FluentAssertions">
-      <HintPath>..\..\packages\FluentAssertions.1.7.1.1\Lib\net40\FluentAssertions.dll</HintPath>
+      <HintPath>..\..\..\packages\FluentAssertions.1.7.1.1\Lib\net40\FluentAssertions.dll</HintPath>
+    </Reference>
+    <Reference Include="NSubstitute">
+      <HintPath>..\..\..\packages\NSubstitute.1.4.3.0\lib\NET40\NSubstitute.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>..\..\packages\NUnit.2.6.1\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\..\..\packages\NUnit.2.6.1\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.Providers">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.Providers.Core.1.0\lib\net40\System.Web.Providers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,20 +59,22 @@
   <ItemGroup>
     <Compile Include="Collections\Specialized\NameValueCollectionExtensionsFixtures\When_converting_a_collection_to_a_dictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProviderFactoryFixtures\When_loading_a_MembershipProvider_from_a_membership_provider_configuration.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AspNetMembershipManager.App\AspNetMembershipManager.App.csproj">
+    <ProjectReference Include="..\..\AspNetMembershipManager.App\AspNetMembershipManager.App.csproj">
       <Project>{257E84FE-E1AC-445E-A86E-8FFF18CBA35B}</Project>
       <Name>AspNetMembershipManager.App</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AspNetMembershipManager.Core\AspNetMembershipManager.Core.csproj">
+    <ProjectReference Include="..\..\AspNetMembershipManager.Core\AspNetMembershipManager.Core.csproj">
       <Project>{7BE8CE53-B751-4682-A770-46FC2F237280}</Project>
       <Name>AspNetMembershipManager.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

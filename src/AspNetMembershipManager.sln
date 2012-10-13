@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetMembershipManager.App
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetMembershipManager.Core", "AspNetMembershipManager.Core\AspNetMembershipManager.Core.csproj", "{7BE8CE53-B751-4682-A770-46FC2F237280}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetMembershipManager.Tests", "AspNetMembershipManager.Tests\AspNetMembershipManager.Tests.csproj", "{D00EFA2E-5E7F-4DC5-800A-732BCCBE48CE}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{A8546F5C-28FE-46F3-A9A4-652C8255E720}"
 	ProjectSection(SolutionItems) = preProject
 		nuget.config = nuget.config
@@ -26,6 +24,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{1E2BAA
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A6B058F5-CB49-4D21-B489-EFE8B45B114F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetMembershipManager.Tests", "Tests\AspNetMembershipManager.Tests\AspNetMembershipManager.Tests.csproj", "{D00EFA2E-5E7F-4DC5-800A-732BCCBE48CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,5 +50,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D00EFA2E-5E7F-4DC5-800A-732BCCBE48CE} = {A6B058F5-CB49-4D21-B489-EFE8B45B114F}
 	EndGlobalSection
 EndGlobal

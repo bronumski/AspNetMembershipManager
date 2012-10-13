@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace AspMembershipManager.Role
+namespace AspNetMembershipManager.Role
 {
     public class CreateRoleModel : INotifyPropertyChanged
     {

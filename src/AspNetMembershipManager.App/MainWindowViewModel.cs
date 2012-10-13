@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web.Security;
 
-namespace AspMembershipManager
+namespace AspNetMembershipManager
 {
 	class MainWindowViewModel : INotifyPropertyChanged
 	{

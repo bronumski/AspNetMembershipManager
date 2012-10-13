@@ -4,12 +4,11 @@ using System.Web.Security;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using AspMembershipManager.Initialization;
-using AspMembershipManager.Role;
-using AspMembershipManager.User;
-using AspNetMembershipManager;
+using AspNetMembershipManager.Initialization;
+using AspNetMembershipManager.Role;
+using AspNetMembershipManager.User;
 
-namespace AspMembershipManager
+namespace AspNetMembershipManager
 {
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
@@ -39,9 +38,9 @@ namespace AspMembershipManager
 				try
 				{
 					DataContext = viewModel;
-                    int totalRecords = 0;
-                    viewModel.RefreshMembershipUsers(providers.MembershipProvider.GetAllUsers(0, int.MaxValue, out totalRecords).Cast<MembershipUser>());
-                    viewModel.RefreshRoles(new UserRoleRoleDetailsMapper(providers.RoleProvider).MapAll(providers.RoleProvider.GetAllRoles()));
+
+					RefreshMembers();
+                    RefreshRoles();
 				}
 				catch(Exception ex)
 				{
@@ -59,9 +58,8 @@ namespace AspMembershipManager
 
             if (createResult == true)
             {
-                int totalRecords = 0;
-                viewModel.RefreshMembershipUsers(providers.MembershipProvider.GetAllUsers(0, int.MaxValue, out totalRecords).Cast<MembershipUser>());
-            }
+				RefreshMembers();
+			}
         }
 
         private void btnCreateRole_Click(object sender, RoutedEventArgs e)
@@ -71,13 +69,61 @@ namespace AspMembershipManager
 
             if (createResult == true)
             {
-                viewModel.RefreshRoles(new UserRoleRoleDetailsMapper(providers.RoleProvider).MapAll(providers.RoleProvider.GetAllRoles()));
+				RefreshRoles();
             }
         }
+		
+		private void DeleteRole(object sender, RoutedEventArgs e)
+		{
+			var model = (RoleDetails)((Button) sender).DataContext;
 
-	    private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
-	    {
-	        var selectedUser = (MembershipUser) ((DataGridRow) sender).Item;
-	    }
+			if (MessageBox.Show("Delete role?", "Delete role", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+			{
+				providers.RoleProvider.DeleteRole(model.Name, false);
+				
+				RefreshRoles();
+			}
+		}
+
+		private void DeleteUser(object sender, RoutedEventArgs e)
+		{
+			var model = (MembershipUser)((Button) sender).DataContext;
+
+			if (MessageBox.Show("Delete user?", "Delete user", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+			{
+				providers.MembershipProvider.DeleteUser(model.UserName, true);
+				
+				RefreshMembers();
+			}
+		}
+
+		private void UserRowDoubleClick(object sender, MouseButtonEventArgs e)
+		{
+			var row = (DataGridRow) sender;
+
+			var user = (MembershipUser) row.DataContext;
+
+			var userDialog = new UserDetailsWindow(user, providers.RoleProvider);
+            var refreshResult = userDialog.ShowDialog();
+
+            if (refreshResult == true)
+            {
+            	RefreshMembers();
+            	RefreshRoles();
+            }
+		}
+
+		private void RefreshMembers()
+		{
+			int totalRecords;
+			viewModel.RefreshMembershipUsers(
+				providers.MembershipProvider.GetAllUsers(0, int.MaxValue, out totalRecords).Cast<MembershipUser>());
+		}
+
+		private void RefreshRoles()
+		{
+			viewModel.RefreshRoles(
+				new UserRoleRoleDetailsMapper(providers.RoleProvider).MapAll(providers.RoleProvider.GetAllRoles()));
+		}
 	}
 }

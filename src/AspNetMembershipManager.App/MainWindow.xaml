@@ -1,30 +1,45 @@
-﻿<Window x:Class="AspMembershipManager.MainWindow"
+﻿<Window x:Class="AspNetMembershipManager.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="480" Width="958">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="196*" />
-            <ColumnDefinition Width="740*" />
-        </Grid.ColumnDefinitions>
         <TabControl Height="417" HorizontalAlignment="Left" Margin="12,12,0,0" Name="tabControl1" VerticalAlignment="Top" Width="912" Grid.ColumnSpan="2" HorizontalContentAlignment="Stretch">
 			<TabItem Header="Users" Name="tabUsers">
 				<Grid>
-                    <DataGrid ItemsSource="{Binding MembershipUsers}" Margin="6,37,6,6">
-                        <DataGrid.ItemContainerStyle>
-                            <Style TargetType="DataGridRow">
-                                <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
-                            </Style>
-                        </DataGrid.ItemContainerStyle>
-                    </DataGrid>
-                    <Button Content="Create new user" Height="23" HorizontalAlignment="Left" Margin="782,6,0,0" Name="btnCreateUser" VerticalAlignment="Top" Width="114" Click="btnCreateUser_Click" />
+					<DataGrid ItemsSource="{Binding MembershipUsers}" Margin="6,37,6,6">
+						<DataGrid.RowStyle>
+							<Style TargetType="{x:Type DataGridRow}">
+								<EventSetter Event="MouseDoubleClick" Handler="UserRowDoubleClick"/>
+							</Style>
+						</DataGrid.RowStyle>
+						<DataGrid.Columns>
+							<DataGridTemplateColumn>
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<Button Click="DeleteUser">Delete</Button>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+						</DataGrid.Columns>
+					</DataGrid>
+					<Button Content="Create new user" Height="23" HorizontalAlignment="Left" Margin="782,6,0,0" Name="btnCreateUser" VerticalAlignment="Top" Width="114" Click="btnCreateUser_Click" />
                 </Grid>
 			</TabItem>
 			<TabItem Header="Roles" Name="tabRoles">
 				<Grid>
-					<DataGrid ItemsSource="{Binding Roles}" Margin="6,37,6,6" />
-                    <Button Content="Create new role" Height="23" HorizontalAlignment="Left" Margin="782,6,0,0" Name="btnCreateRole" VerticalAlignment="Top" Width="114" Click="btnCreateRole_Click" />
-                </Grid>
+					<Button Content="Create new role" Height="23" HorizontalAlignment="Left" Margin="782,6,0,0" Name="btnCreateRole" VerticalAlignment="Top" Width="114" Click="btnCreateRole_Click" />
+					<DataGrid ItemsSource="{Binding Roles}" Margin="6,37,6,6">
+						<DataGrid.Columns>
+							<DataGridTemplateColumn>
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<Button Click="DeleteRole">Delete</Button>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+						</DataGrid.Columns>
+					</DataGrid>
+				</Grid>
 			</TabItem>
 		</TabControl>
     </Grid>

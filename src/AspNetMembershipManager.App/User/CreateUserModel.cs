@@ -1,22 +1,11 @@
-using System.ComponentModel;
-
 namespace AspNetMembershipManager.User
 {
-    class CreateUserModel : INotifyPropertyChanged, IDataErrorInfo
+    class CreateUserModel : SaveViewModelBase
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public string Username { get; set; }
         public string EmailAddress { get; set; }
 
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-                handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-    	public string this[string columnName]
+    	public override string this[string columnName]
     	{
     		get
     		{
@@ -37,17 +26,6 @@ namespace AspNetMembershipManager.User
     			}
     			return string.Empty;
     		}
-    	}
-
-        private string error;
-    	public string Error 
-    	{
-    		get { return error; }
-            set
-            {
-                error = value;
-                OnPropertyChanged("Error");
-            }
     	}
     }
 }

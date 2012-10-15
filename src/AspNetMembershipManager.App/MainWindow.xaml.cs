@@ -53,7 +53,7 @@ namespace AspNetMembershipManager
 
         private void btnCreateUser_Click(object sender, RoutedEventArgs e)
         {
-            var createUserDialog = new CreateUserWindow(providers.MembershipProvider);
+            var createUserDialog = new CreateUserWindow(this, providers.MembershipProvider);
             var createResult = createUserDialog.ShowDialog();
 
             if (createResult == true)
@@ -64,7 +64,7 @@ namespace AspNetMembershipManager
 
         private void btnCreateRole_Click(object sender, RoutedEventArgs e)
         {
-            var createRoleDialog = new CreateRoleWindow(providers.RoleProvider);
+            var createRoleDialog = new CreateRoleWindow(this, providers.RoleProvider);
             var createResult = createRoleDialog.ShowDialog();
 
             if (createResult == true)
@@ -77,7 +77,7 @@ namespace AspNetMembershipManager
 		{
 			var model = (RoleDetails)((Button) sender).DataContext;
 
-			if (MessageBox.Show("Delete role?", "Delete role", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+			if (MessageBox.Show(this, "Delete role?", "Delete role", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 			{
 				providers.RoleProvider.DeleteRole(model.Name, false);
 				
@@ -89,7 +89,7 @@ namespace AspNetMembershipManager
 		{
 			var model = (MembershipUser)((Button) sender).DataContext;
 
-			if (MessageBox.Show("Delete user?", "Delete user", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+			if (MessageBox.Show(this, "Delete user?", "Delete user", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 			{
 				providers.MembershipProvider.DeleteUser(model.UserName, true);
 				
@@ -103,7 +103,7 @@ namespace AspNetMembershipManager
 
 			var user = (MembershipUser) row.DataContext;
 
-			var userDialog = new UserDetailsWindow(user, providers.RoleProvider);
+			var userDialog = new UserDetailsWindow(this, user, providers.RoleProvider, providers.MembershipProvider);
             var refreshResult = userDialog.ShowDialog();
 
             if (refreshResult == true)

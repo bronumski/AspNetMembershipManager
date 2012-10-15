@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Security;
 
 namespace AspNetMembershipManager
 {
-	class MainWindowViewModel : INotifyPropertyChanged
+	class MainWindowViewModel : ViewModelBase
 	{
-		public event PropertyChangedEventHandler PropertyChanged;
 
 		public MembershipUser[] MembershipUsers { get; private set; }
 
@@ -26,13 +23,6 @@ namespace AspNetMembershipManager
 			Roles = roles.ToArray();
 
 			OnPropertyChanged("Roles");
-		}
-
-		protected void OnPropertyChanged(string propertyName)
-		{
-			PropertyChangedEventHandler handler = PropertyChanged;
-			if (handler != null)
-				handler(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}
 
@@ -68,22 +58,4 @@ namespace AspNetMembershipManager
 			return new RoleDetails(source, roleProvider);
 		}
 	}
-
-    public interface IMapper<in TSource, out TDestination>
-    {
-        TDestination Map(TSource source);
-    }
-
-    public static class MapperExtensions
-    {
-        public static IEnumerable<TOutput> MapAll<TInput, TOutput>(this IMapper<TInput, TOutput> mapper, IEnumerable<TInput> input)
-        {
-            return input.Select(mapper.Map);
-        }
-
-        public static Converter<TInput, TOutput> GetConverter<TInput, TOutput>(this IMapper<TInput, TOutput> mapper)
-        {
-            return mapper.Map;
-        }
-    }
 }

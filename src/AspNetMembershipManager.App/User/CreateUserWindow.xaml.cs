@@ -13,8 +13,9 @@ namespace AspNetMembershipManager.User
         private readonly MembershipProvider membershipProvider;
         private readonly CreateUserModel createUserModel;
 
-        public CreateUserWindow(MembershipProvider membershipProvider)
+        public CreateUserWindow(Window parentWindow, MembershipProvider membershipProvider)
         {
+        	Owner = parentWindow;
             InitializeComponent();
 
             this.membershipProvider = membershipProvider;
@@ -37,13 +38,13 @@ namespace AspNetMembershipManager.User
 			}
 		}
 
-        private void CreateUser_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        private void Save_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = errors == 0;
 			e.Handled = true;
 		}
 
-        private void CreateUser_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             MembershipCreateStatus createStatus;
             membershipProvider.CreateUser(createUserModel.Username, txtPassword.Password,

@@ -40,6 +40,8 @@ namespace AspNetMembershipManager
         	
     		localConfiguration.Save();
 
+            ConfigurationManager.RefreshSection("system.web/profile");
+
 			if (remoteWebConfigurationGroup == null)
 			{
 				throw new Exception("Invalid configuration");
@@ -90,7 +92,7 @@ namespace AspNetMembershipManager
     		var profileProvider = providerFactory.CreateProviderFromConfig<ProfileProvider>(defaultProfileProviderConfiguration);
 			
 			RemoveReadonlyFlagFromProviderCollection(ProfileManager.Providers);
-    		
+
 			ProfileManager.Providers.Clear();
     		
 			ProfileManager.Providers.Add(profileProvider);

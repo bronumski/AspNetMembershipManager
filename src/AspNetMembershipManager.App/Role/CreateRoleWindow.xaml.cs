@@ -55,7 +55,6 @@ namespace AspNetMembershipManager.Role
         	try
         	{
 				roleProvider.CreateRole(createRoleModel.Name);
-				DialogResult = true;
 				DialogResult = e.Handled = true;
 				Close();
         	}

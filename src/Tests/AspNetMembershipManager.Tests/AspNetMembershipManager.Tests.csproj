@@ -60,6 +60,8 @@
     <Compile Include="Collections\Specialized\NameValueCollectionExtensionsFixtures\When_converting_a_collection_to_a_dictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProviderFactoryFixtures\When_loading_a_MembershipProvider_from_a_membership_provider_configuration.cs" />
+    <Compile Include="TypeNameFixtures\When_loading_a_type_name_without_a_fully_quallifed_name.cs" />
+    <Compile Include="TypeNameFixtures\When_loading_a_type_name_with_a_fully_quallifed_name.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AspNetMembershipManager.App\AspNetMembershipManager.App.csproj">

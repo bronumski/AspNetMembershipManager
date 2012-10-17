@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetMembershipManager.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebsiteWithDefaultProviders", "Tests\TestWebsiteWithDefaultProviders\TestWebsiteWithDefaultProviders.csproj", "{DF5422DE-A5BA-45BD-A61D-F6493D7C507A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebsiteWithCustomProviders", "Tests\TestWebsiteWithCustomProviders\TestWebsiteWithCustomProviders.csproj", "{74D90E85-5336-4C51-8C26-AA2967BAE076}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{DF5422DE-A5BA-45BD-A61D-F6493D7C507A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF5422DE-A5BA-45BD-A61D-F6493D7C507A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF5422DE-A5BA-45BD-A61D-F6493D7C507A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74D90E85-5336-4C51-8C26-AA2967BAE076}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74D90E85-5336-4C51-8C26-AA2967BAE076}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74D90E85-5336-4C51-8C26-AA2967BAE076}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74D90E85-5336-4C51-8C26-AA2967BAE076}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,5 +66,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{D00EFA2E-5E7F-4DC5-800A-732BCCBE48CE} = {A6B058F5-CB49-4D21-B489-EFE8B45B114F}
 		{DF5422DE-A5BA-45BD-A61D-F6493D7C507A} = {A6B058F5-CB49-4D21-B489-EFE8B45B114F}
+		{74D90E85-5336-4C51-8C26-AA2967BAE076} = {A6B058F5-CB49-4D21-B489-EFE8B45B114F}
 	EndGlobalSection
 EndGlobal

@@ -65,39 +65,44 @@ namespace AspNetMembershipManager
     	{
     		var profileConfiguration = remoteWebConfigurationGroup.Profile;
 
-			if (profileConfiguration.Inherits != string.Empty && Type.GetType(profileConfiguration.Inherits) == null)
+			if (profileConfiguration.Enabled)
 			{
-				var profileTypeAssembly = GetAssemblyForProfileType(profileConfiguration);
+				if (profileConfiguration.Inherits != string.Empty && Type.GetType(profileConfiguration.Inherits) == null)
+				{
+					var profileTypeAssembly = GetAssemblyForProfileType(profileConfiguration);
 
-				AppDomain.CurrentDomain.AssemblyResolve += (obj, args) =>
-				{
-					if (args.Name == profileTypeAssembly.FullName)
-					{
-						return profileTypeAssembly;
-					}
-					return null;                                    		
-				};
-				AppDomain.CurrentDomain.TypeResolve += (obj, args) =>
-				{
-					if (args.Name.StartsWith(profileConfiguration.Inherits))
-					{
-						return profileTypeAssembly;
-					}
-					return null;
-				};
+					AppDomain.CurrentDomain.AssemblyResolve += (obj, args) =>
+					                                           	{
+					                                           		if (args.Name == profileTypeAssembly.FullName)
+					                                           		{
+					                                           			return profileTypeAssembly;
+					                                           		}
+					                                           		return null;
+					                                           	};
+					AppDomain.CurrentDomain.TypeResolve += (obj, args) =>
+					                                       	{
+					                                       		if (args.Name.StartsWith(profileConfiguration.Inherits))
+					                                       		{
+					                                       			return profileTypeAssembly;
+					                                       		}
+					                                       		return null;
+					                                       	};
+				}
+
+				var defaultProfileProviderConfiguration =
+					remoteWebConfigurationGroup.Profile.Providers[remoteWebConfigurationGroup.Profile.DefaultProvider];
+
+				var profileProvider = providerFactory.CreateProviderFromConfig<ProfileProvider>(defaultProfileProviderConfiguration);
+
+				RemoveReadonlyFlagFromProviderCollection(ProfileManager.Providers);
+
+				ProfileManager.Providers.Clear();
+
+				ProfileManager.Providers.Add(profileProvider);
+
+	    		return profileProvider;
 			}
-			
-    		var defaultProfileProviderConfiguration = remoteWebConfigurationGroup.Profile.Providers[remoteWebConfigurationGroup.Profile.DefaultProvider];
-
-    		var profileProvider = providerFactory.CreateProviderFromConfig<ProfileProvider>(defaultProfileProviderConfiguration);
-			
-			RemoveReadonlyFlagFromProviderCollection(ProfileManager.Providers);
-
-			ProfileManager.Providers.Clear();
-    		
-			ProfileManager.Providers.Add(profileProvider);
-
-    		return profileProvider;
+    		return null;
     	}
 
 		private static Assembly GetAssemblyForProfileType(ProfileSection profileSection)

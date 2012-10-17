@@ -29,6 +29,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A6B058F5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetMembershipManager.Tests", "Tests\AspNetMembershipManager.Tests\AspNetMembershipManager.Tests.csproj", "{D00EFA2E-5E7F-4DC5-800A-732BCCBE48CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebsiteWithDefaultProviders", "Tests\TestWebsiteWithDefaultProviders\TestWebsiteWithDefaultProviders.csproj", "{DF5422DE-A5BA-45BD-A61D-F6493D7C507A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,11 +49,16 @@ Global
 		{D00EFA2E-5E7F-4DC5-800A-732BCCBE48CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D00EFA2E-5E7F-4DC5-800A-732BCCBE48CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D00EFA2E-5E7F-4DC5-800A-732BCCBE48CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF5422DE-A5BA-45BD-A61D-F6493D7C507A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF5422DE-A5BA-45BD-A61D-F6493D7C507A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF5422DE-A5BA-45BD-A61D-F6493D7C507A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF5422DE-A5BA-45BD-A61D-F6493D7C507A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D00EFA2E-5E7F-4DC5-800A-732BCCBE48CE} = {A6B058F5-CB49-4D21-B489-EFE8B45B114F}
+		{DF5422DE-A5BA-45BD-A61D-F6493D7C507A} = {A6B058F5-CB49-4D21-B489-EFE8B45B114F}
 	EndGlobalSection
 EndGlobal

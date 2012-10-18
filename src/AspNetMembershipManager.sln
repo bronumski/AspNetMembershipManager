@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebsiteWithDefaultProvi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebsiteWithCustomProviders", "Tests\TestWebsiteWithCustomProviders\TestWebsiteWithCustomProviders.csproj", "{74D90E85-5336-4C51-8C26-AA2967BAE076}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebsiteWithOnlyMembershipProvider", "Tests\TestWebsiteWithOnlyMembershipProvider\TestWebsiteWithOnlyMembershipProvider.csproj", "{0C93B450-87E1-4185-BFA0-96F55590E2BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{74D90E85-5336-4C51-8C26-AA2967BAE076}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74D90E85-5336-4C51-8C26-AA2967BAE076}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74D90E85-5336-4C51-8C26-AA2967BAE076}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C93B450-87E1-4185-BFA0-96F55590E2BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C93B450-87E1-4185-BFA0-96F55590E2BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C93B450-87E1-4185-BFA0-96F55590E2BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C93B450-87E1-4185-BFA0-96F55590E2BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,5 +73,9 @@ Global
 		{D00EFA2E-5E7F-4DC5-800A-732BCCBE48CE} = {A6B058F5-CB49-4D21-B489-EFE8B45B114F}
 		{DF5422DE-A5BA-45BD-A61D-F6493D7C507A} = {A6B058F5-CB49-4D21-B489-EFE8B45B114F}
 		{74D90E85-5336-4C51-8C26-AA2967BAE076} = {A6B058F5-CB49-4D21-B489-EFE8B45B114F}
+		{0C93B450-87E1-4185-BFA0-96F55590E2BF} = {A6B058F5-CB49-4D21-B489-EFE8B45B114F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = ..\packages\Unity.2.1.505.2\lib\NET35
 	EndGlobalSection
 EndGlobal

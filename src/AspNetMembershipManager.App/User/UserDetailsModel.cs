@@ -12,17 +12,20 @@ namespace AspNetMembershipManager.User
 		private readonly ProfileBase profile;
 		private readonly List<UserInRole> userRoles; 
 
-		public UserDetailsModel(MembershipUser user, RoleProvider roleProvider, ProfileBase profile)
+		public UserDetailsModel(MembershipUser user, IRoleManager roleManager, ProfileBase profile)
 		{
 			this.user = user;
 			this.profile = profile;
 
-			userRoles = (
-					from role in roleProvider.GetAllRoles()
-					join userInRole in roleProvider.GetRolesForUser(user.UserName)
+            if (roleManager.IsEnabled)
+			{
+                userRoles = (
+					from role in roleManager.GetAllRoles().Select(x => x.Name)
+					join userInRole in roleManager.GetRolesForUser(user.UserName)
 									on role equals userInRole into outer
 					from o in outer.DefaultIfEmpty()
 				select new UserInRole(role, o != null)).ToList();
+            }
 		}
 
 		public string Username
@@ -45,16 +48,19 @@ namespace AspNetMembershipManager.User
 		{
 			get
 			{
-				if (ProfileBase.Properties.Count > 0)
-				{
-					profile.GetPropertyValue(ProfileBase.Properties.Cast<SettingsProperty>().First().Name);
+                if (profile != null)
+                {
+                    if (ProfileBase.Properties.Count > 0)
+                    {
+                        profile.GetPropertyValue(ProfileBase.Properties.Cast<SettingsProperty>().First().Name);
 
-					return (
-					       	from SettingsPropertyValue property in profile.PropertyValues
-					       	select new ProfilePropertyViewModel(property)
-					       ).ToArray();
-				}
-				return Enumerable.Empty<ProfilePropertyViewModel>();
+                        return (
+                                   from SettingsPropertyValue property in profile.PropertyValues
+                                   select new ProfilePropertyViewModel(property)
+                               ).ToArray();
+                    }
+                }
+			    return Enumerable.Empty<ProfilePropertyViewModel>();
 			}
 		}
 

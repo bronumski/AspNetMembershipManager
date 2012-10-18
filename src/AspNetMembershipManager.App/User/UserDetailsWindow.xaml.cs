@@ -17,19 +17,25 @@ namespace AspNetMembershipManager.User
 	partial class UserDetailsWindow : Window
 	{
 		private readonly UserDetailsModel userDetails;
-		private readonly RoleProvider roleProvider;
-		private readonly MembershipProvider membershipProvider;
+        private readonly IRoleManager roleManager;
+        private readonly IMembershipManager membershipManager;
+	    private readonly IProfileManager profileManager;
 
-		internal UserDetailsWindow(Window parentWindow, MembershipUser user, RoleProvider roleProvider, MembershipProvider membershipProvider)
+	    internal UserDetailsWindow(Window parentWindow, MembershipUser user, IProviderManagers providerManagers)
 		{
 			this.user = user;
 			Owner = parentWindow;
 			InitializeComponent();
 
-			this.roleProvider = roleProvider;
-			this.membershipProvider = membershipProvider;
-			profileBase = ProfileBase.Create(user.UserName);
-			userDetails = new UserDetailsModel(user, roleProvider, profileBase);
+            roleManager = providerManagers.RoleManager;
+            membershipManager = providerManagers.MembershipManager;
+            profileManager = providerManagers.ProfileManager;
+		    profileBase = null;
+            if (profileManager.IsEnabled)
+            {
+                profileBase = ProfileBase.Create(user.UserName);
+            }
+			userDetails = new UserDetailsModel(user, roleManager, profileBase);
 
 			DataContext = userDetails;
 		}
@@ -60,51 +66,59 @@ namespace AspNetMembershipManager.User
         {
         	try
         	{
-				using (var transactionScope = new TransactionScope())
+                //Transaction scope does not work with SqlCE in this context
+                //"The connection object can not be enlisted in transaction scope."
+				//using (var transactionScope = new TransactionScope())
 				{
-					membershipProvider.UpdateUser(user);
+					membershipManager.UpdateUser(user);
 
-					if (profileBase.PropertyValues != null && profileBase.PropertyValues.Count > 0)
-					{
-						foreach (SettingsProvider prov in ProfileManager.Providers)
-						{
-							var ppcv = new SettingsPropertyValueCollection();
-							foreach (SettingsPropertyValue pp in profileBase.PropertyValues)
-							{
-								if (pp.Property.Provider.Name == prov.Name)
-								{
-									ppcv.Add(pp);
-								}
-							}
-							if (ppcv.Count > 0)
-							{
-								prov.SetPropertyValues(profileBase.Context, ppcv);
-							}
-						}
-						foreach (SettingsPropertyValue pp in profileBase.PropertyValues)
-						{
-							pp.IsDirty = false;
-						}
-					}
+                    if (System.Web.Profile.ProfileManager.Enabled)
+                    {
+                        if (profileBase.PropertyValues != null && profileBase.PropertyValues.Count > 0)
+                        {
+                            foreach (SettingsProvider prov in System.Web.Profile.ProfileManager.Providers)
+                            {
+                                var ppcv = new SettingsPropertyValueCollection();
+                                foreach (SettingsPropertyValue pp in profileBase.PropertyValues)
+                                {
+                                    if (pp.Property.Provider.Name == prov.Name)
+                                    {
+                                        ppcv.Add(pp);
+                                    }
+                                }
+                                if (ppcv.Count > 0)
+                                {
+                                    prov.SetPropertyValues(profileBase.Context, ppcv);
+                                }
+                            }
+                            foreach (SettingsPropertyValue pp in profileBase.PropertyValues)
+                            {
+                                pp.IsDirty = false;
+                            }
+                        }
+                    }
 
-					foreach (var userInRole in userDetails.Roles)
-					{
-						if (userInRole.IsMember)
-						{
-							if (!roleProvider.IsUserInRole(userDetails.Username, userInRole.RoleName))
-							{
-								roleProvider.AddUserToRole(userDetails.Username, userInRole.RoleName);
-							}
-						}
-						else
-						{
-							if (roleProvider.IsUserInRole(userDetails.Username, userInRole.RoleName))
-							{
-								roleProvider.RemoveUserFromRole(userDetails.Username, userInRole.RoleName);
-							}
-						}
-					}
-					transactionScope.Complete();
+                    if (roleManager.IsEnabled)
+                    {
+                        foreach (var userInRole in userDetails.Roles)
+                        {
+                            if (userInRole.IsMember)
+                            {
+                                if (!roleManager.IsUserInRole(userDetails.Username, userInRole.RoleName))
+                                {
+                                    roleManager.AddUserToRole(userDetails.Username, userInRole.RoleName);
+                                }
+                            }
+                            else
+                            {
+                                if (roleManager.IsUserInRole(userDetails.Username, userInRole.RoleName))
+                                {
+                                    roleManager.RemoveUserFromRole(userDetails.Username, userInRole.RoleName);
+                                }
+                            }
+                        }
+                    }
+				    //transactionScope.Complete();
 				}
 
         		DialogResult = e.Handled = true;
@@ -124,11 +138,7 @@ namespace AspNetMembershipManager.User
 
 			var propertyWindow = new ProfilePropertyWindow(this, profileProperty);
 
-			var dialogResult = propertyWindow.ShowDialog();
-			if (dialogResult == true)
-			{
-				//profileBase.SetPropertyValue(profileProperty.PropertyName, profileProperty.PropertyValue);
-			}
+			propertyWindow.ShowDialog();
 		}
 	}
 }

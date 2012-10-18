@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Web.Security;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -11,14 +10,14 @@ namespace AspNetMembershipManager.Role
     /// </summary>
     public partial class CreateRoleWindow : Window
     {
-        private readonly RoleProvider roleProvider;
+        private readonly IRoleManager roleManager;
         private readonly CreateRoleModel createRoleModel;
 
-        public CreateRoleWindow(Window parentWindow, RoleProvider roleProvider)
+        public CreateRoleWindow(Window parentWindow, IRoleManager roleManager)
         {
 			Owner = parentWindow;
 
-            this.roleProvider = roleProvider;
+            this.roleManager = roleManager;
             InitializeComponent();
 
             createRoleModel = new CreateRoleModel();
@@ -54,7 +53,7 @@ namespace AspNetMembershipManager.Role
         {
         	try
         	{
-				roleProvider.CreateRole(createRoleModel.Name);
+				roleManager.CreateRole(createRoleModel.Name);
 				DialogResult = e.Handled = true;
 				Close();
         	}

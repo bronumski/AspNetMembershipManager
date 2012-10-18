@@ -7,6 +7,8 @@ using System.Windows.Input;
 using AspNetMembershipManager.Initialization;
 using AspNetMembershipManager.Role;
 using AspNetMembershipManager.User;
+using AspNetMembershipManager.Web;
+using AspNetMembershipManager.Web.Security;
 
 namespace AspNetMembershipManager
 {
@@ -44,7 +46,7 @@ namespace AspNetMembershipManager
 
 	    private void btnCreateUser_Click(object sender, RoutedEventArgs e)
         {
-            var createUserDialog = new CreateUserWindow(this, providerManagers.MembershipManager);
+            var createUserDialog = new CreateUserWindow(this, providerManagers);
             var createResult = createUserDialog.ShowDialog();
 
             if (createResult == true)
@@ -78,11 +80,11 @@ namespace AspNetMembershipManager
 
 		private void DeleteUser(object sender, RoutedEventArgs e)
 		{
-			var model = (MembershipUser)((Button) sender).DataContext;
+			var user = (IUser)((Button) sender).DataContext;
 
 			if (MessageBox.Show(this, "Delete user?", "Delete user", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 			{
-				providerManagers.MembershipManager.DeleteUser(model.UserName, true);
+				user.Delete();
 				
 				RefreshMembers();
 			}
@@ -92,7 +94,7 @@ namespace AspNetMembershipManager
 		{
 			var row = (DataGridRow) sender;
 
-			var user = (MembershipUser) row.DataContext;
+			var user = (IUser) row.DataContext;
 
 			var userDialog = new UserDetailsWindow(this, user, providerManagers);
             var refreshResult = userDialog.ShowDialog();

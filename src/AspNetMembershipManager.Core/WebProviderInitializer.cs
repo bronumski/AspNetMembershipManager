@@ -11,6 +11,10 @@ using System.Web.Management;
 using System.Web.Profile;
 using System.Web.Security;
 using AspNetMembershipManager.Collections.Specialized;
+using AspNetMembershipManager.Web;
+using AspNetMembershipManager.Web.Profile;
+using AspNetMembershipManager.Web.Security;
+using ProfileManager = AspNetMembershipManager.Web.Profile.ProfileManager;
 
 namespace AspNetMembershipManager
 {

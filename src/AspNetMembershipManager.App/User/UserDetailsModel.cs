@@ -2,17 +2,18 @@
 using System.Configuration;
 using System.Linq;
 using System.Web.Profile;
-using System.Web.Security;
+using AspNetMembershipManager.Web;
+using AspNetMembershipManager.Web.Security;
 
 namespace AspNetMembershipManager.User
 {
 	class UserDetailsModel : SaveViewModelBase
     {
-		private readonly MembershipUser user;
+		private readonly IUser user;
 		private readonly ProfileBase profile;
 		private readonly List<UserInRole> userRoles; 
 
-		public UserDetailsModel(MembershipUser user, IRoleManager roleManager, ProfileBase profile)
+		public UserDetailsModel(IUser user, IRoleManager roleManager, ProfileBase profile)
 		{
 			this.user = user;
 			this.profile = profile;
@@ -35,8 +36,8 @@ namespace AspNetMembershipManager.User
 
 		public string EmailAddress
 		{
-			get { return user.Email; }
-			set { user.Email = value; }
+			get { return user.EmailAddress; }
+			set { user.EmailAddress = value; }
 		}
 
 		public IEnumerable<UserInRole> Roles

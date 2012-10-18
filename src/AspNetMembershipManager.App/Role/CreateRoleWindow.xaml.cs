@@ -2,6 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using AspNetMembershipManager.Web;
+using AspNetMembershipManager.Web.Security;
 
 namespace AspNetMembershipManager.Role
 {

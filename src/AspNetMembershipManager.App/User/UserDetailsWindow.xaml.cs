@@ -7,6 +7,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using AspNetMembershipManager.User.Profile;
+using AspNetMembershipManager.Web;
+using AspNetMembershipManager.Web.Profile;
 using AspNetMembershipManager.Web.Security;
 
 namespace AspNetMembershipManager.User
@@ -20,15 +22,17 @@ namespace AspNetMembershipManager.User
         private readonly IRoleManager roleManager;
         private readonly IMembershipManager membershipManager;
 	    private readonly IProfileManager profileManager;
+		private int errors;
+		private IUser user;
+		private ProfileBase profileBase;
 
-	    internal UserDetailsWindow(Window parentWindow, MembershipUser user, IProviderManagers providerManagers)
+	    internal UserDetailsWindow(Window parentWindow, IUser user, IProviderManagers providerManagers)
 		{
 			this.user = user;
 			Owner = parentWindow;
 			InitializeComponent();
 
             roleManager = providerManagers.RoleManager;
-            membershipManager = providerManagers.MembershipManager;
             profileManager = providerManagers.ProfileManager;
 		    profileBase = null;
             if (profileManager.IsEnabled)
@@ -39,10 +43,6 @@ namespace AspNetMembershipManager.User
 
 			DataContext = userDetails;
 		}
-
-		private int errors;
-		private MembershipUser user;
-		private ProfileBase profileBase;
 
 		private void Validation_Error(object sender, ValidationErrorEventArgs e)
 		{
@@ -70,7 +70,7 @@ namespace AspNetMembershipManager.User
                 //"The connection object can not be enlisted in transaction scope."
 				//using (var transactionScope = new TransactionScope())
 				{
-					membershipManager.UpdateUser(user);
+					user.Save();
 
                     if (System.Web.Profile.ProfileManager.Enabled)
                     {

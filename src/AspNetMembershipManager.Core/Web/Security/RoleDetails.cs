@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Web.Security;
 
-namespace AspNetMembershipManager
+namespace AspNetMembershipManager.Web.Security
 {
     public class RoleDetails
     {

@@ -10,7 +10,7 @@
 			<TabControl Margin="12">
 				<TabItem Header="Users" Name="tabUsers">
 					<Grid>
-						<DataGrid ItemsSource="{Binding MembershipUsers}" Margin="6,37,6,6">
+						<DataGrid ItemsSource="{Binding Users}" Margin="6,37,6,6">
 							<DataGrid.RowStyle>
 								<Style TargetType="{x:Type DataGridRow}">
 									<EventSetter Event="MouseDoubleClick" Handler="UserRowDoubleClick"/>
@@ -21,6 +21,13 @@
 									<DataGridTemplateColumn.CellTemplate>
 										<DataTemplate>
 											<Button Click="DeleteUser">Delete</Button>
+										</DataTemplate>
+									</DataGridTemplateColumn.CellTemplate>
+								</DataGridTemplateColumn>
+								<DataGridTemplateColumn>
+									<DataGridTemplateColumn.CellTemplate>
+										<DataTemplate>
+											<Label Content="{Binding UserName}" />
 										</DataTemplate>
 									</DataGridTemplateColumn.CellTemplate>
 								</DataGridTemplateColumn>

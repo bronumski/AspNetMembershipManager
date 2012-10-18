@@ -1,4 +1,5 @@
 using System.Web.Security;
+using AspNetMembershipManager.Web.Security;
 
 namespace AspNetMembershipManager
 {

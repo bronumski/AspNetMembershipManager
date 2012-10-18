@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using AspNetMembershipManager.Initialization;
 using AspNetMembershipManager.Logging;
+using AspNetMembershipManager.Web;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using log4net.Config;

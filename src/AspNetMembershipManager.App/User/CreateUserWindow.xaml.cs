@@ -1,7 +1,10 @@
-﻿using System.Web.Security;
+﻿using System;
+using System.Web.Security;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using AspNetMembershipManager.Web;
+using AspNetMembershipManager.Web.Security;
 
 namespace AspNetMembershipManager.User
 {
@@ -10,15 +13,15 @@ namespace AspNetMembershipManager.User
     /// </summary>
     public partial class CreateUserWindow : Window
     {
-        private readonly IMembershipManager membershipProvider;
+        private readonly IProviderManagers providerManagers;
         private readonly CreateUserModel createUserModel;
 
-        public CreateUserWindow(Window parentWindow, IMembershipManager membershipProvider)
+        public CreateUserWindow(Window parentWindow, IProviderManagers providerManagers)
         {
         	Owner = parentWindow;
             InitializeComponent();
 
-            this.membershipProvider = membershipProvider;
+            this.providerManagers = providerManagers;
 
             createUserModel = new CreateUserModel();
             DataContext = createUserModel;
@@ -46,20 +49,19 @@ namespace AspNetMembershipManager.User
 
         private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            MembershipCreateStatus createStatus = membershipProvider.CreateUser(
+        	try
+        	{
+				IUser user = providerManagers.CreateUser(
                                             createUserModel.Username,
                                             txtPassword.Password,
                                             createUserModel.EmailAddress);
-
-            if (createStatus == MembershipCreateStatus.Success)
-            {
                 DialogResult = e.Handled = true;
                 Close();
-            }
-            else
-            {
-                createUserModel.Error = createStatus.ToString();
-            }
+        	}
+        	catch (MembershipCreateUserException ex)
+        	{
+        		createUserModel.Error = ex.StatusCode.ToString();
+        	}
         }
     }
 }

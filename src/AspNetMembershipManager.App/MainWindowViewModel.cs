@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Security;
+using AspNetMembershipManager.Web;
+using AspNetMembershipManager.Web.Security;
 
 namespace AspNetMembershipManager
 {
@@ -12,15 +15,15 @@ namespace AspNetMembershipManager
 			this.providerManagers = providerManagers;
 		}
 
-		public MembershipUser[] MembershipUsers { get; private set; }
+		public IEnumerable<IUser> Users { get; private set; }
 
 		public RoleDetails[] Roles { get; private set; }
 
 		public void RefreshMembershipUsers()
 		{
-			MembershipUsers = providerManagers.MembershipManager.GetAllUsers().ToArray();
+			Users = providerManagers.GetAllUsers();
 
-			OnPropertyChanged("MembershipUsers");
+			OnPropertyChanged("Users");
 		}
 
 		public bool RolesEnabled { get { return providerManagers.RoleManager.IsEnabled; }}

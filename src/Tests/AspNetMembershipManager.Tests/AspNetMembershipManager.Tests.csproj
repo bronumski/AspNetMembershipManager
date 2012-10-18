@@ -33,6 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=3.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Castle.Core.3.1.0\lib\net40-client\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=3.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Castle.Windsor.3.1.0\lib\net40\Castle.Windsor.dll</HintPath>
+    </Reference>
     <Reference Include="FluentAssertions">
       <HintPath>..\..\..\packages\FluentAssertions.1.7.1.1\Lib\net40\FluentAssertions.dll</HintPath>
     </Reference>
@@ -57,11 +63,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoMockedSpecificationFor.cs" />
     <Compile Include="Collections\Specialized\NameValueCollectionExtensionsFixtures\When_converting_a_collection_to_a_dictionary.cs" />
+    <Compile Include="LazyComponentAutoMocker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProviderFactoryFixtures\When_loading_a_MembershipProvider_from_a_membership_provider_configuration.cs" />
     <Compile Include="TypeNameFixtures\When_loading_a_type_name_without_a_fully_quallifed_name.cs" />
     <Compile Include="TypeNameFixtures\When_loading_a_type_name_with_a_fully_quallifed_name.cs" />
+    <Compile Include="Web\ProviderManagerFixtures\When_creating_a_user.cs" />
+    <Compile Include="Web\ProviderManagerFixtures\When_getting_users .cs" />
+    <Compile Include="Web\UserFixtures\When_deleting_a_user.cs" />
+    <Compile Include="Web\UserFixtures\When_saving_a_user.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AspNetMembershipManager.App\AspNetMembershipManager.App.csproj">

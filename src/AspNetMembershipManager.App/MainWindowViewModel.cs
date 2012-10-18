@@ -1,28 +1,38 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Security;
 
 namespace AspNetMembershipManager
 {
 	class MainWindowViewModel : ViewModelBase
 	{
+		private readonly IProviderManagers providerManagers;
+
+		public MainWindowViewModel(IProviderManagers providerManagers)
+		{
+			this.providerManagers = providerManagers;
+		}
 
 		public MembershipUser[] MembershipUsers { get; private set; }
 
 		public RoleDetails[] Roles { get; private set; }
 
-		public void RefreshMembershipUsers(IEnumerable<MembershipUser> membershipUsers)
+		public void RefreshMembershipUsers()
 		{
-			MembershipUsers = membershipUsers.ToArray();
+			MembershipUsers = providerManagers.MembershipManager.GetAllUsers().ToArray();
 
 			OnPropertyChanged("MembershipUsers");
 		}
 
-		public void RefreshRoles(IEnumerable<RoleDetails> roles)
-		{
-			Roles = roles.ToArray();
+		public bool RolesEnabled { get { return providerManagers.RoleManager.IsEnabled; }}
 
-			OnPropertyChanged("Roles");
+		public void RefreshRoles()
+		{
+			if (RolesEnabled)
+			{
+				Roles = providerManagers.RoleManager.GetAllRoles().ToArray();
+
+				OnPropertyChanged("Roles");
+			}
 		}
 	}
 }

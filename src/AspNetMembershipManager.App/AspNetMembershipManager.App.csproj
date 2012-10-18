@@ -105,6 +105,7 @@
     <Compile Include="..\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="BoolToVisibleOrHidden.cs" />
     <Compile Include="Logging\DelegateAppender.cs" />
     <Compile Include="Logging\EventLoggedEventArgs.cs" />
     <Compile Include="Logging\Log4NetLogger.cs" />

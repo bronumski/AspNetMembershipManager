@@ -24,7 +24,7 @@ namespace AspNetMembershipManager
 
             this.providerManagers = providerManagers;
 
-            viewModel = new MainWindowViewModel();
+            viewModel = new MainWindowViewModel(providerManagers);
 
             try
             {
@@ -106,12 +106,12 @@ namespace AspNetMembershipManager
 
 		private void RefreshMembers()
 		{
-			viewModel.RefreshMembershipUsers(providerManagers.MembershipManager.GetAllUsers());
+			viewModel.RefreshMembershipUsers();
 		}
 
 		private void RefreshRoles()
 		{
-			viewModel.RefreshRoles(providerManagers.RoleManager.GetAllRoles());
+			viewModel.RefreshRoles();
 		}
 	}
 }

@@ -16,44 +16,35 @@ namespace AspNetMembershipManager
 	public partial class MainWindow : Window
 	{
 		private readonly MainWindowViewModel viewModel;
-	    private readonly Providers providers;
+	    private readonly IProviderManagers providerManagers;
 
-		public MainWindow()
-		{
-			InitializeComponent();
-
-
-			var initializeDialog = new InitializationWindow();
-			var initializationResult = initializeDialog.ShowDialog();
-
-			if (initializationResult != true)
-			{
-				Application.Current.Shutdown();
-			}
-			else
-			{
-                viewModel = new MainWindowViewModel();
-
-			    providers = initializeDialog.Providers;
-				try
-				{
-					DataContext = viewModel;
-
-					RefreshMembers();
-                    RefreshRoles();
-				}
-				catch(Exception ex)
-				{
-					MessageBox.Show("Failed to load Provider settings:\n" + ex, "Error loading providers...", MessageBoxButton.OK,
-					                MessageBoxImage.Error);
-					Application.Current.Shutdown();
-				}
-			}
-		}
-
-        private void btnCreateUser_Click(object sender, RoutedEventArgs e)
+        public MainWindow(IProviderManagers providerManagers)
         {
-            var createUserDialog = new CreateUserWindow(this, providers.MembershipProvider);
+            InitializeComponent();
+
+            this.providerManagers = providerManagers;
+
+            viewModel = new MainWindowViewModel();
+
+            try
+            {
+                DataContext = viewModel;
+
+                RefreshMembers();
+                RefreshRoles();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to load Provider settings:\n" + ex, "Error loading providers...",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+                Application.Current.Shutdown();
+            }
+        }
+
+	    private void btnCreateUser_Click(object sender, RoutedEventArgs e)
+        {
+            var createUserDialog = new CreateUserWindow(this, providerManagers.MembershipManager);
             var createResult = createUserDialog.ShowDialog();
 
             if (createResult == true)
@@ -64,7 +55,7 @@ namespace AspNetMembershipManager
 
         private void btnCreateRole_Click(object sender, RoutedEventArgs e)
         {
-            var createRoleDialog = new CreateRoleWindow(this, providers.RoleProvider);
+            var createRoleDialog = new CreateRoleWindow(this, providerManagers.RoleManager);
             var createResult = createRoleDialog.ShowDialog();
 
             if (createResult == true)
@@ -79,7 +70,7 @@ namespace AspNetMembershipManager
 
 			if (MessageBox.Show(this, "Delete role?", "Delete role", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 			{
-				providers.RoleProvider.DeleteRole(model.Name, false);
+                providerManagers.RoleManager.DeleteRole(model.Name, false);
 				
 				RefreshRoles();
 			}
@@ -91,7 +82,7 @@ namespace AspNetMembershipManager
 
 			if (MessageBox.Show(this, "Delete user?", "Delete user", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 			{
-				providers.MembershipProvider.DeleteUser(model.UserName, true);
+				providerManagers.MembershipManager.DeleteUser(model.UserName, true);
 				
 				RefreshMembers();
 			}
@@ -103,7 +94,7 @@ namespace AspNetMembershipManager
 
 			var user = (MembershipUser) row.DataContext;
 
-			var userDialog = new UserDetailsWindow(this, user, providers.RoleProvider, providers.MembershipProvider);
+			var userDialog = new UserDetailsWindow(this, user, providerManagers);
             var refreshResult = userDialog.ShowDialog();
 
             if (refreshResult == true)
@@ -115,15 +106,12 @@ namespace AspNetMembershipManager
 
 		private void RefreshMembers()
 		{
-			int totalRecords;
-			viewModel.RefreshMembershipUsers(
-				providers.MembershipProvider.GetAllUsers(0, int.MaxValue, out totalRecords).Cast<MembershipUser>());
+			viewModel.RefreshMembershipUsers(providerManagers.MembershipManager.GetAllUsers());
 		}
 
 		private void RefreshRoles()
 		{
-			viewModel.RefreshRoles(
-				new UserRoleRoleDetailsMapper(providers.RoleProvider).MapAll(providers.RoleProvider.GetAllRoles()));
+			viewModel.RefreshRoles(providerManagers.RoleManager.GetAllRoles());
 		}
 	}
 }

@@ -10,10 +10,10 @@ namespace AspNetMembershipManager.User
     /// </summary>
     public partial class CreateUserWindow : Window
     {
-        private readonly MembershipProvider membershipProvider;
+        private readonly IMembershipManager membershipProvider;
         private readonly CreateUserModel createUserModel;
 
-        public CreateUserWindow(Window parentWindow, MembershipProvider membershipProvider)
+        public CreateUserWindow(Window parentWindow, IMembershipManager membershipProvider)
         {
         	Owner = parentWindow;
             InitializeComponent();
@@ -46,10 +46,10 @@ namespace AspNetMembershipManager.User
 
         private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            MembershipCreateStatus createStatus;
-            membershipProvider.CreateUser(createUserModel.Username, txtPassword.Password,
-                                          createUserModel.EmailAddress, null, null, true, null,
-                                          out createStatus);
+            MembershipCreateStatus createStatus = membershipProvider.CreateUser(
+                                            createUserModel.Username,
+                                            txtPassword.Password,
+                                            createUserModel.EmailAddress);
 
             if (createStatus == MembershipCreateStatus.Success)
             {

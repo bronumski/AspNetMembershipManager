@@ -25,7 +25,7 @@ namespace AspNetMembershipManager
 
 		private const string SystemWebGroupName = "system.web";
 
-        public Providers InitializeFromConfigurationFile(string configFilePath, bool createDatabases)
+        public ProviderManagers InitializeFromConfigurationFile(string configFilePath, bool createDatabases)
 		{
 			Configuration localConfiguration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
@@ -58,11 +58,12 @@ namespace AspNetMembershipManager
 
         	var profileProvider = LoadAndInitializeProfileProvider(remoteWebConfigurationGroup);
 
-        	return new Providers(membershipProvider, roleProvider, profileProvider);
+        	return new ProviderManagers(membershipProvider, roleProvider, profileProvider);
 		}
 
-    	private ProfileProvider LoadAndInitializeProfileProvider(SystemWebSectionGroup remoteWebConfigurationGroup)
+    	private IProfileManager LoadAndInitializeProfileProvider(SystemWebSectionGroup remoteWebConfigurationGroup)
     	{
+    	    ProfileProvider profileProvider = null;
     		var profileConfiguration = remoteWebConfigurationGroup.Profile;
 
 			if (profileConfiguration.Enabled)
@@ -92,18 +93,16 @@ namespace AspNetMembershipManager
 				var defaultProfileProviderConfiguration =
 					remoteWebConfigurationGroup.Profile.Providers[remoteWebConfigurationGroup.Profile.DefaultProvider];
 
-				var profileProvider = providerFactory.CreateProviderFromConfig<ProfileProvider>(defaultProfileProviderConfiguration);
+				profileProvider = providerFactory.CreateProviderFromConfig<ProfileProvider>(defaultProfileProviderConfiguration);
 
-				RemoveReadonlyFlagFromProviderCollection(ProfileManager.Providers);
+				RemoveReadonlyFlagFromProviderCollection(System.Web.Profile.ProfileManager.Providers);
 
-				ProfileManager.Providers.Clear();
+				System.Web.Profile.ProfileManager.Providers.Clear();
 
-				ProfileManager.Providers.Add(profileProvider);
-
-	    		return profileProvider;
+				System.Web.Profile.ProfileManager.Providers.Add(profileProvider);
 			}
-    		return null;
-    	}
+            return new ProfileManager(profileProvider, profileConfiguration);
+        }
 
 		private static Assembly GetAssemblyForProfileType(ProfileSection profileSection)
 		{
@@ -123,26 +122,28 @@ namespace AspNetMembershipManager
 			throw new Exception(string.Format("Unable to load profile type '{0}'", profileSection.Inherits));
 		}
 
-    	private MembershipProvider LoadAndInitializeMembershipProvider(SystemWebSectionGroup remoteWebConfigurationGroup)
+    	private IMembershipManager LoadAndInitializeMembershipProvider(SystemWebSectionGroup remoteWebConfigurationGroup)
     	{
-    		var membershipProviderSection = remoteWebConfigurationGroup.Membership.Providers[remoteWebConfigurationGroup.Membership.DefaultProvider];
+    	    var membershipSection = remoteWebConfigurationGroup.Membership;
+    		var providerSettings = membershipSection.Providers[remoteWebConfigurationGroup.Membership.DefaultProvider];
 
-    		var membershipProvider = providerFactory.CreateProviderFromConfig<MembershipProvider>(membershipProviderSection);
+    		var membershipProvider = providerFactory.CreateProviderFromConfig<MembershipProvider>(providerSettings);
 
     		RemoveReadonlyFlagFromProviderCollection(Membership.Providers);
 
     		Membership.Providers.Clear();
     		Membership.Providers.Add(membershipProvider);
     		
-			return membershipProvider;
+			return new MembershipManager( membershipProvider, membershipSection);
     	}
 
-    	private RoleProvider LoadAndInitializeRoleProvider(SystemWebSectionGroup remoteWebConfigurationGroup)
+    	private IRoleManager LoadAndInitializeRoleProvider(SystemWebSectionGroup remoteWebConfigurationGroup)
     	{
-    		var roleProviderSection = remoteWebConfigurationGroup.RoleManager.Providers[remoteWebConfigurationGroup.RoleManager.DefaultProvider];
+    	    var roleSection = remoteWebConfigurationGroup.RoleManager;
+            var providerSettings = roleSection.Providers[remoteWebConfigurationGroup.RoleManager.DefaultProvider];
 
-    		var roleProvider = providerFactory.CreateProviderFromConfig<RoleProvider>(roleProviderSection);
-    		return roleProvider;
+    		var roleProvider = providerFactory.CreateProviderFromConfig<RoleProvider>(providerSettings);
+            return new RoleManager(roleProvider, roleSection);
     	}
 
     	private static void CopyRemoteConfigConnectionStringsToLocalConfig(Configuration remoteConfiguration, Configuration localConfiguration)

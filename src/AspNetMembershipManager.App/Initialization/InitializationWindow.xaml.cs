@@ -37,13 +37,13 @@ namespace AspNetMembershipManager.Initialization
 			}
 		}
 
-        public Providers Providers { get; private set; }
+        public ProviderManagers ProviderManagers { get; private set; }
 
 		private void btnLoadConfigFile_Click(object sender, RoutedEventArgs e)
 		{
 			try
 			{
-				Providers = new WebProviderInitializer(new ProviderFactory()).InitializeFromConfigurationFile(viewModel.ConfigurationPath, viewModel.CreateMembershipDatabases);
+				ProviderManagers = new WebProviderInitializer(new ProviderFactory()).InitializeFromConfigurationFile(viewModel.ConfigurationPath, viewModel.CreateMembershipDatabases);
 
 				DialogResult = true;
 				Close();

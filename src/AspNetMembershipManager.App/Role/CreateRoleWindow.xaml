@@ -17,7 +17,7 @@
 					<RowDefinition Height="auto" />
 				</Grid.RowDefinitions>
 				<Label Content="Role name:" Grid.Column="0" Grid.Row="0" />
-				<TextBox Text="{Binding Name}" Grid.Column="1" Grid.Row="0" />
+				<TextBox Name="txtRoleName" Text="{Binding Name}" Grid.Column="1" Grid.Row="0" />
 			</Grid>
 		</GroupBox>
 		<Label Content="{Binding Error}" Style="{StaticResource ErrorMessage}" HorizontalAlignment="Left" Margin="12,77,0,0" VerticalAlignment="Top" />

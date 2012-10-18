@@ -23,9 +23,14 @@ namespace AspNetMembershipManager
             
             ConfigureLogging();
 
-            LoadRemoteConfig();
-
-            DisplayDashboard();
+			if (! LoadRemoteConfig())
+            {
+                Current.Shutdown();
+            }
+			else
+			{
+	            DisplayDashboard();
+			}
         }
 
 	    private void DisplayDashboard()
@@ -36,17 +41,16 @@ namespace AspNetMembershipManager
             ShutdownMode = ShutdownMode.OnMainWindowClose;
         }
 
-	    private void LoadRemoteConfig()
+	    private bool LoadRemoteConfig()
 	    {
             var initializeDialog = new InitializationWindow();
             var initializationResult = initializeDialog.ShowDialog();
 
-            if (initializationResult != true)
+            if (initializationResult == true)
             {
-                Current.Shutdown();
+                container.Register(Component.For<IProviderManagers>().Instance(initializeDialog.ProviderManagers));	
             }
-
-            container.Register(Component.For<IProviderManagers>().Instance(initializeDialog.ProviderManagers));
+	    	return initializationResult.HasValue && initializationResult.Value;
 	    }
 
 	    private void ClearConfig()

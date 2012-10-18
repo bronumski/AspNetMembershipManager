@@ -33,14 +33,8 @@ namespace AspNetMembershipManager
 
 		private static Type GetProviderTypeFromLoadedAssemblies(ProviderSettings providerSettings)
 		{
-            return Type.GetType(providerSettings.Type);
-            //foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
-            //{
-            //    providerType = assembly.GetType(providerSettings.Type);
-
-            //    if (providerType != null) break;
-            //}
-            //return providerType;
+            return Type.GetType(providerSettings.Type) ??
+				Assembly.Load(new AssemblyName("System.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")).GetType(providerSettings.Type);
 		}
 
 	    private static Type GetProviderTypeFromExternalAssemblies(ProviderSettings providerSettings)

@@ -105,7 +105,8 @@
     <Compile Include="..\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="BoolToVisibleOrHidden.cs" />
+    <Compile Include="BoolToValueConverter.cs" />
+    <Compile Include="BoolToStringConverter.cs" />
     <Compile Include="Logging\DelegateAppender.cs" />
     <Compile Include="Logging\EventLoggedEventArgs.cs" />
     <Compile Include="Logging\Log4NetLogger.cs" />
@@ -124,6 +125,7 @@
       <DependentUpon>InitializationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="User\PasswordBoxAssistant.cs" />
     <Compile Include="User\ProfilePropertyViewModel.cs" />
     <Compile Include="User\Profile\ProfilePropertyWindow.xaml.cs">
       <DependentUpon>ProfilePropertyWindow.xaml</DependentUpon>

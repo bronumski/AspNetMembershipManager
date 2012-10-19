@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Web.Profile;
+using AspNetMembershipManager.Web.Profile;
 
 namespace AspNetMembershipManager.Web.Security
 {
@@ -11,8 +14,9 @@ namespace AspNetMembershipManager.Web.Security
 		private readonly IRoleManager roleManager;
 		private readonly IMapper<string, IRole> roleMapper;
 		private readonly IDictionary<string, IRole> userRoles;
+		private readonly ProfileBase profile;
 		
-		public MembershipUser(System.Web.Security.MembershipUser membershipUser, IMembershipManager membershipManager, IRoleManager roleManager)
+		public MembershipUser(System.Web.Security.MembershipUser membershipUser, IMembershipManager membershipManager, IRoleManager roleManager, IProfileManager profileManager)
 		{
 			this.membershipUser = membershipUser;
 			this.membershipManager = membershipManager;
@@ -28,6 +32,11 @@ namespace AspNetMembershipManager.Web.Security
 			else
 			{
 				userRoles = new Dictionary<string, IRole>();
+			}
+
+			if (profileManager.IsEnabled)
+			{
+				profile = ProfileBase.Create(membershipUser.UserName);
 			}
 		}
 
@@ -67,6 +76,26 @@ namespace AspNetMembershipManager.Web.Security
 			get { return membershipUser.LastLoginDate; }
 		}
 
+		public IEnumerable<SettingsPropertyValue> ProfileProperties
+		{
+			get
+			{
+				if (profile != null)
+				{
+				    if (ProfileBase.Properties.Count > 0)
+				    {
+				        profile.GetPropertyValue(ProfileBase.Properties.Cast<SettingsProperty>().First().Name);
+
+				        return (
+				                   from SettingsPropertyValue property in profile.PropertyValues
+				                   select property
+				               ).ToArray();
+				    }
+				}
+				return Enumerable.Empty<SettingsPropertyValue>();
+			}
+		}
+
 		public void Delete()
 		{
 			membershipManager.DeleteUser(membershipUser.UserName);
@@ -76,19 +105,26 @@ namespace AspNetMembershipManager.Web.Security
 		{
 			membershipManager.UpdateUser(membershipUser);
 
+			SaveUserRoles();
+
+			SaveProfile();
+		}
+
+		private void SaveUserRoles()
+		{
 			if (roleManager.IsEnabled)
 			{
 				var currentRoles = roleManager.GetRolesForUser(UserName);
 
 				var rolesToAdd = from newrole in Roles
-				                  where !(from currentRole in currentRoles select currentRole).Contains(newrole.Name)
-				                  select newrole;
+				                 where !(from currentRole in currentRoles select currentRole).Contains(newrole.Name)
+				                 select newrole;
 
 				var rolesToRemove = from currentRole in currentRoles
-									join newrole in Roles on currentRole equals newrole.Name into outer
-									from o in outer.DefaultIfEmpty()
-									where o == null
-									select currentRole;
+				                    join newrole in Roles on currentRole equals newrole.Name into outer
+				                    from o in outer.DefaultIfEmpty()
+				                    where o == null
+				                    select currentRole;
 
 				foreach (var role in rolesToRemove)
 				{
@@ -98,7 +134,36 @@ namespace AspNetMembershipManager.Web.Security
 				{
 					roleManager.AddUserToRole(UserName, role.Name);
 				}
-            }
+			}
+		}
+
+		private void SaveProfile()
+		{
+			if (profile != null)
+			{
+				if (profile.PropertyValues != null && profile.PropertyValues.Count > 0)
+				{
+					foreach (SettingsProvider prov in System.Web.Profile.ProfileManager.Providers)
+					{
+						var ppcv = new SettingsPropertyValueCollection();
+						foreach (SettingsPropertyValue pp in profile.PropertyValues)
+						{
+							if (pp.Property.Provider.Name == prov.Name)
+							{
+								ppcv.Add(pp);
+							}
+						}
+						if (ppcv.Count > 0)
+						{
+							prov.SetPropertyValues(profile.Context, ppcv);
+						}
+					}
+					foreach (SettingsPropertyValue pp in profile.PropertyValues)
+					{
+						pp.IsDirty = false;
+					}
+				}
+			}
 		}
 
 		public void RemoveFromRole(IRole role)

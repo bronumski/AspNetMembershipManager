@@ -1,3 +1,4 @@
+using AspNetMembershipManager.Web.Profile;
 using AspNetMembershipManager.Web.Security;
 
 namespace AspNetMembershipManager.Web
@@ -6,16 +7,18 @@ namespace AspNetMembershipManager.Web
     {
         private readonly IMembershipManager membershipManager;
     	private readonly IRoleManager roleManager;
+    	private readonly IProfileManager profileManager;
 
-    	public MembershipUserMapper(IMembershipManager membershipManager, IRoleManager roleManager)
+    	public MembershipUserMapper(IMembershipManager membershipManager, IRoleManager roleManager, IProfileManager profileManager)
         {
         	this.membershipManager = membershipManager;
         	this.roleManager = roleManager;
+    		this.profileManager = profileManager;
         }
 
     	public IUser Map(System.Web.Security.MembershipUser source)
         {
-            return new MembershipUser(source, membershipManager, roleManager);
+            return new MembershipUser(source, membershipManager, roleManager, profileManager);
         }
     }
 }

@@ -1,9 +1,30 @@
+using AspNetMembershipManager.Web;
+
 namespace AspNetMembershipManager.User
 {
     class CreateUserModel : SaveViewModelBase
     {
-        public string Username { get; set; }
-        public string EmailAddress { get; set; }
+    	private readonly IMembershipSettings membershipSettings;
+
+    	public CreateUserModel(IMembershipSettings membershipSettings)
+    	{
+    		this.membershipSettings = membershipSettings;
+    	}
+
+    	public string Username { get; set; }
+
+		public string EmailAddress { get; set; }
+
+    	public string Password { get; set; }
+
+    	public bool RequiresQuestionAndAnswer
+    	{
+    		get { return membershipSettings.RequiresQuestionAndAnswer; }
+    	}
+
+    	public string PasswordQuestion { get; set; }
+
+    	public string PasswordQuestionAnswer { get; set; }
 
     	public override string this[string columnName]
     	{
@@ -11,21 +32,30 @@ namespace AspNetMembershipManager.User
     		{
     			switch (columnName)
     			{
-					case "EmailAddress":
-						if (string.IsNullOrEmpty(EmailAddress) || EmailAddress.Length < 3)
-						{
-							return "Please enter a valid email address";
-						}
-						break;
                     case "Username":
                         if (string.IsNullOrEmpty(Username))
 						{
 							return "Please enter a unique username";
 						}
 						break;
+					case "Password":
+                        if (! ValidatePassword(Password))
+						{
+							return "Password does not meet the length or complexity requirements";
+						}
+						break;
     			}
     			return string.Empty;
     		}
     	}
+
+		private bool ValidatePassword(string password)
+		{
+			if (password.Length < membershipSettings.MinRequiredPasswordLength)
+			{
+				return false;
+			}
+			return true;
+		}
     }
 }

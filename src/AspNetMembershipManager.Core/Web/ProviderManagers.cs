@@ -19,13 +19,18 @@ namespace AspNetMembershipManager.Web
 			this.roleManager = roleManager;
 			ProfileManager = profileManager;
 
-	        membershipUserMapper = new MembershipUserMapper(this.membershipManager, roleManager);
+	        membershipUserMapper = new MembershipUserMapper(this.membershipManager, roleManager, profileManager);
 	        roleMapper = new RoleMapper(this.roleManager);
 		}
 
 	    public IProfileManager ProfileManager { get; private set; }
 
-	    public bool RolesEnabled
+		public IMembershipSettings MembershipSettings
+		{
+			get { return new MembershipSettings(); }
+		}
+
+		public bool RolesEnabled
         {
             get { return roleManager.IsEnabled; }
         }
@@ -35,9 +40,9 @@ namespace AspNetMembershipManager.Web
 	        return membershipUserMapper.MapAll(membershipManager.GetAllUsers());
 		}
 
-		public IUser CreateUser(string username, string password, string emailAddress)
+		public IUser CreateUser(string username, string password, string emailAddress, string passwordQuestion, string passwordQuestionAnswer)
 		{
-			var status = membershipManager.CreateUser(username, password, emailAddress);
+			var status = membershipManager.CreateUser(username, password, emailAddress, passwordQuestion, passwordQuestionAnswer);
 
 			if (status == MembershipCreateStatus.Success)
 			{

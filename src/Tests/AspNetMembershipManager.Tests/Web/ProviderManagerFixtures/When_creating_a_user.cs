@@ -24,19 +24,19 @@ namespace AspNetMembershipManager.Web.ProviderManagerFixtures
 		[Test]
 		public void Should_call_create_with_username()
 		{
-			GetDependency<IMembershipManager>().Received().CreateUser(Arg.Is<string>(x => x == userName), Arg.Any<string>(), Arg.Any<string>());
+			GetDependency<IMembershipManager>().Received().CreateUser(Arg.Is<string>(x => x == userName), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
 		}
 
 		[Test]
 		public void Should_call_create_with_password()
 		{
-			GetDependency<IMembershipManager>().Received().CreateUser(Arg.Any<string>(), Arg.Is<string>(x => x == password), Arg.Any<string>());
+			GetDependency<IMembershipManager>().Received().CreateUser(Arg.Any<string>(), Arg.Is<string>(x => x == password), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
 		}
 
 		[Test]
 		public void Should_call_create_with_email()
 		{
-			GetDependency<IMembershipManager>().Received().CreateUser(Arg.Any<string>(), Arg.Any<string>(), Arg.Is<string>(x => x == emailAddress));
+			GetDependency<IMembershipManager>().Received().CreateUser(Arg.Any<string>(), Arg.Any<string>(), Arg.Is<string>(x => x == emailAddress), Arg.Any<string>(), Arg.Any<string>());
 		}
 
 		protected override void SetupDependencies()
@@ -63,7 +63,7 @@ namespace AspNetMembershipManager.Web.ProviderManagerFixtures
 
 		protected override Func<IUser> ActWithResult(ProviderManagers classUnderTest)
 		{
-			return () => classUnderTest.CreateUser(userName, password, emailAddress);
+			return () => classUnderTest.CreateUser(userName, password, emailAddress, null, null);
 		}
 	}
 }

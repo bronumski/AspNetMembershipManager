@@ -16,8 +16,12 @@ namespace AspNetMembershipManager.User
 			this.property = property;
 
 			converter = TypeDescriptor.GetConverter(PropertyType);
-			originalValue = property.PropertyValue;
-			valueAsString = converter.ConvertToString(property.PropertyValue);
+			try
+			{
+				originalValue = property.PropertyValue;
+				valueAsString = converter.ConvertToString(property.PropertyValue);
+			}
+			catch (Exception) {}
 		}
 
 		public string PropertyName

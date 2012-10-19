@@ -27,11 +27,12 @@ namespace AspNetMembershipManager.Web.MembershipUserFixtures.When_getting_users_
 
             roleManager.GetRolesForUser(userName).Returns(roles);
             roleManager.IsEnabled.Returns(true);
+
+			GetDependency<System.Web.Security.MembershipUser>().UserName.Returns(userName);
         }
 
         protected override Func<IEnumerable<IRole>> ActWithResult(MembershipUser classUnderTest)
         {
-			classUnderTest.UserName.Returns(userName);
             return () => classUnderTest.Roles;
         }
     }

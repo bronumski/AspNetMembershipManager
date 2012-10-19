@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 
 namespace AspNetMembershipManager.Web
 {
@@ -12,6 +13,7 @@ namespace AspNetMembershipManager.Web
 		bool IsLockedOut { get; }
 		DateTime CreationDate { get; }
 		DateTime LastLoginDate { get; }
+		IEnumerable<SettingsPropertyValue> ProfileProperties { get; }
 		void Delete();
 		void Save();
 		void RemoveFromRole(IRole role);

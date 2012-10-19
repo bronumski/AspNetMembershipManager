@@ -1,7 +1,11 @@
 ﻿<Window x:Class="AspNetMembershipManager.User.UserDetailsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		FocusManager.FocusedElement="{Binding ElementName=txtUserName}"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:AspNetMembershipManager.User"
+        FocusManager.FocusedElement="{Binding ElementName=txtUserName}"
+		d:DataContext="{d:DesignInstance vm:UserDetailsModel}" mc:Ignorable="d"
         Title="User Details" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" Height="400" Width="805" ResizeMode="NoResize">
 	<Window.CommandBindings>
 		<CommandBinding Command="Save" CanExecute="SaveUser_CanExecute" Executed="SaveUser_Executed" />
@@ -27,12 +31,17 @@
 		</GroupBox>
 		<GroupBox Header="Profile" Height="197" HorizontalAlignment="Left" VerticalAlignment="Top" Width="580" Margin="10,110,0,0">
     		<Grid>
-				<DataGrid ItemsSource="{Binding Profile, Mode=OneWay}" Margin="6">
+				<DataGrid ItemsSource="{Binding Profile, Mode=OneWay}" Margin="6" IsReadOnly="True">
 					<DataGrid.RowStyle>
 						<Style TargetType="{x:Type DataGridRow}">
 							<EventSetter Event="MouseDoubleClick" Handler="ProfilePropertyDoubleClick"/>
 						</Style>
 					</DataGrid.RowStyle>
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Property name" Binding="{Binding PropertyName}" />
+						<DataGridTextColumn Header="Property value" Binding="{Binding PropertyValue}" />
+						<DataGridTextColumn Header="Property type" Binding="{Binding PropertyType}" />
+					</DataGrid.Columns>
 				</DataGrid>
 			</Grid>
 		</GroupBox>

@@ -10,6 +10,13 @@ namespace AspNetMembershipManager
 {
 	public class ProviderFactory : IProviderFactory
 	{
+		private readonly DirectoryInfo binDirectory;
+
+		public ProviderFactory(DirectoryInfo binDirectory)
+		{
+			this.binDirectory = binDirectory;
+		}
+
 		public TProvider CreateProviderFromConfig<TProvider>(ProviderSettings providerSettings) where TProvider : ProviderBase
 		{
 			Type providerType = GetProviderTypeFromLoadedAssemblies(providerSettings) ??
@@ -37,25 +44,17 @@ namespace AspNetMembershipManager
 				Assembly.Load(new AssemblyName("System.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")).GetType(providerSettings.Type);
 		}
 
-	    private static Type GetProviderTypeFromExternalAssemblies(ProviderSettings providerSettings)
+	    private Type GetProviderTypeFromExternalAssemblies(ProviderSettings providerSettings)
 		{
-			var webConfigDirectory = new FileInfo(providerSettings.CurrentConfiguration.FilePath).Directory;
-	        var binDirectory = webConfigDirectory.GetDirectories("bin").FirstOrDefault();
-
-            if (binDirectory == null)
-            {
-                throw new DirectoryNotFoundException("Could not find web site bin folder. Bin folder should be in the same directory as the web.config");
-            }
-
 			var typeName = new TypeName(providerSettings.Type);
 
 	        return
-	            AttemptToGetTypeFromSpecificAssemblyInBin(typeName, binDirectory) ??
-	            AttemptToGetTypeFromAnyAssemblyInBin(typeName, binDirectory) ??
+	            AttemptToGetTypeFromSpecificAssemblyInBin(typeName) ??
+	            AttemptToGetTypeFromAnyAssemblyInBin(typeName) ??
 	            AttemptToGetTypeFromGacAssembly(typeName);
 		}
 
-        private static Type AttemptToGetTypeFromSpecificAssemblyInBin(TypeName typeName, DirectoryInfo binDirectory)
+        private Type AttemptToGetTypeFromSpecificAssemblyInBin(TypeName typeName)
         {
             if (typeName.AssemblyName != null)
             {
@@ -71,7 +70,7 @@ namespace AspNetMembershipManager
             return null;
         }
 
-	    private static Type AttemptToGetTypeFromAnyAssemblyInBin(TypeName typeName, DirectoryInfo binDirectory)
+	    private Type AttemptToGetTypeFromAnyAssemblyInBin(TypeName typeName)
         {
             if (typeName.AssemblyName == null)
             {
@@ -112,7 +111,8 @@ namespace AspNetMembershipManager
                 this.assembly = assembly;
                 this.typeName = typeName;
 
-                AppDomain.CurrentDomain.TypeResolve += TypeResolve;
+				AppDomain.CurrentDomain.TypeResolve += TypeResolve;
+                AppDomain.CurrentDomain.AssemblyResolve += AssemblyResolve;
             }
 
             private Assembly TypeResolve(object obj, ResolveEventArgs args)
@@ -123,6 +123,15 @@ namespace AspNetMembershipManager
                 }
                 return null;
             }
+
+			private Assembly AssemblyResolve(object obj, ResolveEventArgs args)
+			{
+				if (args.Name == assembly.FullName)
+				{
+					return assembly;
+				}
+				return null;
+			}
         }
 	}
 }

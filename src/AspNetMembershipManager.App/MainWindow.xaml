@@ -53,6 +53,7 @@
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 								<DataGridTextColumn Header="Role name" Binding="{Binding Name}" />
+								<DataGridTextColumn Header="Number of users" Binding="{Binding UsersInRole}" />
 							</DataGrid.Columns>
 						</DataGrid>
 					</Grid>

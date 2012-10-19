@@ -39,11 +39,16 @@ namespace AspNetMembershipManager
 
         	var remoteWebConfigurationGroup = (SystemWebSectionGroup)remoteConfiguration.GetSectionGroup(SystemWebGroupName);
 
-        	((SystemWebSectionGroup) localConfiguration.GetSectionGroup(SystemWebGroupName))
-        		.Profile.SectionInformation.SetRawXml(remoteWebConfigurationGroup.Profile.SectionInformation.GetRawXml());
+			var localWebConfigurationGroup = (SystemWebSectionGroup)localConfiguration.GetSectionGroup(SystemWebGroupName);
+        	
+			localWebConfigurationGroup.Membership.SectionInformation.SetRawXml(
+				remoteWebConfigurationGroup.Membership.SectionInformation.GetRawXml());
+			localWebConfigurationGroup.Profile.SectionInformation.SetRawXml(
+				remoteWebConfigurationGroup.Profile.SectionInformation.GetRawXml());
         	
     		localConfiguration.Save();
 
+			ConfigurationManager.RefreshSection("system.web/membership");
             ConfigurationManager.RefreshSection("system.web/profile");
 
 			if (remoteWebConfigurationGroup == null)
@@ -138,7 +143,7 @@ namespace AspNetMembershipManager
     		Membership.Providers.Clear();
     		Membership.Providers.Add(membershipProvider);
     		
-			return new MembershipManager( membershipProvider, membershipSection);
+			return new MembershipManager(membershipProvider);
     	}
 
     	private IRoleManager LoadAndInitializeRoleProvider(SystemWebSectionGroup remoteWebConfigurationGroup)

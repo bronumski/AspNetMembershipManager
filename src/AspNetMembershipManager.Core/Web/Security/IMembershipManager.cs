@@ -8,7 +8,7 @@ namespace AspNetMembershipManager.Web.Security
 		bool DeleteUser(string userName);
 		IEnumerable<System.Web.Security.MembershipUser> GetAllUsers();
 		void UpdateUser(System.Web.Security.MembershipUser user);
-		MembershipCreateStatus CreateUser(string username, string password, string emailAddress);
+		MembershipCreateStatus CreateUser(string username, string password, string emailAddress, string passwordQuestion, string passwordQuestionAnswer);
 		System.Web.Security.MembershipUser GetUser(string username);
 	}
 }

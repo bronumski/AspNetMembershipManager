@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Configuration;
-using System.Web.Profile;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using AspNetMembershipManager.User.Profile;
 using AspNetMembershipManager.Web;
-using AspNetMembershipManager.Web.Profile;
 
 namespace AspNetMembershipManager.User
 {
@@ -16,10 +13,8 @@ namespace AspNetMembershipManager.User
 	partial class UserDetailsWindow : Window
 	{
 		private readonly UserDetailsModel userDetails;
-	    private readonly IProfileManager profileManager;
 		private int errors;
 		private readonly IUser user;
-		private ProfileBase profileBase;
 
 		internal UserDetailsWindow(Window parentWindow, IUser user, IProviderManagers providerManagers)
 		{
@@ -27,13 +22,7 @@ namespace AspNetMembershipManager.User
 			Owner = parentWindow;
 			InitializeComponent();
 
-            profileManager = providerManagers.ProfileManager;
-		    profileBase = null;
-            if (profileManager.IsEnabled)
-            {
-                profileBase = ProfileBase.Create(user.UserName);
-            }
-            userDetails = new UserDetailsModel(user, providerManagers, profileBase);
+            userDetails = new UserDetailsModel(user, providerManagers);
 
 			DataContext = userDetails;
 		}
@@ -60,39 +49,7 @@ namespace AspNetMembershipManager.User
         {
         	try
         	{
-                //Transaction scope does not work with SqlCE in this context
-                //"The connection object can not be enlisted in transaction scope."
-				//using (var transactionScope = new TransactionScope())
-				{
-					user.Save();
-
-                    if (System.Web.Profile.ProfileManager.Enabled)
-                    {
-                        if (profileBase.PropertyValues != null && profileBase.PropertyValues.Count > 0)
-                        {
-                            foreach (SettingsProvider prov in System.Web.Profile.ProfileManager.Providers)
-                            {
-                                var ppcv = new SettingsPropertyValueCollection();
-                                foreach (SettingsPropertyValue pp in profileBase.PropertyValues)
-                                {
-                                    if (pp.Property.Provider.Name == prov.Name)
-                                    {
-                                        ppcv.Add(pp);
-                                    }
-                                }
-                                if (ppcv.Count > 0)
-                                {
-                                    prov.SetPropertyValues(profileBase.Context, ppcv);
-                                }
-                            }
-                            foreach (SettingsPropertyValue pp in profileBase.PropertyValues)
-                            {
-                                pp.IsDirty = false;
-                            }
-                        }
-                    }
-				    //transactionScope.Complete();
-				}
+				user.Save();
 
         		DialogResult = e.Handled = true;
                 Close();

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Web.Profile;
 using AspNetMembershipManager.Web;
 
 namespace AspNetMembershipManager.User
@@ -9,23 +9,15 @@ namespace AspNetMembershipManager.User
 	class UserDetailsModel : SaveViewModelBase
     {
 		private readonly IUser user;
-		private readonly ProfileBase profile;
 		private readonly IEnumerable<UserInRole> userRoles; 
 
-		public UserDetailsModel(IUser user, IProviderManagers providerManagers, ProfileBase profile)
+		public UserDetailsModel(IUser user, IProviderManagers providerManagers)
 		{
 			this.user = user;
-			this.profile = profile;
 
 			if (providerManagers.RolesEnabled)
 			{
 				userRoles = providerManagers.GetAllRoles().Select(x => new UserInRole(x, user));
-
-				//    userRoles = (
-				//        from role in roleManager.GetAllRoles().Select(x => x.Name)
-				//        join userInRole in user.Roles on role equals userInRole.Name into outer
-				//        from o in outer.DefaultIfEmpty()
-				//    select new UserInRole(role, o != null)).ToList();
 			}
 		}
 
@@ -49,20 +41,18 @@ namespace AspNetMembershipManager.User
 		{
 			get
 			{
-                if (profile != null)
-                {
-                    if (ProfileBase.Properties.Count > 0)
-                    {
-                        profile.GetPropertyValue(ProfileBase.Properties.Cast<SettingsProperty>().First().Name);
-
-                        return (
-                                   from SettingsPropertyValue property in profile.PropertyValues
-                                   select new ProfilePropertyViewModel(property)
-                               ).ToArray();
-                    }
-                }
-			    return Enumerable.Empty<ProfilePropertyViewModel>();
+				return user.ProfileProperties.Select(CreateProfilePropertyViewModel);
 			}
+		}
+
+		private static ProfilePropertyViewModel CreateProfilePropertyViewModel(SettingsPropertyValue x)
+		{
+			try
+			{
+				return new ProfilePropertyViewModel(x);
+			}
+			catch (Exception) { }
+			return null;
 		}
 
 		public override string this[string columnName]

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Configuration;
 using System.Configuration.Provider;
+using System.IO;
+using System.Reflection;
 using System.Web.Profile;
 using System.Web.Security;
 using FluentAssertions;
@@ -20,7 +22,7 @@ namespace AspNetMembershipManager.ProviderFactoryFixtures
 		[SetUp]
 		public void SetUp()
 		{
-			providerFactory = new ProviderFactory();
+			providerFactory = new ProviderFactory(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory);
 
 			var settings = new ProviderSettings();
 			settings.Name = "TestProvider";

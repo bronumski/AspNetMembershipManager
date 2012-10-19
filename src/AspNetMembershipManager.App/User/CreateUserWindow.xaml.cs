@@ -1,10 +1,8 @@
-﻿using System;
-using System.Web.Security;
+﻿using System.Web.Security;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using AspNetMembershipManager.Web;
-using AspNetMembershipManager.Web.Security;
 
 namespace AspNetMembershipManager.User
 {
@@ -23,7 +21,7 @@ namespace AspNetMembershipManager.User
 
             this.providerManagers = providerManagers;
 
-            createUserModel = new CreateUserModel();
+            createUserModel = new CreateUserModel(providerManagers.MembershipSettings);
             DataContext = createUserModel;
         }
 
@@ -53,8 +51,10 @@ namespace AspNetMembershipManager.User
         	{
 				IUser user = providerManagers.CreateUser(
                                             createUserModel.Username,
-                                            txtPassword.Password,
-                                            createUserModel.EmailAddress);
+                                            createUserModel.Password,
+                                            createUserModel.EmailAddress,
+											createUserModel.PasswordQuestion,
+											createUserModel.PasswordQuestionAnswer);
                 DialogResult = e.Handled = true;
                 Close();
         	}

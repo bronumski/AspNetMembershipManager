@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Windows;
 using AspNetMembershipManager.Web;
 
@@ -44,7 +46,15 @@ namespace AspNetMembershipManager.Initialization
 		{
 			try
 			{
-				ProviderManagers = new WebProviderInitializer(new ProviderFactory()).InitializeFromConfigurationFile(viewModel.ConfigurationPath, viewModel.CreateMembershipDatabases);
+				var webConfigDirectory = new FileInfo(viewModel.ConfigurationPath).Directory;
+				var binDirectory = webConfigDirectory.GetDirectories("bin").FirstOrDefault();
+
+				if (binDirectory == null)
+				{
+					throw new DirectoryNotFoundException("Could not find web site bin folder. Bin folder should be in the same directory as the web.config");
+				}
+
+				ProviderManagers = new WebProviderInitializer(new ProviderFactory(binDirectory)).InitializeFromConfigurationFile(viewModel.ConfigurationPath, viewModel.CreateMembershipDatabases);
 
 				DialogResult = true;
 				Close();

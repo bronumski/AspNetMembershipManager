@@ -64,8 +64,10 @@
     <Compile Include="MapperExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProviderFactory.cs" />
+    <Compile Include="Web\IMembershipSettings.cs" />
     <Compile Include="Web\IRole.cs" />
     <Compile Include="Web\IUser.cs" />
+    <Compile Include="Web\MembershipSettings.cs" />
     <Compile Include="Web\MembershipUserMapper.cs" />
     <Compile Include="Web\Security\Role.cs" />
     <Compile Include="StringExtensions.cs" />

@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="User profile property" Height="238" Width="578"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:AspNetMembershipManager.User"
+        d:DataContext="{d:DesignInstance vm:ProfilePropertyViewModel}" 
 		mc:Ignorable="d" 
 		d:DesignHeight="322" d:DesignWidth="668"
 		MinWidth="500" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner">

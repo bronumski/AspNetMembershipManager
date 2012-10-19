@@ -1,17 +1,16 @@
 using System.Collections.Generic;
-using AspNetMembershipManager.Web.Profile;
 
 namespace AspNetMembershipManager.Web
 {
 	public interface IProviderManagers
 	{
-		IProfileManager ProfileManager { get; }
+		IMembershipSettings MembershipSettings { get; }
 
 	    bool RolesEnabled { get; }
 
 	    IEnumerable<IUser> GetAllUsers();
 
-		IUser CreateUser(string username, string password, string emailAddress);
+		IUser CreateUser(string username, string password, string emailAddress, string passwordQuestion, string passwordQuestionAnswer);
 
 	    IEnumerable<IRole> GetAllRoles();
 

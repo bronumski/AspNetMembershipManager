@@ -9,7 +9,7 @@ namespace AspNetMembershipManager.Web.Security
 	{
 		private readonly MembershipProvider membershipProvider;
 
-		public MembershipManager(MembershipProvider membershipProvider, MembershipSection membershipSection)
+		public MembershipManager(MembershipProvider membershipProvider)
 		{
 			this.membershipProvider = membershipProvider;
 		}
@@ -30,10 +30,10 @@ namespace AspNetMembershipManager.Web.Security
 			membershipProvider.UpdateUser(user);
 		}
 
-		public MembershipCreateStatus CreateUser(string username, string password, string emailAddress)
+		public MembershipCreateStatus CreateUser(string username, string password, string emailAddress, string passwordQuestion, string passwordQuestionAnswer)
 		{
 			MembershipCreateStatus createStatus;
-			membershipProvider.CreateUser(username, password, emailAddress, null, null, true, null, out createStatus);
+			membershipProvider.CreateUser(username, password, emailAddress, passwordQuestion, passwordQuestionAnswer, true, null, out createStatus);
 
 			return createStatus;
 		}

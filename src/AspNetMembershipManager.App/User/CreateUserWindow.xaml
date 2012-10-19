@@ -10,7 +10,7 @@
     <Window.CommandBindings>
         <CommandBinding Command="Save" CanExecute="Save_CanExecute" Executed="Save_Executed" />
     </Window.CommandBindings>
-    <Grid>
+	<Grid>
 		<GroupBox Header="User details" Height="110" HorizontalAlignment="Stretch" Margin="12" VerticalAlignment="Top">
             <Grid>
                 <Grid.ColumnDefinitions>

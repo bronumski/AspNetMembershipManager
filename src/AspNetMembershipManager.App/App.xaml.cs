@@ -2,12 +2,9 @@
 using System.IO;
 using System.Windows;
 using AspNetMembershipManager.Initialization;
-using AspNetMembershipManager.Logging;
 using AspNetMembershipManager.Web;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
-using log4net.Config;
-using log4net.Layout;
 
 namespace AspNetMembershipManager
 {
@@ -22,8 +19,6 @@ namespace AspNetMembershipManager
 	    {
             ClearConfig();
             
-            ConfigureLogging();
-
 			if (! LoadRemoteConfig())
             {
                 Current.Shutdown();
@@ -59,26 +54,7 @@ namespace AspNetMembershipManager
 			File.Delete(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile);
 		}
 
-	    private static void ConfigureLogging()
-        {
-            XmlConfigurator.Configure();
-
-            var pl = new PatternLayout
-            {
-                ConversionPattern =
-                    "%date{HH:mm:ss.fff} : %5level [%logger] - [%thread] - %newline%message%exception%newline%newline"
-            };
-            pl.ActivateOptions();
-
-            var delegateAppender = new DelegateAppender { Name = "DelegateAppender", Layout = pl };
-            delegateAppender.ActivateOptions();
-
-            BasicConfigurator.Configure(delegateAppender);
-
-            LoggerProvider.Provider = new Log4NetLoggerProvider();
-        }
-
-	    private void Application_Exit(object sender, ExitEventArgs e)
+		private void Application_Exit(object sender, ExitEventArgs e)
 	    {
 	        container.Dispose();
 	    }

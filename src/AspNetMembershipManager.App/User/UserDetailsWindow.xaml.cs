@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Configuration;
-using System.Transactions;
 using System.Web.Profile;
-using System.Web.Security;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using AspNetMembershipManager.User.Profile;
 using AspNetMembershipManager.Web;
 using AspNetMembershipManager.Web.Profile;
-using AspNetMembershipManager.Web.Security;
 
 namespace AspNetMembershipManager.User
 {
@@ -23,12 +20,10 @@ namespace AspNetMembershipManager.User
 		private int errors;
 		private readonly IUser user;
 		private ProfileBase profileBase;
-	    private readonly IProviderManagers providerManagers;
 
-	    internal UserDetailsWindow(Window parentWindow, IUser user, IProviderManagers providerManagers)
+		internal UserDetailsWindow(Window parentWindow, IUser user, IProviderManagers providerManagers)
 		{
-	        this.providerManagers = providerManagers;
-	        this.user = user;
+	    	this.user = user;
 			Owner = parentWindow;
 			InitializeComponent();
 
@@ -94,27 +89,6 @@ namespace AspNetMembershipManager.User
                             {
                                 pp.IsDirty = false;
                             }
-                        }
-                    }
-
-                    if (providerManagers.RolesEnabled)
-                    {
-                        foreach (var userInRole in userDetails.Roles)
-                        {
-                            //if (userInRole.IsMember)
-                            //{
-                            //    if (!roleManager.IsUserInRole(userDetails.Username, userInRole.RoleName))
-                            //    {
-                            //        roleManager.AddUserToRole(userDetails.Username, userInRole.RoleName);
-                            //    }
-                            //}
-                            //else
-                            //{
-                            //    if (roleManager.IsUserInRole(userDetails.Username, userInRole.RoleName))
-                            //    {
-                            //        roleManager.RemoveUserFromRole(userDetails.Username, userInRole.RoleName);
-                            //    }
-                            //}
                         }
                     }
 				    //transactionScope.Complete();

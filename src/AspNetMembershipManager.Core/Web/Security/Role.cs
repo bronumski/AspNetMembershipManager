@@ -1,8 +1,9 @@
+using System;
 using System.Linq;
 
 namespace AspNetMembershipManager.Web.Security
 {
-    public class Role : IRole
+    public class Role : IRole, IEquatable<IRole>
     {
         private readonly IRoleManager roleManager;
 
@@ -23,5 +24,23 @@ namespace AspNetMembershipManager.Web.Security
         {
         	roleManager.DeleteRole(Name);
         }
+
+		public override bool Equals(object obj)
+		{
+			if (ReferenceEquals(null, obj)) return false;
+			if (ReferenceEquals(this, obj)) return true;
+			if (obj.GetType() != typeof (Role)) return false;
+			return Equals((IRole) obj);
+		}
+
+    	public bool Equals(IRole other)
+    	{
+    		return Name == other.Name;
+    	}
+
+    	public override int GetHashCode()
+    	{
+    		return (Name != null ? Name.GetHashCode() : 0);
+    	}
     }
 }

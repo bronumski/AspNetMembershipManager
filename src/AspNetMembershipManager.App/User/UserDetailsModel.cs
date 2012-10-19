@@ -10,21 +10,23 @@ namespace AspNetMembershipManager.User
     {
 		private readonly IUser user;
 		private readonly ProfileBase profile;
-		private readonly List<UserInRole> userRoles; 
+		private readonly IEnumerable<UserInRole> userRoles; 
 
-		public UserDetailsModel(IUser user, IProviderManagers roleManager, ProfileBase profile)
+		public UserDetailsModel(IUser user, IProviderManagers providerManagers, ProfileBase profile)
 		{
 			this.user = user;
 			this.profile = profile;
 
-            if (roleManager.RolesEnabled)
+			if (providerManagers.RolesEnabled)
 			{
-                userRoles = (
-                    from role in roleManager.GetAllRoles().Select(x => x.Name)
-                    join userInRole in user.Roles on role equals userInRole.Name into outer
-                    from o in outer.DefaultIfEmpty()
-                select new UserInRole(role, o != null)).ToList();
-            }
+				userRoles = providerManagers.GetAllRoles().Select(x => new UserInRole(x, user));
+
+				//    userRoles = (
+				//        from role in roleManager.GetAllRoles().Select(x => x.Name)
+				//        join userInRole in user.Roles on role equals userInRole.Name into outer
+				//        from o in outer.DefaultIfEmpty()
+				//    select new UserInRole(role, o != null)).ToList();
+			}
 		}
 
 		public string Username
@@ -88,15 +90,32 @@ namespace AspNetMembershipManager.User
 
 		internal class UserInRole
 		{
-			public UserInRole(string roleName, bool isMember)
+			private readonly IRole role;
+			private readonly IUser user;
+
+			public UserInRole(IRole role, IUser user)
 			{
-				IsMember = isMember;
-				RoleName = roleName;
+				this.role = role;
+				this.user = user;
 			}
 
-			public bool IsMember { get; set; }
+			public bool IsMember
+			{
+				get { return user.Roles.Contains(role); }
+				set
+				{
+					if (value)
+					{
+						user.AddToRole(role);
+					}
+					else
+					{
+						user.RemoveFromRole(role);
+					}
+				}
+			}
 
-			public string RoleName { get; private set; }
+			public string RoleName { get { return role.Name; } }
 		}
     }
 }

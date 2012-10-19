@@ -9,13 +9,6 @@ namespace AspNetMembershipManager.Web.MembershipUserFixtures.When_saving_a_user
 	[TestFixture]
 	class Given_the_user_has_no_new_roles : AutoMockedSpecificationFor<Security.MembershipUser>
 	{
-		[Test]
-		public void Should_call_save_on_membership_provider()
-		{
-			GetDependency<IMembershipManager>().Received().UpdateUser(
-				Arg.Is<MembershipUser>(x => x == GetDependency<MembershipUser>() ));
-		}
-
         [Test]
         public void Should_not_add_user_to_any_roles()
         {

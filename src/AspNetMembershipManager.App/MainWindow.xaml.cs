@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Linq;
-using System.Web.Security;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using AspNetMembershipManager.Initialization;
 using AspNetMembershipManager.Role;
 using AspNetMembershipManager.User;
 using AspNetMembershipManager.Web;
-using AspNetMembershipManager.Web.Security;
 
 namespace AspNetMembershipManager
 {

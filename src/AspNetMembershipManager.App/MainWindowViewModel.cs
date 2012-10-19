@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Web.Security;
 using AspNetMembershipManager.Web;
-using AspNetMembershipManager.Web.Security;
 
 namespace AspNetMembershipManager
 {

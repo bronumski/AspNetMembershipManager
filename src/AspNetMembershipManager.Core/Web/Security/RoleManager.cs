@@ -8,25 +8,23 @@ namespace AspNetMembershipManager.Web.Security
 	{
 		private readonly RoleProvider roleProvider;
 		private readonly RoleManagerSection roleSection;
-		private readonly IMapper<string, RoleDetails> roleMapper;
 
 		public RoleManager(RoleProvider roleProvider, RoleManagerSection roleSection)
 		{
 			this.roleProvider = roleProvider;
 			this.roleSection = roleSection;
-			roleMapper = new UserRoleRoleDetailsMapper(roleProvider);
 		}
 
 		public bool IsEnabled { get { return roleSection.Enabled; } }
 
-		public bool DeleteRole(string name, bool throwOnPopulatedRole)
+		public bool DeleteRole(string name)
 		{
-			return roleProvider.DeleteRole(name, throwOnPopulatedRole);
+			return roleProvider.DeleteRole(name, false);
 		}
 
-		public IEnumerable<RoleDetails> GetAllRoles()
+		public IEnumerable<string> GetAllRoles()
 		{
-			return roleMapper.MapAll(roleProvider.GetAllRoles());
+			return roleProvider.GetAllRoles();
 		}
 
 		public void CreateRole(string roleName)
@@ -53,5 +51,10 @@ namespace AspNetMembershipManager.Web.Security
 		{
 			roleProvider.RemoveUserFromRole(username, roleName);
 		}
+
+	    public IEnumerable<string> GetUsersInRole(string roleName)
+	    {
+	        return roleProvider.GetUsersInRole(roleName);
+	    }
 	}
 }

@@ -4,7 +4,7 @@ namespace AspNetMembershipManager.Web
 	{
 		string UserName { get; }
 		string EmailAddress { get; set; }
-		bool Delete();
+		void Delete();
 		void Save();
 	}
 }

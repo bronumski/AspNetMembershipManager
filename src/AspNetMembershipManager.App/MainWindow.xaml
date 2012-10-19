@@ -8,7 +8,7 @@
 		</Grid.Resources>
 		<DockPanel>
 			<TabControl Margin="12">
-				<TabItem Header="Users" Name="tabUsers">
+				<TabItem Header="Users">
 					<Grid>
 						<DataGrid ItemsSource="{Binding Users}" Margin="6,37,6,6">
 							<DataGrid.RowStyle>
@@ -17,37 +17,44 @@
 								</Style>
 							</DataGrid.RowStyle>
 							<DataGrid.Columns>
-								<DataGridTemplateColumn>
-									<DataGridTemplateColumn.CellTemplate>
-										<DataTemplate>
-											<Button Click="DeleteUser">Delete</Button>
-										</DataTemplate>
-									</DataGridTemplateColumn.CellTemplate>
-								</DataGridTemplateColumn>
-								<DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Actions">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Click="DeleteUser">Delete</Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Username">
 									<DataGridTemplateColumn.CellTemplate>
 										<DataTemplate>
 											<Label Content="{Binding UserName}" />
 										</DataTemplate>
 									</DataGridTemplateColumn.CellTemplate>
 								</DataGridTemplateColumn>
-							</DataGrid.Columns>
+                            </DataGrid.Columns>
 						</DataGrid>
 						<Button Content="Create new user" Height="23" HorizontalAlignment="Right" Margin="0,6,6,0" Name="btnCreateUser" VerticalAlignment="Top" Width="114" Click="btnCreateUser_Click" />
 					</Grid>
 				</TabItem>
-				<TabItem Header="Roles" Name="tabRoles" Visibility="{Binding RolesEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+				<TabItem Header="Roles" Visibility="{Binding RolesEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
 					<Grid>
 						<Button Content="Create new role" Height="23" HorizontalAlignment="Right" Margin="0,6,6,0" Name="btnCreateRole" VerticalAlignment="Top" Width="114" Click="btnCreateRole_Click" />
 						<DataGrid ItemsSource="{Binding Roles}" Margin="6,37,6,6">
 							<DataGrid.Columns>
-								<DataGridTemplateColumn>
-									<DataGridTemplateColumn.CellTemplate>
-										<DataTemplate>
-											<Button Click="DeleteRole">Delete</Button>
-										</DataTemplate>
-									</DataGridTemplateColumn.CellTemplate>
-								</DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Actions">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Click="DeleteRole">Delete</Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Role name">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding Name}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
 							</DataGrid.Columns>
 						</DataGrid>
 					</Grid>

@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using AspNetMembershipManager.Web;
-using AspNetMembershipManager.Web.Security;
 
 namespace AspNetMembershipManager.Role
 {
@@ -12,23 +11,18 @@ namespace AspNetMembershipManager.Role
     /// </summary>
     public partial class CreateRoleWindow : Window
     {
-        private readonly IRoleManager roleManager;
+        private readonly IProviderManagers providerManagers;
         private readonly CreateRoleModel createRoleModel;
 
-        public CreateRoleWindow(Window parentWindow, IRoleManager roleManager)
+        public CreateRoleWindow(Window parentWindow, IProviderManagers providerManagers)
         {
 			Owner = parentWindow;
 
-            this.roleManager = roleManager;
+            this.providerManagers = providerManagers;
             InitializeComponent();
 
             createRoleModel = new CreateRoleModel();
             DataContext = createRoleModel;
-        }
-
-        private void btnOk_Click(object sender, RoutedEventArgs e)
-        {
-            
         }
 
 		private int errors;
@@ -55,7 +49,7 @@ namespace AspNetMembershipManager.Role
         {
         	try
         	{
-				roleManager.CreateRole(createRoleModel.Name);
+				providerManagers.CreateRole(createRoleModel.Name);
 				DialogResult = e.Handled = true;
 				Close();
         	}

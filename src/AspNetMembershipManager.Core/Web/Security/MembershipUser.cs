@@ -1,14 +1,12 @@
-using System.Web.Security;
-using AspNetMembershipManager.Web.Security;
 
-namespace AspNetMembershipManager.Web
+namespace AspNetMembershipManager.Web.Security
 {
-	public class User : IUser
+	public class MembershipUser : IUser
 	{
-		private readonly MembershipUser membershipUser;
+		private readonly System.Web.Security.MembershipUser membershipUser;
 		private readonly IMembershipManager membershipManager;
 
-		public User(MembershipUser membershipUser, IMembershipManager membershipManager)
+		public MembershipUser(System.Web.Security.MembershipUser membershipUser, IMembershipManager membershipManager)
 		{
 			this.membershipUser = membershipUser;
 			this.membershipManager = membershipManager;
@@ -25,9 +23,9 @@ namespace AspNetMembershipManager.Web
 			set { membershipUser.Email = value; }
 		}
 
-		public bool Delete()
+		public void Delete()
 		{
-			return membershipManager.DeleteUser(membershipUser.UserName);
+			membershipManager.DeleteUser(membershipUser.UserName);
 		}
 
 		public void Save()

@@ -19,13 +19,13 @@ namespace AspNetMembershipManager.Web.Security
 			return membershipProvider.DeleteUser(userName, true);
 		}
 
-		public IEnumerable<MembershipUser> GetAllUsers()
+		public IEnumerable<System.Web.Security.MembershipUser> GetAllUsers()
 		{
 			int totalRecords;
-			return membershipProvider.GetAllUsers(0, int.MaxValue, out totalRecords).Cast<MembershipUser>();
+			return membershipProvider.GetAllUsers(0, int.MaxValue, out totalRecords).Cast<System.Web.Security.MembershipUser>();
 		}
 
-		public void UpdateUser(MembershipUser user)
+		public void UpdateUser(System.Web.Security.MembershipUser user)
 		{
 			membershipProvider.UpdateUser(user);
 		}
@@ -38,7 +38,7 @@ namespace AspNetMembershipManager.Web.Security
 			return createStatus;
 		}
 
-		public MembershipUser GetUser(string username)
+		public System.Web.Security.MembershipUser GetUser(string username)
 		{
 			return membershipProvider.GetUser(username, false);
 		}

@@ -70,10 +70,15 @@
     <Compile Include="ProviderFactoryFixtures\When_loading_a_MembershipProvider_from_a_membership_provider_configuration.cs" />
     <Compile Include="TypeNameFixtures\When_loading_a_type_name_without_a_fully_quallifed_name.cs" />
     <Compile Include="TypeNameFixtures\When_loading_a_type_name_with_a_fully_quallifed_name.cs" />
+    <Compile Include="Web\MembershipUserFixtures\When_saving_a_user\Given_the_user_has_a_new_roles.cs" />
+    <Compile Include="Web\ProviderManagerFixtures\When_creating_a_Role\Given_roles_have_been_enabled.cs" />
     <Compile Include="Web\ProviderManagerFixtures\When_creating_a_user.cs" />
+    <Compile Include="Web\ProviderManagerFixtures\When_getting_All_Roles\Given_roles_have_been_disabled.cs" />
+    <Compile Include="Web\ProviderManagerFixtures\When_getting_All_Roles\Given_roles_have_been_enabled.cs" />
     <Compile Include="Web\ProviderManagerFixtures\When_getting_users .cs" />
-    <Compile Include="Web\UserFixtures\When_deleting_a_user.cs" />
-    <Compile Include="Web\UserFixtures\When_saving_a_user.cs" />
+    <Compile Include="Web\RoleFixtures\When_deleting_a_role.cs" />
+    <Compile Include="Web\MembershipUserFixtures\When_deleting_a_user.cs" />
+    <Compile Include="Web\MembershipUserFixtures\When_saving_a_user\Given_the_user_has_no_new_roles.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AspNetMembershipManager.App\AspNetMembershipManager.App.csproj">

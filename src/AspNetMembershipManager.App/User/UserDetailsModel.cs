@@ -3,7 +3,6 @@ using System.Configuration;
 using System.Linq;
 using System.Web.Profile;
 using AspNetMembershipManager.Web;
-using AspNetMembershipManager.Web.Security;
 
 namespace AspNetMembershipManager.User
 {
@@ -13,19 +12,19 @@ namespace AspNetMembershipManager.User
 		private readonly ProfileBase profile;
 		private readonly List<UserInRole> userRoles; 
 
-		public UserDetailsModel(IUser user, IRoleManager roleManager, ProfileBase profile)
+		public UserDetailsModel(IUser user, IProviderManagers roleManager, ProfileBase profile)
 		{
 			this.user = user;
 			this.profile = profile;
 
-            if (roleManager.IsEnabled)
+            if (roleManager.RolesEnabled)
 			{
-                userRoles = (
-					from role in roleManager.GetAllRoles().Select(x => x.Name)
-					join userInRole in roleManager.GetRolesForUser(user.UserName)
-									on role equals userInRole into outer
-					from o in outer.DefaultIfEmpty()
-				select new UserInRole(role, o != null)).ToList();
+                //userRoles = (
+                //    from role in roleManager.GetAllRoles().Select(x => x.Name)
+                //    join userInRole in roleManager.GetRolesForUser(user.UserName)
+                //                    on role equals userInRole into outer
+                //    from o in outer.DefaultIfEmpty()
+                //select new UserInRole(role, o != null)).ToList();
             }
 		}
 

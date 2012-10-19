@@ -19,27 +19,26 @@ namespace AspNetMembershipManager.User
 	partial class UserDetailsWindow : Window
 	{
 		private readonly UserDetailsModel userDetails;
-        private readonly IRoleManager roleManager;
-        private readonly IMembershipManager membershipManager;
 	    private readonly IProfileManager profileManager;
 		private int errors;
-		private IUser user;
+		private readonly IUser user;
 		private ProfileBase profileBase;
+	    private readonly IProviderManagers providerManagers;
 
 	    internal UserDetailsWindow(Window parentWindow, IUser user, IProviderManagers providerManagers)
 		{
-			this.user = user;
+	        this.providerManagers = providerManagers;
+	        this.user = user;
 			Owner = parentWindow;
 			InitializeComponent();
 
-            roleManager = providerManagers.RoleManager;
             profileManager = providerManagers.ProfileManager;
 		    profileBase = null;
             if (profileManager.IsEnabled)
             {
                 profileBase = ProfileBase.Create(user.UserName);
             }
-			userDetails = new UserDetailsModel(user, roleManager, profileBase);
+            userDetails = new UserDetailsModel(user, providerManagers, profileBase);
 
 			DataContext = userDetails;
 		}
@@ -98,24 +97,24 @@ namespace AspNetMembershipManager.User
                         }
                     }
 
-                    if (roleManager.IsEnabled)
+                    if (providerManagers.RolesEnabled)
                     {
                         foreach (var userInRole in userDetails.Roles)
                         {
-                            if (userInRole.IsMember)
-                            {
-                                if (!roleManager.IsUserInRole(userDetails.Username, userInRole.RoleName))
-                                {
-                                    roleManager.AddUserToRole(userDetails.Username, userInRole.RoleName);
-                                }
-                            }
-                            else
-                            {
-                                if (roleManager.IsUserInRole(userDetails.Username, userInRole.RoleName))
-                                {
-                                    roleManager.RemoveUserFromRole(userDetails.Username, userInRole.RoleName);
-                                }
-                            }
+                            //if (userInRole.IsMember)
+                            //{
+                            //    if (!roleManager.IsUserInRole(userDetails.Username, userInRole.RoleName))
+                            //    {
+                            //        roleManager.AddUserToRole(userDetails.Username, userInRole.RoleName);
+                            //    }
+                            //}
+                            //else
+                            //{
+                            //    if (roleManager.IsUserInRole(userDetails.Username, userInRole.RoleName))
+                            //    {
+                            //        roleManager.RemoveUserFromRole(userDetails.Username, userInRole.RoleName);
+                            //    }
+                            //}
                         }
                     }
 				    //transactionScope.Complete();

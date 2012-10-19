@@ -4,6 +4,7 @@ using AspNetMembershipManager.Web.Security;
 using FluentAssertions;
 using NUnit.Framework;
 using NSubstitute;
+using MembershipUser = System.Web.Security.MembershipUser;
 
 namespace AspNetMembershipManager.Web.ProviderManagerFixtures
 {

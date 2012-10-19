@@ -17,7 +17,7 @@ namespace AspNetMembershipManager
 
 		public IEnumerable<IUser> Users { get; private set; }
 
-		public RoleDetails[] Roles { get; private set; }
+		public Web.Security.Role[] Roles { get; private set; }
 
 		public void RefreshMembershipUsers()
 		{
@@ -26,13 +26,13 @@ namespace AspNetMembershipManager
 			OnPropertyChanged("Users");
 		}
 
-		public bool RolesEnabled { get { return providerManagers.RoleManager.IsEnabled; }}
+		public bool RolesEnabled { get { return providerManagers.RolesEnabled; }}
 
 		public void RefreshRoles()
 		{
 			if (RolesEnabled)
 			{
-				Roles = providerManagers.RoleManager.GetAllRoles().ToArray();
+				//Roles = providerManagers.RoleManager.GetAllRoles().ToArray();
 
 				OnPropertyChanged("Roles");
 			}

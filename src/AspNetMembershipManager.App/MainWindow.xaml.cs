@@ -57,7 +57,7 @@ namespace AspNetMembershipManager
 
         private void btnCreateRole_Click(object sender, RoutedEventArgs e)
         {
-            var createRoleDialog = new CreateRoleWindow(this, providerManagers.RoleManager);
+            var createRoleDialog = new CreateRoleWindow(this, providerManagers);
             var createResult = createRoleDialog.ShowDialog();
 
             if (createResult == true)
@@ -68,11 +68,11 @@ namespace AspNetMembershipManager
 		
 		private void DeleteRole(object sender, RoutedEventArgs e)
 		{
-			var model = (RoleDetails)((Button) sender).DataContext;
+			var role = (IRole)((Button) sender).DataContext;
 
 			if (MessageBox.Show(this, "Delete role?", "Delete role", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 			{
-                providerManagers.RoleManager.DeleteRole(model.Name, false);
+			    role.Delete();
 				
 				RefreshRoles();
 			}

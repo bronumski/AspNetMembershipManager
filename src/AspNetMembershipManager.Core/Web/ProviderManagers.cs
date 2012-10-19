@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Security;
 using AspNetMembershipManager.Web.Profile;
 using AspNetMembershipManager.Web.Security;
@@ -8,31 +7,54 @@ namespace AspNetMembershipManager.Web
 {
 	public class ProviderManagers : IProviderManagers
 	{
-		public ProviderManagers(IMembershipManager membershipManager, IRoleManager roleManager, IProfileManager profileManager)
+	    private readonly IMembershipManager membershipManager;
+	    private readonly IRoleManager roleManager;
+	    private readonly IMapper<string, IRole> roleMapper;
+	    private readonly IMapper<System.Web.Security.MembershipUser, IUser> membershipUserMapper;
+
+	    public ProviderManagers(IMembershipManager membershipManager, IRoleManager roleManager, IProfileManager profileManager)
 		{
-			MembershipManager = membershipManager;
-			RoleManager = roleManager;
+			this.membershipManager = membershipManager;
+			this.roleManager = roleManager;
 			ProfileManager = profileManager;
+
+	        membershipUserMapper = new MembershipUserMapper(this.membershipManager);
+	        roleMapper = new RoleMapper(this.roleManager);
 		}
 
-		public IMembershipManager MembershipManager { get; private set; }
-		public IRoleManager RoleManager { get; private set; }
-		public IProfileManager ProfileManager { get; private set; }
+	    public IProfileManager ProfileManager { get; private set; }
 
-		public IEnumerable<IUser> GetAllUsers()
-		{
-			return MembershipManager.GetAllUsers().Select(x => new User(x, MembershipManager));
+	    public bool RolesEnabled
+        {
+            get { return roleManager.IsEnabled; }
+        }
+
+	    public IEnumerable<IUser> GetAllUsers()
+	    {
+	        return membershipUserMapper.MapAll(membershipManager.GetAllUsers());
 		}
 
 		public IUser CreateUser(string username, string password, string emailAddress)
 		{
-			var status = MembershipManager.CreateUser(username, password, emailAddress);
+			var status = membershipManager.CreateUser(username, password, emailAddress);
 
 			if (status == MembershipCreateStatus.Success)
 			{
-				return new User(MembershipManager.GetUser(username), MembershipManager);
+				return membershipUserMapper.Map(membershipManager.GetUser(username));
 			}
 			throw new MembershipCreateUserException(status);
 		}
+
+	    public IEnumerable<IRole> GetAllRoles()
+	    {
+	        return roleMapper.MapAll(roleManager.GetAllRoles());
+	    }
+
+	    public IRole CreateRole(string roleName)
+	    {
+	        roleManager.CreateRole(roleName);
+
+            return roleMapper.Map(roleName);
+	    }
 	}
 }

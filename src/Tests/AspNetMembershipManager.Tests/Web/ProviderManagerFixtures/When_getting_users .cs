@@ -5,6 +5,7 @@ using AspNetMembershipManager.Web.Security;
 using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
+using MembershipUser = System.Web.Security.MembershipUser;
 
 namespace AspNetMembershipManager.Web.ProviderManagerFixtures
 {
@@ -36,7 +37,7 @@ namespace AspNetMembershipManager.Web.ProviderManagerFixtures
 
 		protected override Func<IEnumerable<IUser>> ActWithResult(ProviderManagers classUnderTest)
 		{
-			return () => classUnderTest.GetAllUsers();
+			return classUnderTest.GetAllUsers;
 		}
 	}
 }

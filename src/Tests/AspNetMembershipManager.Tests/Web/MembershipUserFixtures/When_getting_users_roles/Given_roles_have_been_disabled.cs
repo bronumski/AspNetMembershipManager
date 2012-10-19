@@ -5,13 +5,15 @@ using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace AspNetMembershipManager.Web.ProviderManagerFixtures.When_getting_All_Roles
+namespace AspNetMembershipManager.Web.MembershipUserFixtures.When_getting_users_roles
 {
     [TestFixture]
-    class Given_roles_have_been_disabled : AutoMockedSpecificationFor<ProviderManagers, IEnumerable<IRole>>
+    class Given_roles_have_been_disabled : AutoMockedSpecificationFor<MembershipUser, IEnumerable<IRole>>
     {
-        [Test]
-        public void Should_return_all_the_roles_from_the_membership_provider()
+    	private const string userName = "user name";
+
+    	[Test]
+        public void Should_return_no_roles()
         {
             Result.Should().BeEmpty();
         }
@@ -23,13 +25,14 @@ namespace AspNetMembershipManager.Web.ProviderManagerFixtures.When_getting_All_R
 
             IEnumerable<string> roles = new[] { "Role 1", "Role 2" };
 
-            roleManager.GetAllRoles().Returns(roles);
+            roleManager.GetRolesForUser(userName).Returns(roles);
             roleManager.IsEnabled.Returns(false);
         }
 
-        protected override Func<IEnumerable<IRole>> ActWithResult(ProviderManagers classUnderTest)
+        protected override Func<IEnumerable<IRole>> ActWithResult(MembershipUser classUnderTest)
         {
-            return classUnderTest.GetAllRoles;
+			classUnderTest.UserName.Returns(userName);
+            return () => classUnderTest.Roles;
         }
     }
 }

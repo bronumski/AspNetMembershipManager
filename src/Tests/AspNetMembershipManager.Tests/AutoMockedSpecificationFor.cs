@@ -34,7 +34,12 @@ namespace AspNetMembershipManager
 			mockContainer = new WindsorContainer();
 			CustomWindsorWireup(mockContainer);
 			mockContainer.Register(Component.For<ILazyComponentLoader>().ImplementedBy<LazyComponentAutoMocker>());
-			mockContainer.Register(Component.For<TClassUnderTest>());
+			mockContainer.Register(RegisterClassUnderTest(Component.For<TClassUnderTest>()));
+		}
+
+		protected virtual ComponentRegistration<TClassUnderTest> RegisterClassUnderTest(ComponentRegistration<TClassUnderTest> componentRegistration)
+		{
+			return componentRegistration;
 		}
 
 		protected override TClassUnderTest CreateClassUnderTest()

@@ -1,15 +1,23 @@
 
+using System.Collections.Generic;
+using System.Linq;
+
 namespace AspNetMembershipManager.Web.Security
 {
 	public class MembershipUser : IUser
 	{
 		private readonly System.Web.Security.MembershipUser membershipUser;
 		private readonly IMembershipManager membershipManager;
+		private readonly IRoleManager roleManager;
+		private readonly IMapper<string, IRole> roleMapper; 
 
-		public MembershipUser(System.Web.Security.MembershipUser membershipUser, IMembershipManager membershipManager)
+		public MembershipUser(System.Web.Security.MembershipUser membershipUser, IMembershipManager membershipManager, IRoleManager roleManager)
 		{
 			this.membershipUser = membershipUser;
 			this.membershipManager = membershipManager;
+			this.roleManager = roleManager;
+
+			roleMapper = new RoleMapper(roleManager);
 		}
 
 		public string UserName
@@ -21,6 +29,18 @@ namespace AspNetMembershipManager.Web.Security
 		{
 			get { return membershipUser.Email; }
 			set { membershipUser.Email = value; }
+		}
+
+		public IEnumerable<IRole> Roles
+		{
+			get
+			{
+				if (roleManager.IsEnabled)
+				{
+					return roleMapper.MapAll(roleManager.GetRolesForUser(UserName));
+				}
+				return Enumerable.Empty<IRole>();
+			}
 		}
 
 		public void Delete()

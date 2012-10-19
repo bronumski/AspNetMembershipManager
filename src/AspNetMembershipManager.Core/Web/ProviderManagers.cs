@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Security;
 using AspNetMembershipManager.Web.Profile;
 using AspNetMembershipManager.Web.Security;
@@ -18,7 +19,7 @@ namespace AspNetMembershipManager.Web
 			this.roleManager = roleManager;
 			ProfileManager = profileManager;
 
-	        membershipUserMapper = new MembershipUserMapper(this.membershipManager);
+	        membershipUserMapper = new MembershipUserMapper(this.membershipManager, roleManager);
 	        roleMapper = new RoleMapper(this.roleManager);
 		}
 
@@ -47,7 +48,11 @@ namespace AspNetMembershipManager.Web
 
 	    public IEnumerable<IRole> GetAllRoles()
 	    {
-	        return roleMapper.MapAll(roleManager.GetAllRoles());
+			if (RolesEnabled)
+			{
+				return roleMapper.MapAll(roleManager.GetAllRoles());
+			}
+	    	return Enumerable.Empty<IRole>();
 	    }
 
 	    public IRole CreateRole(string roleName)

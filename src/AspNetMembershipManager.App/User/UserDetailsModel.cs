@@ -19,12 +19,11 @@ namespace AspNetMembershipManager.User
 
             if (roleManager.RolesEnabled)
 			{
-                //userRoles = (
-                //    from role in roleManager.GetAllRoles().Select(x => x.Name)
-                //    join userInRole in roleManager.GetRolesForUser(user.UserName)
-                //                    on role equals userInRole into outer
-                //    from o in outer.DefaultIfEmpty()
-                //select new UserInRole(role, o != null)).ToList();
+                userRoles = (
+                    from role in roleManager.GetAllRoles().Select(x => x.Name)
+                    join userInRole in user.Roles on role equals userInRole.Name into outer
+                    from o in outer.DefaultIfEmpty()
+                select new UserInRole(role, o != null)).ToList();
             }
 		}
 

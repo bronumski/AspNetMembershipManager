@@ -21,7 +21,7 @@ namespace AspNetMembershipManager.Web.Security
 
         public void Delete()
         {
-            throw new System.NotImplementedException();
+        	roleManager.DeleteRole(Name);
         }
     }
 }

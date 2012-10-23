@@ -27,7 +27,7 @@ namespace AspNetMembershipManager.Web
 
 		public IMembershipSettings MembershipSettings
 		{
-			get { return new MembershipSettings(); }
+            get { return membershipManager.Settings; }
 		}
 
 		public bool RolesEnabled

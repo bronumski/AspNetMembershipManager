@@ -10,5 +10,6 @@ namespace AspNetMembershipManager.Web.Security
 		void UpdateUser(System.Web.Security.MembershipUser user);
 		MembershipCreateStatus CreateUser(string username, string password, string emailAddress, string passwordQuestion, string passwordQuestionAnswer);
 		System.Web.Security.MembershipUser GetUser(string username);
+	    IMembershipSettings Settings { get; }
 	}
 }

@@ -4,14 +4,26 @@ namespace AspNetMembershipManager.Web
 {
 	public class MembershipSettings : IMembershipSettings
 	{
-		public int MinRequiredPasswordLength
+	    private readonly MembershipProvider membershipProvider;
+
+	    public MembershipSettings(MembershipProvider membershipProvider)
+	    {
+	        this.membershipProvider = membershipProvider;
+	    }
+
+	    public int MinRequiredPasswordLength
 		{
-			get { return Membership.MinRequiredPasswordLength; }
+            get { return membershipProvider.MinRequiredPasswordLength; }
 		}
 
 		public bool RequiresQuestionAndAnswer
 		{
-			get { return Membership.RequiresQuestionAndAnswer; }
+            get { return membershipProvider.RequiresQuestionAndAnswer; }
 		}
+
+        public int MinRequiredNonAlphanumericCharacters
+        {
+            get { return membershipProvider.MinRequiredNonAlphanumericCharacters; }
+        }
 	}
 }

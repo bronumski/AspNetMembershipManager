@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Configuration;
 using System.Web.Security;
 
 namespace AspNetMembershipManager.Web.Security
@@ -42,5 +41,13 @@ namespace AspNetMembershipManager.Web.Security
 		{
 			return membershipProvider.GetUser(username, false);
 		}
+
+	    public IMembershipSettings Settings
+        {
+            get
+	        {
+	            return new MembershipSettings(membershipProvider);
+	        }
+        }
 	}
 }

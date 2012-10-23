@@ -4,5 +4,6 @@ namespace AspNetMembershipManager.Web
 	{
 		int MinRequiredPasswordLength { get; }
 		bool RequiresQuestionAndAnswer { get; }
+        int MinRequiredNonAlphanumericCharacters { get; }
 	}
 }

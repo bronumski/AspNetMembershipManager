@@ -1,3 +1,4 @@
+using System.Linq;
 using AspNetMembershipManager.Web;
 
 namespace AspNetMembershipManager.User
@@ -51,11 +52,11 @@ namespace AspNetMembershipManager.User
 
 		private bool ValidatePassword(string password)
 		{
-			if (password.Length < membershipSettings.MinRequiredPasswordLength)
+            if (string.IsNullOrEmpty(password) || password.Length < membershipSettings.MinRequiredPasswordLength)
 			{
 				return false;
 			}
-			return true;
+		    return membershipSettings.MinRequiredNonAlphanumericCharacters <= password.Count(c => ! char.IsLetterOrDigit(c));
 		}
     }
 }

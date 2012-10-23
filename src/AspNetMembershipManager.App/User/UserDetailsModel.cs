@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using AspNetMembershipManager.Web;
@@ -47,12 +46,7 @@ namespace AspNetMembershipManager.User
 
 		private static ProfilePropertyViewModel CreateProfilePropertyViewModel(SettingsPropertyValue x)
 		{
-			try
-			{
-				return new ProfilePropertyViewModel(x);
-			}
-			catch (Exception) { }
-			return null;
+			return new ProfilePropertyViewModel(x);
 		}
 
 		public override string this[string columnName]

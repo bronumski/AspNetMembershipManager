@@ -20,6 +20,13 @@
 		</ItemGroup>
 
 	</Target>
+
+  <Target Name="PreBuild">
+
+    <MSBuild.ExtensionPack.Security.Certificate TaskAction="Add" FileName="$(MSBuildProjectDirectory)\..\src\AspNetMembershipManager.App\aspnetmemberman-beta.pfx" CertPassword="">
+    </MSBuild.ExtensionPack.Security.Certificate>
+
+  </Target>
 	
 	<Target Name="PostBuild" DependsOnTargets="Build;GetTargetAssemblies" >
 

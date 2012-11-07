@@ -8,13 +8,14 @@
 		<Version-Major>1</Version-Major>
 		<Version-Minor>0</Version-Minor>
 		<Version-Macro>0</Version-Macro>
+    <AssemblyOutputPath></AssemblyOutputPath>
 	</PropertyGroup>
 
 	<Target Name="GetTargetAssemblies" DependsOnTargets="Build">
 
 		<ItemGroup>
 
-			<TargetAssemblies Include="$(SourceFolder)\AspNetMembershipManager.App\bin\Release\*.dll;$(SourceFolder)\AspNetMembershipManager.App\bin\Release\*.exe" Exclude="$(SourceFolder)\Tests\**\*.*" />
+			<TargetAssemblies Include="$(SourceFolder)\AspNetMembershipManager.App\bin\Release\AspNetMembershipManager*.dll;$(SourceFolder)\AspNetMembershipManager.App\bin\Release\AspNetMembershipManager*.exe" Exclude="$(SourceFolder)\Tests\**\*.*" />
 			<TestAssemblies Include="$(SourceFolder)\Tests\**\bin\Release\AspNetMembershipManager*.Tests.dll" />
 
 		</ItemGroup>

@@ -55,7 +55,7 @@
     <StartupObject>AspNetMembershipManager.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>318292FE7C088506BDB008584E5797EEF9A00236</ManifestCertificateThumbprint>

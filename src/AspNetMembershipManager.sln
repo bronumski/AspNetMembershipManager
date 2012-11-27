@@ -35,6 +35,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebsiteWithCustomProvid
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebsiteWithOnlyMembershipProvider", "Tests\TestWebsiteWithOnlyMembershipProvider\TestWebsiteWithOnlyMembershipProvider.csproj", "{0C93B450-87E1-4185-BFA0-96F55590E2BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebsiteWithCustomProfile", "Tests\TestWebsiteWithCustomProfile\TestWebsiteWithCustomProfile.csproj", "{C1F0D519-837E-4F0A-B1E6-00CD959FB226}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetMembershipManager.TestWebsitesCommon", "Tests\AspNetMembershipManager.TestWebsitesCommon\AspNetMembershipManager.TestWebsitesCommon.csproj", "{CD916A4C-299F-4E57-9121-1ACEAAC87B8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +69,14 @@ Global
 		{0C93B450-87E1-4185-BFA0-96F55590E2BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C93B450-87E1-4185-BFA0-96F55590E2BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C93B450-87E1-4185-BFA0-96F55590E2BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1F0D519-837E-4F0A-B1E6-00CD959FB226}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1F0D519-837E-4F0A-B1E6-00CD959FB226}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1F0D519-837E-4F0A-B1E6-00CD959FB226}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1F0D519-837E-4F0A-B1E6-00CD959FB226}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD916A4C-299F-4E57-9121-1ACEAAC87B8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD916A4C-299F-4E57-9121-1ACEAAC87B8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD916A4C-299F-4E57-9121-1ACEAAC87B8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD916A4C-299F-4E57-9121-1ACEAAC87B8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +86,8 @@ Global
 		{DF5422DE-A5BA-45BD-A61D-F6493D7C507A} = {A6B058F5-CB49-4D21-B489-EFE8B45B114F}
 		{74D90E85-5336-4C51-8C26-AA2967BAE076} = {A6B058F5-CB49-4D21-B489-EFE8B45B114F}
 		{0C93B450-87E1-4185-BFA0-96F55590E2BF} = {A6B058F5-CB49-4D21-B489-EFE8B45B114F}
+		{C1F0D519-837E-4F0A-B1E6-00CD959FB226} = {A6B058F5-CB49-4D21-B489-EFE8B45B114F}
+		{CD916A4C-299F-4E57-9121-1ACEAAC87B8B} = {A6B058F5-CB49-4D21-B489-EFE8B45B114F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = ..\packages\Unity.2.1.505.2\lib\NET35

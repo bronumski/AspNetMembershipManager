@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Web.Profile;
 
-namespace TestWebsiteWithCustomProviders
+namespace AspNetMembershipManager.TestWebsitesCommon
 {
 	public class TestProfileProvider : ProfileProvider
 	{

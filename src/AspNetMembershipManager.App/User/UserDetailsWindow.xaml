@@ -10,8 +10,9 @@
 	<Window.CommandBindings>
 		<CommandBinding Command="Save" CanExecute="SaveUser_CanExecute" Executed="SaveUser_Executed" />
 	</Window.CommandBindings>
-	<Grid>
-		<GroupBox Header="Details" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" Width="580" Margin="10,0,0,0">
+    <Grid>
+
+        <GroupBox Header="Details" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" Width="580" Margin="10,0,0,0">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
@@ -30,18 +31,45 @@
 			</Grid>
 		</GroupBox>
 		<GroupBox Header="Profile" Height="197" HorizontalAlignment="Left" VerticalAlignment="Top" Width="580" Margin="10,110,0,0">
-    		<Grid>
-				<DataGrid ItemsSource="{Binding Profile, Mode=OneWay}" Margin="6" IsReadOnly="True">
-					<DataGrid.RowStyle>
+            <Grid>
+                <!--<DataGrid.RowStyle>
 						<Style TargetType="{x:Type DataGridRow}">
 							<EventSetter Event="MouseDoubleClick" Handler="ProfilePropertyDoubleClick"/>
 						</Style>
-					</DataGrid.RowStyle>
+					</DataGrid.RowStyle>-->
+                <DataGrid ItemsSource="{Binding Profile}" Margin="6">
+					
 					<DataGrid.Columns>
-						<DataGridTextColumn Header="Property name" Binding="{Binding PropertyName}" />
-						<DataGridTextColumn Header="Property value" Binding="{Binding PropertyValue}" />
-						<DataGridTextColumn Header="Property type" Binding="{Binding PropertyType}" />
-					</DataGrid.Columns>
+                        <DataGridTextColumn Header="Property name" Binding="{Binding PropertyName}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Property type" Binding="{Binding PropertyType}" IsReadOnly="True" />
+                        <!--<DataGridTextColumn Header="Property value" Binding="{Binding PropertyValue}" />-->
+                        <DataGridTemplateColumn Header="Property value">
+                            <DataGridTemplateColumn.CellTemplateSelector>
+                                <vm:ProfilePropertyTemplateSelector>
+                                    <vm:ProfilePropertyTemplateSelector.BooleanTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding PropertyValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </DataTemplate>
+                                    </vm:ProfilePropertyTemplateSelector.BooleanTemplate>
+                                    <vm:ProfilePropertyTemplateSelector.StringTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding PropertyValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </DataTemplate>
+                                    </vm:ProfilePropertyTemplateSelector.StringTemplate>
+                                    <vm:ProfilePropertyTemplateSelector.NumberTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding PropertyValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </DataTemplate>
+                                    </vm:ProfilePropertyTemplateSelector.NumberTemplate>
+                                    <vm:ProfilePropertyTemplateSelector.ObjectTemplate>
+                                        <DataTemplate>
+                                            <Button Content="..." Click="CustomProfilePropertyEdit" />
+                                        </DataTemplate>
+                                    </vm:ProfilePropertyTemplateSelector.ObjectTemplate>
+                                </vm:ProfilePropertyTemplateSelector>
+                            </DataGridTemplateColumn.CellTemplateSelector>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
 				</DataGrid>
 			</Grid>
 		</GroupBox>

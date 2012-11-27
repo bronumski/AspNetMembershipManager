@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Security;
 
-namespace TestWebsiteWithCustomProviders
+namespace AspNetMembershipManager.TestWebsitesCommon
 {
     public class TestRoleProvider : RoleProvider
 	{

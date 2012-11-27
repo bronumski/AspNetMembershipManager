@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Security;
 
-namespace TestWebsiteWithCustomProviders
+namespace AspNetMembershipManager.TestWebsitesCommon
 {
     public class TestMembershipProvider : MembershipProvider
     {
@@ -117,7 +117,7 @@ namespace TestWebsiteWithCustomProviders
 
         public override bool RequiresQuestionAndAnswer
         {
-            get { throw new System.NotImplementedException(); }
+            get { return true; }
         }
 
         public override string ApplicationName
@@ -148,12 +148,12 @@ namespace TestWebsiteWithCustomProviders
 
         public override int MinRequiredPasswordLength
         {
-            get { throw new System.NotImplementedException(); }
+            get { return 0; }
         }
 
         public override int MinRequiredNonAlphanumericCharacters
         {
-            get { throw new System.NotImplementedException(); }
+            get { return 0; }
         }
 
         public override string PasswordStrengthRegularExpression

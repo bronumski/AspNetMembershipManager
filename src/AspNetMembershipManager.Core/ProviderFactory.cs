@@ -126,7 +126,7 @@ namespace AspNetMembershipManager
 
 			private Assembly AssemblyResolve(object obj, ResolveEventArgs args)
 			{
-				if (args.Name == assembly.FullName)
+                if (assembly.FullName.StartsWith(args.Name))
 				{
 					return assembly;
 				}

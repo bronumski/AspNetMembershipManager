@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -60,15 +61,60 @@ namespace AspNetMembershipManager.User
         	}
         }
 
-		private void ProfilePropertyDoubleClick(object sender, MouseButtonEventArgs e)
+        private void CustomProfilePropertyEdit(object sender, RoutedEventArgs e)
 		{
-			var row = (DataGridRow) sender;
+            var profileProperty = (ProfilePropertyViewModel)((Button)sender).DataContext;
 
-			var profileProperty = (ProfilePropertyViewModel) row.DataContext;
-
-			var propertyWindow = new ProfilePropertyWindow(this, profileProperty);
+			var propertyWindow = new ProfilePropertyWindow(this, profileProperty.PropertyName, profileProperty.PropertyType, profileProperty.PropertyValue);
 
 			propertyWindow.ShowDialog();
 		}
 	}
+
+    class ProfilePropertyTemplateSelector : DataTemplateSelector
+    {
+        public override DataTemplate SelectTemplate(object item, DependencyObject container)
+        {
+            var profileProperty = item as ProfilePropertyViewModel;
+            if (profileProperty == null)
+            {
+                return null;
+            }
+
+            if (IsNumber(profileProperty))
+            {
+                return NumberTemplate;
+            }
+            if (profileProperty.PropertyType == typeof(bool))
+            {
+                return BooleanTemplate;
+            }
+            if (profileProperty.PropertyType == typeof(string))
+            {
+                return StringTemplate;
+            }
+            return ObjectTemplate;
+        }
+
+        public static bool IsNumber(ProfilePropertyViewModel value)
+        {
+            if (value.PropertyType == typeof(sbyte)) return true;
+            if (value.PropertyType == typeof(byte)) return true;
+            if (value.PropertyType == typeof(short)) return true;
+            if (value.PropertyType == typeof(ushort)) return true;
+            if (value.PropertyType == typeof(int)) return true;
+            if (value.PropertyType == typeof(uint)) return true;
+            if (value.PropertyType == typeof(long)) return true;
+            if (value.PropertyType == typeof(ulong)) return true;
+            if (value.PropertyType == typeof(float)) return true;
+            if (value.PropertyType == typeof(double)) return true;
+            if (value.PropertyType == typeof(decimal)) return true;
+            return false;
+        }
+
+        public DataTemplate NumberTemplate { get; set; }
+        public DataTemplate StringTemplate { get; set; }
+        public DataTemplate BooleanTemplate { get; set; }
+        public DataTemplate ObjectTemplate { get; set; }
+    }
 }

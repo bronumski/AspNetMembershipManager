@@ -92,7 +92,5 @@ namespace AspNetMembershipManager.User.Profile
                 }
             }
         }
-
-        private object CreateNewInstance()
     }
 }

@@ -61,7 +61,12 @@
                                             <TextBox Text="{Binding PropertyValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </DataTemplate>
                                     </vm:ProfilePropertyTemplateSelector.NumberTemplate>
-                                    <vm:ProfilePropertyTemplateSelector.ObjectTemplate>
+									<vm:ProfilePropertyTemplateSelector.DateTimeTemplate>
+										<DataTemplate>
+											<DatePicker SelectedDate="{Binding PropertyValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  />
+										</DataTemplate>
+									</vm:ProfilePropertyTemplateSelector.DateTimeTemplate>
+									<vm:ProfilePropertyTemplateSelector.ObjectTemplate>
                                         <DataTemplate>
                                             <Button Content="..." Click="CustomProfilePropertyEdit" />
                                         </DataTemplate>

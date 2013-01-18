@@ -93,6 +93,10 @@ namespace AspNetMembershipManager.User
             {
                 return StringTemplate;
             }
+			if (profileProperty.PropertyType == typeof(DateTime))
+			{
+				return DateTimeTemplate;
+			}
             return ObjectTemplate;
         }
 
@@ -115,6 +119,7 @@ namespace AspNetMembershipManager.User
         public DataTemplate NumberTemplate { get; set; }
         public DataTemplate StringTemplate { get; set; }
         public DataTemplate BooleanTemplate { get; set; }
+		public DataTemplate DateTimeTemplate { get; set; }
         public DataTemplate ObjectTemplate { get; set; }
     }
 }

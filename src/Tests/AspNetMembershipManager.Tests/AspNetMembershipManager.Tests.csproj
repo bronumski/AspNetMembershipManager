@@ -48,6 +48,7 @@
     <Reference Include="nunit.framework">
       <HintPath>..\..\..\packages\NUnit.2.6.1\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -56,11 +57,13 @@
     <Reference Include="System.Web.Providers">
       <HintPath>..\..\..\packages\Microsoft.AspNet.Providers.Core.1.0\lib\net40\System.Web.Providers.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoMockedSpecificationFor.cs" />
@@ -70,6 +73,7 @@
     <Compile Include="ProviderFactoryFixtures\When_loading_a_MembershipProvider_from_a_membership_provider_configuration.cs" />
     <Compile Include="TypeNameFixtures\When_loading_a_type_name_without_a_fully_quallifed_name.cs" />
     <Compile Include="TypeNameFixtures\When_loading_a_type_name_with_a_fully_quallifed_name.cs" />
+    <Compile Include="User\ProfilePropertyTemplateSelectorFixtures\When_getting_a_data_template_with_a_null_property.cs" />
     <Compile Include="Web\MembershipUserFixtures\When_getting_users_roles\Given_roles_have_been_disabled.cs" />
     <Compile Include="Web\MembershipUserFixtures\When_getting_users_roles\Given_roles_have_been_enabled.cs" />
     <Compile Include="Web\MembershipUserFixtures\When_saving_a_user\Given_the_user_has_a_new_roles.cs" />

@@ -119,6 +119,7 @@
     </Compile>
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="User\PasswordBoxAssistant.cs" />
+    <Compile Include="User\ProfilePropertyTemplateSelector.cs" />
     <Compile Include="User\ProfilePropertyViewModel.cs" />
     <Compile Include="User\Profile\ProfilePropertyWindow.xaml.cs">
       <DependentUpon>ProfilePropertyWindow.xaml</DependentUpon>

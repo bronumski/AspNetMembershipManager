@@ -9,7 +9,6 @@ namespace AspNetMembershipManager.User
 		private readonly SettingsPropertyValue property;
 		private readonly TypeConverter converter;
 		private readonly object originalValue;
-		//private string valueAsString; 
 
 		public ProfilePropertyViewModel(SettingsPropertyValue property)
 		{
@@ -19,7 +18,6 @@ namespace AspNetMembershipManager.User
 			try
 			{
 				originalValue = property.PropertyValue;
-				//valueAsString = converter.ConvertToString(property.PropertyValue);
 			}
 			catch (Exception) {}
 		}
@@ -49,14 +47,8 @@ namespace AspNetMembershipManager.User
 
 		public void ResetPropertyValue()
 		{
-			//valueAsString = converter.ConvertToString(originalValue);
 			property.PropertyValue = originalValue;
 			OnPropertyChanged("PropertyValue");
-		}
-
-		public void SetPropertyValue()
-		{
-			//property.PropertyValue = converter.ConvertFromString(PropertyValue);
 		}
 
 		public override string this[string columnName]

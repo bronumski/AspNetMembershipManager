@@ -37,7 +37,7 @@
 							<EventSetter Event="MouseDoubleClick" Handler="ProfilePropertyDoubleClick"/>
 						</Style>
 					</DataGrid.RowStyle>-->
-                <DataGrid ItemsSource="{Binding Profile}" Margin="6">
+				<DataGrid ItemsSource="{Binding Profile}" Margin="6" IsReadOnly="True">
 					
 					<DataGrid.Columns>
                         <DataGridTextColumn Header="Property name" Binding="{Binding PropertyName}" IsReadOnly="True" />
@@ -66,9 +66,14 @@
 											<DatePicker SelectedDate="{Binding PropertyValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  />
 										</DataTemplate>
 									</vm:ProfilePropertyTemplateSelector.DateTimeTemplate>
+									<vm:ProfilePropertyTemplateSelector.CollectionTemplate>
+										<DataTemplate>
+											<!--<Button Content="..." Click="CollectionPropertyEdit" />-->
+										</DataTemplate>
+									</vm:ProfilePropertyTemplateSelector.CollectionTemplate>
 									<vm:ProfilePropertyTemplateSelector.ObjectTemplate>
                                         <DataTemplate>
-                                            <Button Content="..." Click="CustomProfilePropertyEdit" />
+                                            <!--<Button Content="..." Click="CustomProfilePropertyEdit" />-->
                                         </DataTemplate>
                                     </vm:ProfilePropertyTemplateSelector.ObjectTemplate>
                                 </vm:ProfilePropertyTemplateSelector>

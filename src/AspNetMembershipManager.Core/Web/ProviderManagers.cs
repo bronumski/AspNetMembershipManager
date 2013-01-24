@@ -35,6 +35,11 @@ namespace AspNetMembershipManager.Web
             get { return roleManager.IsEnabled; }
         }
 
+		public bool ProfilesEnabled
+        {
+            get { return ProfileManager.IsEnabled; }
+        }
+
 	    public IEnumerable<IUser> GetAllUsers()
 	    {
 	        return membershipUserMapper.MapAll(membershipManager.GetAllUsers());

@@ -1,6 +1,5 @@
 ﻿using System.Web.Security;
 using System.Windows;
-using System.Windows.Input;
 using AspNetMembershipManager.Web;
 
 namespace AspNetMembershipManager.User
@@ -24,9 +23,7 @@ namespace AspNetMembershipManager.User
             DataContext = createUserModel;
         }
 
-		
-
-        private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
+		protected override bool OnOkExecuted()
         {
         	try
         	{
@@ -36,13 +33,14 @@ namespace AspNetMembershipManager.User
                                             createUserModel.EmailAddress,
 											createUserModel.PasswordQuestion,
 											createUserModel.PasswordQuestionAnswer);
-                DialogResult = e.Handled = true;
-                Close();
         	}
         	catch (MembershipCreateUserException ex)
         	{
-        		createUserModel.Error = ex.StatusCode.ToString();
+                createUserModel.Error = ex.StatusCode.ToString();
+        		return false;
         	}
+
+        	return base.OnOkExecuted();
         }
     }
 }

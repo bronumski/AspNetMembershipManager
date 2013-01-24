@@ -8,11 +8,13 @@ namespace AspNetMembershipManager.User
 	class UserDetailsModel : SaveViewModelBase
     {
 		private readonly IUser user;
+		private readonly IProviderManagers providerManagers;
 		private readonly IEnumerable<UserInRole> userRoles; 
 
 		public UserDetailsModel(IUser user, IProviderManagers providerManagers)
 		{
 			this.user = user;
+			this.providerManagers = providerManagers;
 
 			if (providerManagers.RolesEnabled)
 			{
@@ -30,6 +32,10 @@ namespace AspNetMembershipManager.User
 			get { return user.EmailAddress; }
 			set { user.EmailAddress = value; }
 		}
+
+		public bool RolesEnabled { get { return providerManagers.RolesEnabled; }}
+
+		public bool ProfilesEnabled { get { return providerManagers.ProfilesEnabled; }}
 
 		public IEnumerable<UserInRole> Roles
 		{

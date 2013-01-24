@@ -9,7 +9,7 @@
 		d:DataContext="{d:DesignInstance vm:CreateUserModel}" mc:Ignorable="d"
         Title="Create user" Height="318" Width="563" ResizeMode="NoResize">
     <Window.CommandBindings>
-        <CommandBinding Command="Save" CanExecute="Ok_CanExecute" Executed="Save_Executed" />
+        <CommandBinding Command="Save" CanExecute="Ok_CanExecute" Executed="Ok_Executed" />
     </Window.CommandBindings>
 	<Grid>
 		<GroupBox Header="User details" Height="110" HorizontalAlignment="Stretch" Margin="12" VerticalAlignment="Top">

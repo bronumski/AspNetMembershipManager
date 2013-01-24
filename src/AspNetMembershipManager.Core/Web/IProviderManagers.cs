@@ -8,7 +8,9 @@ namespace AspNetMembershipManager.Web
 
 	    bool RolesEnabled { get; }
 
-	    IEnumerable<IUser> GetAllUsers();
+		bool ProfilesEnabled { get; }
+
+		IEnumerable<IUser> GetAllUsers();
 
 		IUser CreateUser(string username, string password, string emailAddress, string passwordQuestion, string passwordQuestionAnswer);
 

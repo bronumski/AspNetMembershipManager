@@ -36,7 +36,7 @@ namespace AspNetMembershipManager.User
 			get { return userRoles; }
 		}
 
-		public IEnumerable<ProfilePropertyViewModel> Profile
+		public IEnumerable<IProfileProperty> Profile
 		{
 			get
 			{
@@ -44,9 +44,9 @@ namespace AspNetMembershipManager.User
 			}
 		}
 
-		private static ProfilePropertyViewModel CreateProfilePropertyViewModel(SettingsPropertyValue x)
+		private static IProfileProperty CreateProfilePropertyViewModel(SettingsPropertyValue x)
 		{
-			return new ProfilePropertyViewModel(x);
+			return new ProfileProperty(x);
 		}
 
 		public override string this[string columnName]

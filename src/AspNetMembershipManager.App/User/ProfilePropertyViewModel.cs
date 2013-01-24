@@ -4,13 +4,20 @@ using System.Configuration;
 
 namespace AspNetMembershipManager.User
 {
-	class ProfilePropertyViewModel : SaveViewModelBase
+	public interface IProfileProperty
+	{
+		string PropertyName { get; }
+		Type PropertyType { get; }
+		object PropertyValue { get; set; }
+	}
+
+	class ProfileProperty : SaveViewModelBase, IProfileProperty
 	{
 		private readonly SettingsPropertyValue property;
 		private readonly TypeConverter converter;
 		private readonly object originalValue;
 
-		public ProfilePropertyViewModel(SettingsPropertyValue property)
+		public ProfileProperty(SettingsPropertyValue property)
 		{
 			this.property = property;
 

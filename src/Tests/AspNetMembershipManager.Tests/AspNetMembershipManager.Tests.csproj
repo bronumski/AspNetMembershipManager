@@ -74,6 +74,12 @@
     <Compile Include="TypeNameFixtures\When_loading_a_type_name_without_a_fully_quallifed_name.cs" />
     <Compile Include="TypeNameFixtures\When_loading_a_type_name_with_a_fully_quallifed_name.cs" />
     <Compile Include="User\ProfilePropertyTemplateSelectorFixtures\When_getting_a_data_template_with_a_null_property.cs" />
+    <Compile Include="User\Profile\ProfileCollectionPropertyViewModelFixtures\SupportedDataTypeFixturesBase.cs" />
+    <Compile Include="User\Profile\ProfileCollectionPropertyViewModelFixtures\When_adding_data_to_an_array_property_with_supported_data_type.cs" />
+    <Compile Include="User\Profile\ProfileCollectionPropertyViewModelFixtures\When_editing_a_string_array_property_with_existing_data.cs" />
+    <Compile Include="User\Profile\ProfileCollectionPropertyViewModelFixtures\When_getting_supported_data_types.cs" />
+    <Compile Include="User\Profile\ProfileCollectionPropertyViewModelFixtures\When_viewing_a_null_string_array_property.cs" />
+    <Compile Include="User\Profile\ProfileCollectionPropertyViewModelFixtures\When_viewing_a_string_array_property_with_existing_data.cs" />
     <Compile Include="Web\MembershipUserFixtures\When_getting_users_roles\Given_roles_have_been_disabled.cs" />
     <Compile Include="Web\MembershipUserFixtures\When_getting_users_roles\Given_roles_have_been_enabled.cs" />
     <Compile Include="Web\MembershipUserFixtures\When_saving_a_user\Given_the_user_has_a_new_roles.cs" />

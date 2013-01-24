@@ -1,0 +1,97 @@
+﻿<AspNetMembershipManager:EditDialogWindow x:Class="AspNetMembershipManager.User.Profile.ProfileCollectionPropertyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="User profile property" Height="379" Width="625"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Profile="clr-namespace:AspNetMembershipManager.User.Profile"
+		xmlns:AspNetMembershipManager="clr-namespace:AspNetMembershipManager"
+        xmlns:vm="clr-namespace:AspNetMembershipManager.User"
+        d:DataContext="{d:DesignInstance Profile:ProfileCollectionPropertyViewModel}" 
+		mc:Ignorable="d" 
+		d:DesignHeight="322" d:DesignWidth="668"
+		MinWidth="500" ResizeMode="NoResize">
+	<Window.CommandBindings>
+		<CommandBinding Command="Save" CanExecute="Ok_CanExecute" Executed="Ok_Executed" />
+	</Window.CommandBindings>
+	<Grid>
+		<GroupBox Header="Profile property value" Margin="5,5,5,67">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="auto" />
+					<RowDefinition Height="auto" />
+					<RowDefinition Height="auto" />
+					<RowDefinition Height="auto" />
+				</Grid.RowDefinitions>
+				<Label Content="Name:" Grid.Column="0" Grid.Row="0" />
+				<Label Content="Type:" Grid.Column="0" Grid.Row="1" />
+				<TextBox Text="{Binding Name, Mode=OneWay}" IsReadOnly="True" Grid.Column="1" Grid.Row="0" />
+				<TextBox Text="{Binding Type, Mode=OneWay}" IsReadOnly="True" Grid.Column="1" Grid.Row="1" />
+
+				<Button Content="Add new item" IsEnabled="{Binding IsSupportedDataType}" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" Margin="6" Click="btnAddNewItem_Click" />
+
+				<DataGrid ItemsSource="{Binding Values}" Margin="6,6,6,-11" Grid.Row="3" Grid.ColumnSpan="2" IsReadOnly="True" AutoGenerateColumns="False" Height="137">
+					<DataGrid.Columns>
+						<DataGridTemplateColumn Header="Actions">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<Button Click="btnRemoveItem_Click">Remove</Button>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn Header="Data" Width="*">
+							<DataGridTemplateColumn.CellTemplateSelector>
+								<vm:ProfilePropertyTemplateSelector>
+									<vm:ProfilePropertyTemplateSelector.BooleanTemplate>
+										<DataTemplate>
+											<CheckBox Margin="10, 0, 0, 0" VerticalAlignment="Center" IsChecked="{Binding PropertyValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+										</DataTemplate>
+									</vm:ProfilePropertyTemplateSelector.BooleanTemplate>
+									<vm:ProfilePropertyTemplateSelector.StringTemplate>
+										<DataTemplate>
+											<TextBox HorizontalAlignment="Stretch" Text="{Binding PropertyValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+										</DataTemplate>
+									</vm:ProfilePropertyTemplateSelector.StringTemplate>
+									<vm:ProfilePropertyTemplateSelector.NumberTemplate>
+										<DataTemplate>
+											<TextBox HorizontalAlignment="Stretch" Text="{Binding PropertyValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+										</DataTemplate>
+									</vm:ProfilePropertyTemplateSelector.NumberTemplate>
+									<vm:ProfilePropertyTemplateSelector.DateTimeTemplate>
+										<DataTemplate>
+											<DatePicker SelectedDate="{Binding PropertyValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  />
+										</DataTemplate>
+									</vm:ProfilePropertyTemplateSelector.DateTimeTemplate>
+									<vm:ProfilePropertyTemplateSelector.EnumerableTemplate>
+										<DataTemplate>
+											<Button Content="..." Click="CollectionPropertyEdit" />
+										</DataTemplate>
+									</vm:ProfilePropertyTemplateSelector.EnumerableTemplate>
+									<vm:ProfilePropertyTemplateSelector.ObjectTemplate>
+										<DataTemplate>
+											<Button Content="..." Click="CustomProfilePropertyEdit" />
+										</DataTemplate>
+									</vm:ProfilePropertyTemplateSelector.ObjectTemplate>
+									<vm:ProfilePropertyTemplateSelector.NotSupportedTemplate>
+										<DataTemplate>
+											<Label>&lt;Data type not supported&gt;</Label>
+										</DataTemplate>
+									</vm:ProfilePropertyTemplateSelector.NotSupportedTemplate>
+								</vm:ProfilePropertyTemplateSelector>
+							</DataGridTemplateColumn.CellTemplateSelector>
+						</DataGridTemplateColumn>
+					</DataGrid.Columns>
+				</DataGrid>
+			</Grid>
+		</GroupBox>
+		<Label Style="{StaticResource ErrorMessage}" HorizontalAlignment="Left" Margin="5,279,0,0" VerticalAlignment="Top" Width="425" Height="49">
+			<TextBlock Text="{Binding Error}" TextWrapping="Wrap" />
+		</Label>
+		<Button Command="Save" Content="Ok" HorizontalAlignment="Right" IsDefault="True" Margin="0,0,11,12" VerticalAlignment="Bottom" Width="75" />
+		<Button Content="Cancel" HorizontalAlignment="Right" IsCancel="True" Margin="0,0,92,12" VerticalAlignment="Bottom" Width="75" />
+	</Grid>
+</AspNetMembershipManager:EditDialogWindow>

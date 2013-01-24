@@ -9,7 +9,7 @@ namespace AspNetMembershipManager.Role
     /// <summary>
     /// Interaction logic for CreateRoleWindow.xaml
     /// </summary>
-    public partial class CreateRoleWindow : Window
+    public partial class CreateRoleWindow : EditDialogWindow
     {
         private readonly IProviderManagers providerManagers;
         private readonly CreateRoleModel createRoleModel;
@@ -24,26 +24,6 @@ namespace AspNetMembershipManager.Role
             createRoleModel = new CreateRoleModel();
             DataContext = createRoleModel;
         }
-
-		private int errors;
-
-		private void Validation_Error(object sender, ValidationErrorEventArgs e)
-		{
-			if (e.Action == ValidationErrorEventAction.Added)
-			{
-				errors++;
-			}
-			else
-			{
-				errors--;
-			}
-		}
-
-        private void Save_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-		{
-			e.CanExecute = errors == 0;
-			e.Handled = true;
-		}
 
         private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
         {

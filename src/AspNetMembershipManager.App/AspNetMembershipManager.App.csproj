@@ -104,6 +104,7 @@
     </Compile>
     <Compile Include="BoolToValueConverter.cs" />
     <Compile Include="BoolToStringConverter.cs" />
+    <Compile Include="EditDialogWindow.cs" />
     <Compile Include="Role\CreateRoleWindow.xaml.cs">
       <DependentUpon>CreateRoleWindow.xaml</DependentUpon>
     </Compile>
@@ -121,6 +122,11 @@
     <Compile Include="User\PasswordBoxAssistant.cs" />
     <Compile Include="User\ProfilePropertyTemplateSelector.cs" />
     <Compile Include="User\ProfilePropertyViewModel.cs" />
+    <Compile Include="User\Profile\InstanceProfileProperty.cs" />
+    <Compile Include="User\Profile\ProfileCollectionPropertyViewModel.cs" />
+    <Compile Include="User\Profile\ProfileCollectionPropertyWindow.xaml.cs">
+      <DependentUpon>ProfileCollectionPropertyWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="User\Profile\ProfilePropertyWindow.xaml.cs">
       <DependentUpon>ProfilePropertyWindow.xaml</DependentUpon>
     </Compile>
@@ -153,6 +159,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="User\Profile\ProfileCollectionPropertyWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="User\Profile\ProfilePropertyWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

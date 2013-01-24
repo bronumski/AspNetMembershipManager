@@ -1,6 +1,5 @@
 ﻿using System.Web.Security;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using AspNetMembershipManager.Web;
 
@@ -9,7 +8,7 @@ namespace AspNetMembershipManager.User
     /// <summary>
     /// Interaction logic for CreateUserWindow.xaml
     /// </summary>
-    public partial class CreateUserWindow : Window
+    public partial class CreateUserWindow : EditDialogWindow
     {
         private readonly IProviderManagers providerManagers;
         private readonly CreateUserModel createUserModel;
@@ -25,31 +24,13 @@ namespace AspNetMembershipManager.User
             DataContext = createUserModel;
         }
 
-		private int errors;
-
-		private void Validation_Error(object sender, ValidationErrorEventArgs e)
-		{
-			if (e.Action == ValidationErrorEventAction.Added)
-			{
-				errors++;
-			}
-			else
-			{
-				errors--;
-			}
-		}
-
-        private void Save_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-		{
-			e.CanExecute = errors == 0;
-			e.Handled = true;
-		}
+		
 
         private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
         {
         	try
         	{
-				IUser user = providerManagers.CreateUser(
+				providerManagers.CreateUser(
                                             createUserModel.Username,
                                             createUserModel.Password,
                                             createUserModel.EmailAddress,

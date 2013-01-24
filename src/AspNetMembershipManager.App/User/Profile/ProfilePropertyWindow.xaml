@@ -1,15 +1,15 @@
-﻿<Window x:Class="AspNetMembershipManager.User.Profile.ProfilePropertyWindow"
+﻿<AspNetMembershipManager:EditDialogWindow x:Class="AspNetMembershipManager.User.Profile.ProfilePropertyWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="User profile property" Height="379" Width="625"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Profile="clr-namespace:AspNetMembershipManager.User.Profile"
-        xmlns:vm="clr-namespace:AspNetMembershipManager.User"
+        xmlns:AspNetMembershipManager="clr-namespace:AspNetMembershipManager"
         d:DataContext="{d:DesignInstance Profile:PropertyViewModel}" 
 		mc:Ignorable="d" 
 		d:DesignHeight="322" d:DesignWidth="668"
-		MinWidth="500" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner">
+		MinWidth="500" ResizeMode="NoResize">
 	<Window.CommandBindings>
 		<CommandBinding Command="Save" CanExecute="Ok_CanExecute" Executed="Ok_Executed" />
 	</Window.CommandBindings>
@@ -66,6 +66,6 @@
         </GroupBox>
 		<Label Content="{Binding Error}" Style="{StaticResource ErrorMessage}" HorizontalAlignment="Left" Margin="5,0,0,62" VerticalAlignment="Bottom" Height="10" />
 		<Button Content="Ok" IsDefault="True" HorizontalAlignment="Right" Margin="0,0,12,12" VerticalAlignment="Bottom" Width="75" Command="Save" />
-		<Button Content="Cancel" IsCancel="True" HorizontalAlignment="Right" Margin="0,0,93,12" VerticalAlignment="Bottom" Width="75" Click="Cancel_Click" />
+		<Button Content="Cancel" IsCancel="True" HorizontalAlignment="Right" Margin="0,0,92,12" VerticalAlignment="Bottom" Width="75" />
 	</Grid>
-</Window>
+</AspNetMembershipManager:EditDialogWindow>

@@ -1,16 +1,14 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace AspNetMembershipManager.User
 {
-	class ProfilePropertyTemplateSelector : DataTemplateSelector
+	public class ProfilePropertyTemplateSelector : DataTemplateSelector
 	{
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
-			var profileProperty = item as ProfilePropertyViewModel;
+			var profileProperty = item as IProfileProperty;
 			if (profileProperty == null)
 			{
 				return null;
@@ -31,23 +29,19 @@ namespace AspNetMembershipManager.User
 			{
 				return DateTimeTemplate;
 			}
-			if (IsCollection(profileProperty))
+			if (IsSupportedEnumerable(profileProperty))
 			{
-				return CollectionTemplate;
+				return EnumerableTemplate;
 			}
-			return ObjectTemplate;
+			return NotSupportedTemplate;
 		}
 
-		private bool IsCollection(ProfilePropertyViewModel profileProperty)
+		private bool IsSupportedEnumerable(IProfileProperty profileProperty)
 		{
-			if (typeof(IEnumerable).IsAssignableFrom(profileProperty.PropertyType))
-			{
-				return true;
-			}
-			return profileProperty.PropertyType.GetInterface(typeof(IEnumerable<>).FullName) != null;
+			return profileProperty.PropertyType.IsArray;
 		}
 
-		private static bool IsNumber(ProfilePropertyViewModel value)
+		private static bool IsNumber(IProfileProperty value)
 		{
 			if (value.PropertyType == typeof(sbyte)) return true;
 			if (value.PropertyType == typeof(byte)) return true;
@@ -67,7 +61,8 @@ namespace AspNetMembershipManager.User
 		public DataTemplate StringTemplate { get; set; }
 		public DataTemplate BooleanTemplate { get; set; }
 		public DataTemplate DateTimeTemplate { get; set; }
-		public DataTemplate CollectionTemplate { get; set; }
+		public DataTemplate EnumerableTemplate { get; set; }
 		public DataTemplate ObjectTemplate { get; set; }
+		public DataTemplate NotSupportedTemplate { get; set; }
 	}
 }

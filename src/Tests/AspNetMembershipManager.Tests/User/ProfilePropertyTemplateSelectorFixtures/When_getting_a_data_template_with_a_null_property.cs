@@ -19,26 +19,30 @@ namespace AspNetMembershipManager.User.ProfilePropertyTemplateSelectorFixtures
 		private static readonly DataTemplate DateTimeTemplate = Substitute.For<DataTemplate>();
 		private static readonly DataTemplate CollectionTemplate = Substitute.For<DataTemplate>();
 		private static readonly DataTemplate ObjectTemplate = Substitute.For<DataTemplate>();
+		private static readonly DataTemplate NotSupportedTemplate = Substitute.For<DataTemplate>();
 
 		private ProfilePropertyTemplateSelector profilePropertyTemplateSelector;
 
 		[SetUp]
 		public void SetUp()
 		{
-			profilePropertyTemplateSelector = new ProfilePropertyTemplateSelector();
-			profilePropertyTemplateSelector.NumberTemplate = NumberTemplate;
-			profilePropertyTemplateSelector.BooleanTemplate = BooleanTemplate;
-			profilePropertyTemplateSelector.StringTemplate = StringTemplate;
-			profilePropertyTemplateSelector.DateTimeTemplate = DateTimeTemplate;
-			profilePropertyTemplateSelector.CollectionTemplate = CollectionTemplate;
-			profilePropertyTemplateSelector.ObjectTemplate = ObjectTemplate;
+			profilePropertyTemplateSelector = new ProfilePropertyTemplateSelector
+			                                  	{
+			                                  		NumberTemplate = NumberTemplate,
+			                                  		BooleanTemplate = BooleanTemplate,
+			                                  		StringTemplate = StringTemplate,
+			                                  		DateTimeTemplate = DateTimeTemplate,
+			                                  		EnumerableTemplate = CollectionTemplate,
+			                                  		ObjectTemplate = ObjectTemplate,
+			                                  		NotSupportedTemplate = NotSupportedTemplate
+			                                  	};
 		}
 
 		[TestCaseSource("SettingsProperties")]
 		public void Should_return_correct_template(SettingsProperty settingsProperty, DataTemplate expectedTemplate)
 		{
 			var settingsPropertyValue = new SettingsPropertyValue(settingsProperty);
-			var model = new ProfilePropertyViewModel(settingsPropertyValue);
+			var model = new ProfileProperty(settingsPropertyValue);
 
 			var template = profilePropertyTemplateSelector.SelectTemplate(model, null);
 
@@ -49,13 +53,15 @@ namespace AspNetMembershipManager.User.ProfilePropertyTemplateSelectorFixtures
 		{
 			return NumberTypes()
 				.Select(x => CreateTestData(x, NumberTemplate))
-				.Union(CollectionTypes().Select(x => CreateTestData(x, CollectionTemplate)))
+				.Union(SupportedEnumerableTypes().Select(x => CreateTestData(x, CollectionTemplate)))
 				.Union(new []
 				       	{
 				       		CreateTestData(typeof(bool), BooleanTemplate),
 							CreateTestData(typeof(string), StringTemplate),
 							CreateTestData(typeof(DateTime), DateTimeTemplate),
-							CreateTestData(typeof(object), ObjectTemplate),
+							CreateTestData(typeof(object), NotSupportedTemplate),
+							CreateTestData(typeof(IEnumerable), NotSupportedTemplate),
+							CreateTestData(typeof(IEnumerable<int>), NotSupportedTemplate),
 				       	});
 		}
 
@@ -74,10 +80,8 @@ namespace AspNetMembershipManager.User.ProfilePropertyTemplateSelectorFixtures
 			yield return typeof (decimal);
 		}
 
-		private IEnumerable<Type> CollectionTypes()
+		private IEnumerable<Type> SupportedEnumerableTypes()
 		{
-			yield return typeof (IEnumerable);
-			yield return typeof (IEnumerable<int>);
 			yield return (new int[0]).GetType();
 		}
 

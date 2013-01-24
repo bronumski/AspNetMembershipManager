@@ -1,18 +1,19 @@
-﻿<Window x:Class="AspNetMembershipManager.User.UserDetailsWindow"
+﻿<AspNetMembershipManager:EditDialogWindow x:Class="AspNetMembershipManager.User.UserDetailsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:AspNetMembershipManager.User"
+        xmlns:AspNetMembershipManager="clr-namespace:AspNetMembershipManager"
         FocusManager.FocusedElement="{Binding ElementName=txtUserName}"
 		d:DataContext="{d:DesignInstance vm:UserDetailsModel}" mc:Ignorable="d"
-        Title="User Details" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" Height="400" Width="805" ResizeMode="NoResize">
+        Title="User Details" Height="400" Width="967" ResizeMode="NoResize">
 	<Window.CommandBindings>
-		<CommandBinding Command="Save" CanExecute="SaveUser_CanExecute" Executed="SaveUser_Executed" />
+		<CommandBinding Command="Save" CanExecute="Ok_CanExecute" Executed="Ok_Executed" />
 	</Window.CommandBindings>
     <Grid>
 
-        <GroupBox Header="Details" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" Width="580" Margin="10,0,0,0">
+        <GroupBox Header="Details" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" Width="742" Margin="10,0,0,0">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
@@ -30,19 +31,12 @@
 						 Text="{Binding UpdateSourceTrigger=PropertyChanged, Path=EmailAddress, ValidatesOnDataErrors=true, NotifyOnValidationError=true}" />
 			</Grid>
 		</GroupBox>
-		<GroupBox Header="Profile" Height="197" HorizontalAlignment="Left" VerticalAlignment="Top" Width="580" Margin="10,110,0,0">
+		<GroupBox Header="Profile" Height="197" HorizontalAlignment="Left" VerticalAlignment="Top" Width="742" Margin="10,110,0,0">
             <Grid>
-                <!--<DataGrid.RowStyle>
-						<Style TargetType="{x:Type DataGridRow}">
-							<EventSetter Event="MouseDoubleClick" Handler="ProfilePropertyDoubleClick"/>
-						</Style>
-					</DataGrid.RowStyle>-->
 				<DataGrid ItemsSource="{Binding Profile}" Margin="6" IsReadOnly="True">
-					
 					<DataGrid.Columns>
                         <DataGridTextColumn Header="Property name" Binding="{Binding PropertyName}" IsReadOnly="True" />
                         <DataGridTextColumn Header="Property type" Binding="{Binding PropertyType}" IsReadOnly="True" />
-                        <!--<DataGridTextColumn Header="Property value" Binding="{Binding PropertyValue}" />-->
                         <DataGridTemplateColumn Header="Property value">
                             <DataGridTemplateColumn.CellTemplateSelector>
                                 <vm:ProfilePropertyTemplateSelector>
@@ -53,12 +47,12 @@
                                     </vm:ProfilePropertyTemplateSelector.BooleanTemplate>
                                     <vm:ProfilePropertyTemplateSelector.StringTemplate>
                                         <DataTemplate>
-                                            <TextBox Text="{Binding PropertyValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+											<TextBox HorizontalAlignment="Stretch" Text="{Binding PropertyValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </DataTemplate>
                                     </vm:ProfilePropertyTemplateSelector.StringTemplate>
                                     <vm:ProfilePropertyTemplateSelector.NumberTemplate>
                                         <DataTemplate>
-                                            <TextBox Text="{Binding PropertyValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+											<TextBox HorizontalAlignment="Stretch" Text="{Binding PropertyValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </DataTemplate>
                                     </vm:ProfilePropertyTemplateSelector.NumberTemplate>
 									<vm:ProfilePropertyTemplateSelector.DateTimeTemplate>
@@ -66,17 +60,22 @@
 											<DatePicker SelectedDate="{Binding PropertyValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  />
 										</DataTemplate>
 									</vm:ProfilePropertyTemplateSelector.DateTimeTemplate>
-									<vm:ProfilePropertyTemplateSelector.CollectionTemplate>
+									<vm:ProfilePropertyTemplateSelector.EnumerableTemplate>
 										<DataTemplate>
-											<!--<Button Content="..." Click="CollectionPropertyEdit" />-->
+											<Button Content="..." Click="CollectionPropertyEdit" />
 										</DataTemplate>
-									</vm:ProfilePropertyTemplateSelector.CollectionTemplate>
+									</vm:ProfilePropertyTemplateSelector.EnumerableTemplate>
 									<vm:ProfilePropertyTemplateSelector.ObjectTemplate>
                                         <DataTemplate>
-                                            <!--<Button Content="..." Click="CustomProfilePropertyEdit" />-->
+                                            <Button Content="..." Click="CustomProfilePropertyEdit" />
                                         </DataTemplate>
                                     </vm:ProfilePropertyTemplateSelector.ObjectTemplate>
-                                </vm:ProfilePropertyTemplateSelector>
+									<vm:ProfilePropertyTemplateSelector.NotSupportedTemplate>
+										<DataTemplate>
+											<Label>&lt;Data type not supported&gt;</Label>
+										</DataTemplate>
+									</vm:ProfilePropertyTemplateSelector.NotSupportedTemplate>
+								</vm:ProfilePropertyTemplateSelector>
                             </DataGridTemplateColumn.CellTemplateSelector>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
@@ -105,4 +104,4 @@
 		<Button Content="Save" IsDefault="True" HorizontalAlignment="Right" Margin="0,0,12,12" VerticalAlignment="Bottom" Width="75" Command="Save" />
 		<Button Content="Cancel" IsCancel="True" HorizontalAlignment="Right" Margin="0,0,93,12" VerticalAlignment="Bottom" Width="75" />
 	</Grid>
-</Window>
+</AspNetMembershipManager:EditDialogWindow>

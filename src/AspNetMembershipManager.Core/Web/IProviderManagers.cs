@@ -17,5 +17,7 @@ namespace AspNetMembershipManager.Web
 	    IEnumerable<IRole> GetAllRoles();
 
 	    IRole CreateRole(string roleName);
+
+		bool ChangeUserPassword(IUser user, string password);
 	}
 }

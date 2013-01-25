@@ -111,5 +111,13 @@ namespace AspNetMembershipManager
 		{
 			viewModel.RefreshRoles();
 		}
+
+		private void ResetPassword(object sender, RoutedEventArgs e)
+		{
+			var user = (IUser)((Button) sender).DataContext;
+
+			var resetPasswordDialog = new ResetPasswordWindow(this, user, providerManagers);
+            resetPasswordDialog.ShowDialog();
+		}
 	}
 }

@@ -11,7 +11,13 @@ namespace AspNetMembershipManager
 		protected EditDialogWindow()
 		{
 			ShowInTaskbar = false;
+			ResizeMode = ResizeMode.NoResize;
 			WindowStartupLocation = WindowStartupLocation.CenterOwner;
+		}
+
+		protected EditDialogWindow(Window parentWindow) : this()
+		{
+			Owner = parentWindow;
 		}
 
 		protected void Validation_Error(object sender, ValidationErrorEventArgs e)

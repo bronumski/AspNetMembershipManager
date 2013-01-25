@@ -71,5 +71,10 @@ namespace AspNetMembershipManager.Web
 
             return roleMapper.Map(roleName);
 	    }
+
+		public bool ChangeUserPassword(IUser user, string password)
+		{
+			return membershipManager.ChangePassword(user, password);
+		}
 	}
 }

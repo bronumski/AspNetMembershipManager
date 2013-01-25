@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using AspNetMembershipManager.Web;
 
 namespace AspNetMembershipManager.Role
@@ -15,9 +13,8 @@ namespace AspNetMembershipManager.Role
         private readonly CreateRoleModel createRoleModel;
 
         public CreateRoleWindow(Window parentWindow, IProviderManagers providerManagers)
+			: base(parentWindow)
         {
-			Owner = parentWindow;
-
             this.providerManagers = providerManagers;
             InitializeComponent();
 
@@ -25,18 +22,18 @@ namespace AspNetMembershipManager.Role
             DataContext = createRoleModel;
         }
 
-        private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
+		protected override bool OnOkExecuted()
         {
         	try
         	{
 				providerManagers.CreateRole(createRoleModel.Name);
-				DialogResult = e.Handled = true;
-				Close();
         	}
         	catch (Exception ex)
         	{
         		createRoleModel.Error = ex.Message;
+        		return false;
         	}
+			return base.OnOkExecuted();
         }
     }
 }

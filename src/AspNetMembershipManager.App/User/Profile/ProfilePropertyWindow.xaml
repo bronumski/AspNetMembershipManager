@@ -9,7 +9,7 @@
         d:DataContext="{d:DesignInstance Profile:PropertyViewModel}" 
 		mc:Ignorable="d" 
 		d:DesignHeight="322" d:DesignWidth="668"
-		MinWidth="500" ResizeMode="NoResize">
+		MinWidth="500">
 	<Window.CommandBindings>
 		<CommandBinding Command="Save" CanExecute="Ok_CanExecute" Executed="Ok_Executed" />
 	</Window.CommandBindings>

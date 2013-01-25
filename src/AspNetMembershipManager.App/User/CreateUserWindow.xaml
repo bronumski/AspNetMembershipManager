@@ -7,7 +7,7 @@
         xmlns:AspNetMembershipManager="clr-namespace:AspNetMembershipManager"
         FocusManager.FocusedElement="{Binding ElementName=txtUserName}"
 		d:DataContext="{d:DesignInstance vm:CreateUserModel}" mc:Ignorable="d"
-        Title="Create user" Height="318" Width="563" ResizeMode="NoResize">
+        Title="Create user" Height="318" Width="563">
     <Window.CommandBindings>
         <CommandBinding Command="Save" CanExecute="Ok_CanExecute" Executed="Ok_Executed" />
     </Window.CommandBindings>

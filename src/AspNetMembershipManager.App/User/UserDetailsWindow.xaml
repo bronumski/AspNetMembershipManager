@@ -7,7 +7,7 @@
         xmlns:AspNetMembershipManager="clr-namespace:AspNetMembershipManager"
         FocusManager.FocusedElement="{Binding ElementName=txtUserName}"
 		d:DataContext="{d:DesignInstance vm:UserDetailsModel}" mc:Ignorable="d"
-        Title="User Details" Height="400" Width="967" ResizeMode="NoResize">
+        Title="User Details" Height="409" Width="967">
 	<Window.CommandBindings>
 		<CommandBinding Command="Save" CanExecute="Ok_CanExecute" Executed="Ok_Executed" />
 	</Window.CommandBindings>
@@ -101,6 +101,9 @@
 				</TabItem>
 			</TabControl>
 		</DockPanel>
+		<GroupBox Header="Actions" VerticalAlignment="Bottom" Margin="12,0,797,10" Height="64">
+			<Button Content="Reset password" IsDefault="True" HorizontalAlignment="left" Width="110" Height="25" Click="ResetPassword_Click" />
+		</GroupBox>
 		<Button Content="Save" IsDefault="True" HorizontalAlignment="Right" Margin="0,0,12,12" VerticalAlignment="Bottom" Width="75" Command="Save" />
 		<Button Content="Cancel" IsCancel="True" HorizontalAlignment="Right" Margin="0,0,93,12" VerticalAlignment="Bottom" Width="75" />
 	</Grid>

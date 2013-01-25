@@ -1,15 +1,16 @@
-﻿<AspNetMembershipManager:EditDialogWindow x:Class="AspNetMembershipManager.Role.CreateRoleWindow"
+﻿<AspNetMembershipManager:EditDialogWindow
+		x:Class="AspNetMembershipManager.Role.CreateRoleWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:AspNetMembershipManager.Role"
-                                          xmlns:AspNetMembershipManager="clr-namespace:AspNetMembershipManager"
-                                          FocusManager.FocusedElement="{Binding ElementName=txtRoleName}"
+        xmlns:AspNetMembershipManager="clr-namespace:AspNetMembershipManager"
+        FocusManager.FocusedElement="{Binding ElementName=txtRoleName}"
 		d:DataContext="{d:DesignInstance vm:CreateRoleModel}" mc:Ignorable="d"
         Title="Create role" ShowInTaskbar="False" Height="189" Width="392" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
 	<Window.CommandBindings>
-		<CommandBinding Command="Save" CanExecute="Ok_CanExecute" Executed="Save_Executed" />
+		<CommandBinding Command="Save" CanExecute="Ok_CanExecute" Executed="Ok_Executed" />
 	</Window.CommandBindings>
 	<Grid>
 		<GroupBox Header="Role details" Margin="12,12,12,79" Padding="5">

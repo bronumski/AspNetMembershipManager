@@ -25,14 +25,43 @@
                                 <DataGridTemplateColumn Header="Actions">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Click="DeleteUser">Delete</Button>
-                                        </DataTemplate>
+											<StackPanel Orientation="Horizontal">
+												<Button Click="DeleteUser">Delete</Button>
+												<Button Click="ResetPassword">Reset password</Button>
+											</StackPanel>
+										</DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 								<DataGridTextColumn Header="Username" Binding="{Binding UserName}" />
 								<DataGridTextColumn Header="Email address" Binding="{Binding EmailAddress}" />
-								<DataGridTextColumn Header="Approved" Binding="{Binding IsApproved, Converter={StaticResource BooleanToYesNo}}" />
-								<DataGridTextColumn Header="Locked out" Binding="{Binding IsLockedOut, Converter={StaticResource BooleanToYesNo}}" />
+								<DataGridTextColumn Header="Approved" Binding="{Binding IsApproved, Converter={StaticResource BooleanToYesNo}}">
+									<DataGridTextColumn.ElementStyle>
+										<Style TargetType="{x:Type TextBlock}">
+											<Style.Triggers>
+												<Trigger Property="Text" Value="Yes">
+													<Setter Property="Foreground" Value="DarkGreen"/>
+												</Trigger>
+												<Trigger Property="Text" Value="No">
+													<Setter Property="Foreground" Value="Red"/>
+												</Trigger>
+											</Style.Triggers>
+										</Style>
+									</DataGridTextColumn.ElementStyle>
+								</DataGridTextColumn>
+								<DataGridTextColumn Header="Locked out" Binding="{Binding IsLockedOut, Converter={StaticResource BooleanToYesNo}}">
+									<DataGridTextColumn.ElementStyle>
+										<Style TargetType="{x:Type TextBlock}">
+											<Style.Triggers>
+												<Trigger Property="Text" Value="No">
+													<Setter Property="Foreground" Value="DarkGreen"/>
+												</Trigger>
+												<Trigger Property="Text" Value="Yes">
+													<Setter Property="Foreground" Value="Red"/>
+												</Trigger>
+											</Style.Triggers>
+										</Style>
+									</DataGridTextColumn.ElementStyle>
+								</DataGridTextColumn>
 								<DataGridTextColumn Header="Date created" Binding="{Binding CreationDate}" />
 								<DataGridTextColumn Header="Last login date" Binding="{Binding LastLoginDate}" />
                             </DataGrid.Columns>

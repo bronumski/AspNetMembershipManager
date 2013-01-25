@@ -13,11 +13,13 @@ namespace AspNetMembershipManager.User
 	{
 		private readonly UserDetailsModel userDetails;
 		private readonly IUser user;
+		private readonly IProviderManagers providerManagers;
 
 		internal UserDetailsWindow(Window parentWindow, IUser user, IProviderManagers providerManagers)
+			: base(parentWindow)
 		{
 	    	this.user = user;
-			Owner = parentWindow;
+			this.providerManagers = providerManagers;
 			InitializeComponent();
 
             userDetails = new UserDetailsModel(user, providerManagers);
@@ -56,6 +58,12 @@ namespace AspNetMembershipManager.User
 			var propertyWindow = new ProfileCollectionPropertyWindow(this, profileProperty);
 
 			propertyWindow.ShowDialog();
+		}
+
+		private void ResetPassword_Click(object sender, RoutedEventArgs e)
+		{
+			var resetPasswordDialog = new ResetPasswordWindow(this, user, providerManagers);
+            resetPasswordDialog.ShowDialog();
 		}
 	}
 }

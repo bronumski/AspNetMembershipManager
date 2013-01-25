@@ -130,6 +130,10 @@
     <Compile Include="User\Profile\ProfilePropertyWindow.xaml.cs">
       <DependentUpon>ProfilePropertyWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="User\ResetPasswordViewModel.cs" />
+    <Compile Include="User\ResetPasswordWindow.xaml.cs">
+      <DependentUpon>ResetPasswordWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="User\UserDetailsModel.cs" />
     <Compile Include="User\UserDetailsWindow.xaml.cs">
       <DependentUpon>UserDetailsWindow.xaml</DependentUpon>
@@ -164,6 +168,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="User\Profile\ProfilePropertyWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="User\ResetPasswordWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

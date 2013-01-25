@@ -11,9 +11,8 @@ namespace AspNetMembershipManager.User.Profile
 	partial class ProfilePropertyWindow : EditDialogWindow
 	{
 	    internal ProfilePropertyWindow(Window parentWindow, IProfileProperty profileProperty)
+			: base(parentWindow)
 		{
-	        Owner = parentWindow;
-
 			InitializeComponent();
 
             ProfileProperty = new PropertyViewModel(profileProperty.PropertyName, profileProperty.PropertyType, profileProperty.PropertyValue);

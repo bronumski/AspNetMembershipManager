@@ -13,8 +13,8 @@ namespace AspNetMembershipManager.User
         private readonly CreateUserModel createUserModel;
 
         public CreateUserWindow(Window parentWindow, IProviderManagers providerManagers)
+			: base(parentWindow)
         {
-        	Owner = parentWindow;
             InitializeComponent();
 
             this.providerManagers = providerManagers;

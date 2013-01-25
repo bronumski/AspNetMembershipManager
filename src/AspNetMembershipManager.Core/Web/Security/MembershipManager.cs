@@ -42,7 +42,14 @@ namespace AspNetMembershipManager.Web.Security
 			return membershipProvider.GetUser(username, false);
 		}
 
-	    public IMembershipSettings Settings
+		public bool ChangePassword(IUser user, string password)
+		{
+			System.Web.Security.MembershipUser membershipUser = membershipProvider.GetUser(user.UserName, true);
+			
+			return membershipUser.ChangePassword(membershipUser.ResetPassword(), password);
+		}
+
+		public IMembershipSettings Settings
         {
             get
 	        {

@@ -14,9 +14,9 @@ namespace AspNetMembershipManager.User.Profile
 		private Type arrayDataType;
 
 		internal ProfileCollectionPropertyWindow(Window parentWindow, IProfileProperty profileProperty)
+			: base(parentWindow)
 		{
 			this.profileProperty = profileProperty;
-			Owner = parentWindow;
 
 			InitializeComponent();
 

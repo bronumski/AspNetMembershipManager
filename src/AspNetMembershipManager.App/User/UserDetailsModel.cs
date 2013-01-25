@@ -50,6 +50,19 @@ namespace AspNetMembershipManager.User
 			}
 		}
 
+		public bool IsAccountLocked
+		{
+			get
+			{
+				return user.IsLockedOut;
+			}
+		}
+
+		public void AccountUnlocked()
+		{
+			OnPropertyChanged("IsAccountLocked");
+		}
+
 		private static IProfileProperty CreateProfilePropertyViewModel(SettingsPropertyValue x)
 		{
 			return new ProfileProperty(x);
@@ -77,6 +90,7 @@ namespace AspNetMembershipManager.User
     			return string.Empty;
     		}
     	}
+
 
 		internal class UserInRole
 		{

@@ -65,5 +65,13 @@ namespace AspNetMembershipManager.User
 			var resetPasswordDialog = new ResetPasswordWindow(this, user, providerManagers);
             resetPasswordDialog.ShowDialog();
 		}
+
+		private void UnlockAccount_Click(object sender, RoutedEventArgs e)
+		{
+			if (user.Unlock())
+			{
+				userDetails.AccountUnlocked();
+			}
+		}
 	}
 }

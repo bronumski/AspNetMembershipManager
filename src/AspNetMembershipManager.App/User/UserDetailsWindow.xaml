@@ -101,10 +101,32 @@
 				</TabItem>
 			</TabControl>
 		</DockPanel>
-		<GroupBox Header="Actions" VerticalAlignment="Bottom" Margin="12,0,797,10" Height="64">
-			<Button Content="Reset password" IsDefault="True" HorizontalAlignment="left" Width="110" Height="25" Click="ResetPassword_Click" />
+		<GroupBox Header="Actions" VerticalAlignment="Bottom" Margin="10">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<StackPanel Orientation="Horizontal" Grid.Column="0">
+					<StackPanel.Resources>
+						<Style TargetType="{x:Type Button}">
+							<Setter Property="Margin" Value="0,0,10,0" />
+							<Setter Property="Padding" Value="10,0,10,0" />
+						</Style>
+					</StackPanel.Resources>
+					<Button Content="Reset password" Click="ResetPassword_Click" />
+					<Button Content="Unlock account" Click="UnlockAccount_Click" IsEnabled="{Binding IsAccountLocked}" />
+				</StackPanel>
+				<StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Grid.Column="1">
+					<StackPanel.Resources>
+						<Style TargetType="{x:Type Button}">
+							<Setter Property="Margin" Value="10,0,0,0"/>
+						</Style>
+					</StackPanel.Resources>
+					<Button Content="Save" IsDefault="True" Width="75" Command="Save" />
+					<Button Content="Cancel" IsCancel="True" Width="75" />
+				</StackPanel>
+			</Grid>
 		</GroupBox>
-		<Button Content="Save" IsDefault="True" HorizontalAlignment="Right" Margin="0,0,12,12" VerticalAlignment="Bottom" Width="75" Command="Save" />
-		<Button Content="Cancel" IsCancel="True" HorizontalAlignment="Right" Margin="0,0,93,12" VerticalAlignment="Bottom" Width="75" />
 	</Grid>
 </AspNetMembershipManager:EditDialogWindow>

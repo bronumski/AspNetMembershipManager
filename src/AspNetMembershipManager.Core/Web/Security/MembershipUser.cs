@@ -175,5 +175,15 @@ namespace AspNetMembershipManager.Web.Security
 		{
 			userRoles.Add(role.Name, role);
 		}
+
+		public bool ChangePassword(string password)
+		{
+			return membershipUser.ChangePassword(membershipUser.ResetPassword(), password);
+		}
+
+		public bool Unlock()
+		{
+			return membershipUser.UnlockUser();
+		}
 	}
 }

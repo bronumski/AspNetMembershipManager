@@ -11,6 +11,5 @@ namespace AspNetMembershipManager.Web.Security
 		MembershipCreateStatus CreateUser(string username, string password, string emailAddress, string passwordQuestion, string passwordQuestionAnswer);
 		System.Web.Security.MembershipUser GetUser(string username);
 	    IMembershipSettings Settings { get; }
-		bool ChangePassword(IUser user, string password);
 	}
 }

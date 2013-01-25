@@ -43,7 +43,7 @@ namespace AspNetMembershipManager.User
 		{
 			try
 			{
-				if (providerManagers.ChangeUserPassword(user, ResetPasswordModel.NewPassword))
+				if (user.ChangePassword(ResetPasswordModel.NewPassword))
 				{
 					return base.OnOkExecuted();
 				}

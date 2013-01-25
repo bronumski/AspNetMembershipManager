@@ -18,5 +18,7 @@ namespace AspNetMembershipManager.Web
 		void Save();
 		void RemoveFromRole(IRole role);
 		void AddToRole(IRole role);
+		bool Unlock();
+		bool ChangePassword(string password);
 	}
 }

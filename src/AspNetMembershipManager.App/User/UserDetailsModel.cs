@@ -9,17 +9,11 @@ namespace AspNetMembershipManager.User
     {
 		private readonly IUser user;
 		private readonly IProviderManagers providerManagers;
-		private readonly IEnumerable<UserInRole> userRoles; 
 
 		public UserDetailsModel(IUser user, IProviderManagers providerManagers)
 		{
 			this.user = user;
 			this.providerManagers = providerManagers;
-
-			if (providerManagers.RolesEnabled)
-			{
-				userRoles = providerManagers.GetAllRoles().Select(x => new UserInRole(x, user));
-			}
 		}
 
 		public string Username
@@ -39,7 +33,14 @@ namespace AspNetMembershipManager.User
 
 		public IEnumerable<UserInRole> Roles
 		{
-			get { return userRoles; }
+			get
+			{
+				if (providerManagers.RolesEnabled)
+				{
+					return providerManagers.GetAllRoles().Select(x => new UserInRole(x, user));
+				}
+				return null;
+			}
 		}
 
 		public IEnumerable<IProfileProperty> Profile
@@ -90,7 +91,6 @@ namespace AspNetMembershipManager.User
     			return string.Empty;
     		}
     	}
-
 
 		internal class UserInRole
 		{

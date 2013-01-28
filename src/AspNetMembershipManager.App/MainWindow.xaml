@@ -28,6 +28,7 @@
 											<StackPanel Orientation="Horizontal">
 												<Button Click="DeleteUser">Delete</Button>
 												<Button Click="ResetPassword">Reset password</Button>
+												<Button Click="UnlockAccount" IsEnabled="{Binding IsLockedOut}">Unlock account</Button>
 											</StackPanel>
 										</DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>

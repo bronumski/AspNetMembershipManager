@@ -76,7 +76,7 @@ namespace AspNetMembershipManager
 
 		private void DeleteUser(object sender, RoutedEventArgs e)
 		{
-			var user = (IUser)((Button) sender).DataContext;
+			var user = (IUser)((MenuItem) sender).DataContext;
 
 			if (MessageBox.Show(this, "Delete user?", "Delete user", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 			{
@@ -118,6 +118,15 @@ namespace AspNetMembershipManager
 
 			var resetPasswordDialog = new ResetPasswordWindow(this, user, providerManagers);
             resetPasswordDialog.ShowDialog();
+		}
+
+		private void UnlockAccount(object sender, RoutedEventArgs e)
+		{
+			var user = (IUser)((Button) sender).DataContext;
+
+			user.Unlock();
+
+			viewModel.RefreshMembershipUsers();
 		}
 	}
 }

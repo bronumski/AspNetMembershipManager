@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using AspNetMembershipManager.Web;
@@ -53,10 +54,48 @@ namespace AspNetMembershipManager.User
 
 		public bool IsAccountLocked
 		{
-			get
-			{
-				return user.IsLockedOut;
-			}
+			get { return user.IsLockedOut; }
+		}
+
+		public bool RequiresQuestionAndAnswer
+    	{
+    		get { return providerManagers.MembershipSettings.RequiresQuestionAndAnswer; }
+    	}
+
+		public string PasswordQuestion
+		{
+			get { return user.PasswordQuestion; }
+		}
+
+		public DateTime CreationDate
+		{
+			get { return user.CreationDate; }
+		}
+
+		public DateTime LastActivityDate
+		{
+			get { return user.LastActivityDate; }
+		}
+
+		public DateTime LastLockoutDate
+		{
+			get { return user.LastLockoutDate; }
+		}
+
+		public DateTime LastLoginDate
+		{
+			get { return user.LastLoginDate; }
+		}
+
+		public DateTime LastPasswordChangeDate
+		{
+			get { return user.LastPasswordChangedDate; }
+		}
+
+		public string Comment
+		{ 
+			get { return user.Comment; }
+			set { user.Comment = value; }
 		}
 
 		public void AccountUnlocked()

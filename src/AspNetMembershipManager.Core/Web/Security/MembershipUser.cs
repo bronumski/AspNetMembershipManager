@@ -76,6 +76,27 @@ namespace AspNetMembershipManager.Web.Security
 			get { return membershipUser.LastLoginDate; }
 		}
 
+		public DateTime LastActivityDate
+		{
+			get { return membershipUser.LastActivityDate; }
+		}
+
+		public DateTime LastLockoutDate
+		{
+			get { return membershipUser.LastLockoutDate; }
+		}
+
+		public DateTime LastPasswordChangedDate
+		{
+			get { return membershipUser.LastPasswordChangedDate; }
+		}
+
+		public string Comment
+		{
+			get { return membershipUser.Comment; }
+			set { membershipUser.Comment = value; }
+		}
+
 		public IEnumerable<SettingsPropertyValue> ProfileProperties
 		{
 			get
@@ -94,6 +115,11 @@ namespace AspNetMembershipManager.Web.Security
 				}
 				return Enumerable.Empty<SettingsPropertyValue>();
 			}
+		}
+
+		public string PasswordQuestion
+		{
+			get { return membershipUser.PasswordQuestion; }
 		}
 
 		public void Delete()

@@ -11,9 +11,14 @@ namespace AspNetMembershipManager.Web
 		IEnumerable<IRole> Roles { get; }
 		bool IsApproved { get; }
 		bool IsLockedOut { get; }
+		IEnumerable<SettingsPropertyValue> ProfileProperties { get; }
+		string PasswordQuestion { get; }
 		DateTime CreationDate { get; }
 		DateTime LastLoginDate { get; }
-		IEnumerable<SettingsPropertyValue> ProfileProperties { get; }
+		DateTime LastActivityDate { get; }
+		DateTime LastLockoutDate { get; }
+		DateTime LastPasswordChangedDate { get; }
+		string Comment { get; set; }
 		void Delete();
 		void Save();
 		void RemoveFromRole(IRole role);

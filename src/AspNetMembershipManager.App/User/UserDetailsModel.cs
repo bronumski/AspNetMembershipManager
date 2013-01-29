@@ -46,10 +46,7 @@ namespace AspNetMembershipManager.User
 
 		public IEnumerable<IProfileProperty> Profile
 		{
-			get
-			{
-				return user.ProfileProperties.Select(CreateProfilePropertyViewModel);
-			}
+			get { return user.ProfileProperties.Select(CreateProfilePropertyViewModel); }
 		}
 
 		public bool IsAccountLocked

@@ -21,7 +21,7 @@ namespace TestWebsiteWithOnlyMembershipProvider
 
         public override bool ChangePasswordQuestionAndAnswer(string username, string password, string newPasswordQuestion, string newPasswordAnswer)
         {
-            throw new System.NotImplementedException();
+        	return true;
         }
 
         public override string GetPassword(string username, string answer)
@@ -31,12 +31,12 @@ namespace TestWebsiteWithOnlyMembershipProvider
 
         public override bool ChangePassword(string username, string oldPassword, string newPassword)
         {
-            throw new System.NotImplementedException();
+        	return true;
         }
 
         public override string ResetPassword(string username, string answer)
         {
-            throw new System.NotImplementedException();
+        	return "Password123";
         }
 
         public override void UpdateUser(MembershipUser user)
@@ -112,12 +112,12 @@ namespace TestWebsiteWithOnlyMembershipProvider
 
         public override bool EnablePasswordReset
         {
-            get { throw new System.NotImplementedException(); }
+            get { return true; }
         }
 
         public override bool RequiresQuestionAndAnswer
         {
-            get { throw new System.NotImplementedException(); }
+            get { return true; }
         }
 
         public override string ApplicationName
@@ -128,32 +128,32 @@ namespace TestWebsiteWithOnlyMembershipProvider
 
         public override int MaxInvalidPasswordAttempts
         {
-            get { throw new System.NotImplementedException(); }
+            get { return 3; }
         }
 
         public override int PasswordAttemptWindow
         {
-            get { throw new System.NotImplementedException(); }
+            get { return 3; }
         }
 
         public override bool RequiresUniqueEmail
         {
-            get { throw new System.NotImplementedException(); }
+            get { return true; }
         }
 
         public override MembershipPasswordFormat PasswordFormat
         {
-            get { throw new System.NotImplementedException(); }
+            get { return MembershipPasswordFormat.Clear; }
         }
 
         public override int MinRequiredPasswordLength
         {
-            get { throw new System.NotImplementedException(); }
+            get { return 10; }
         }
 
         public override int MinRequiredNonAlphanumericCharacters
         {
-            get { throw new System.NotImplementedException(); }
+            get { return 5; }
         }
 
         public override string PasswordStrengthRegularExpression

@@ -1,5 +1,3 @@
-using System.ComponentModel;
-
 namespace AspNetMembershipManager.Role
 {
     class CreateRoleModel : SaveViewModelBase

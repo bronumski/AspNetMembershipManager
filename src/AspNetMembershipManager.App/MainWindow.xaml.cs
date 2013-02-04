@@ -42,7 +42,7 @@ namespace AspNetMembershipManager
 
 	    private void btnCreateUser_Click(object sender, RoutedEventArgs e)
         {
-            var createUserDialog = new CreateUserWindow(this, providerManagers);
+            var createUserDialog = new CreateUserWindow(this, providerManagers, new MembershipPasswordGenerator(providerManagers.MembershipSettings));
             var createResult = createUserDialog.ShowDialog();
 
             if (createResult == true)
@@ -116,7 +116,7 @@ namespace AspNetMembershipManager
 		{
 			var user = (IUser)((Button) sender).DataContext;
 
-			var resetPasswordDialog = new ResetPasswordWindow(this, user, providerManagers);
+			var resetPasswordDialog = new ResetPasswordWindow(this, user, providerManagers, new MembershipPasswordGenerator(providerManagers.MembershipSettings));
             resetPasswordDialog.ShowDialog();
 		}
 

@@ -62,7 +62,7 @@ namespace AspNetMembershipManager.User
 
 		private void ResetPassword_Click(object sender, RoutedEventArgs e)
 		{
-			var resetPasswordDialog = new ResetPasswordWindow(this, user, providerManagers);
+			var resetPasswordDialog = new ResetPasswordWindow(this, user, providerManagers, new MembershipPasswordGenerator(providerManagers.MembershipSettings));
             resetPasswordDialog.ShowDialog();
 		}
 

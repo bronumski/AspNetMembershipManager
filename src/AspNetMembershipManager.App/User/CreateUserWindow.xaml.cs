@@ -10,37 +10,48 @@ namespace AspNetMembershipManager.User
     public partial class CreateUserWindow : EditDialogWindow
     {
         private readonly IProviderManagers providerManagers;
-        private readonly CreateUserModel createUserModel;
+    	private readonly IPasswordGenerator passwordGenerator;
 
-        public CreateUserWindow(Window parentWindow, IProviderManagers providerManagers)
+        public CreateUserWindow(Window parentWindow, IProviderManagers providerManagers, IPasswordGenerator passwordGenerator)
 			: base(parentWindow)
         {
             InitializeComponent();
 
             this.providerManagers = providerManagers;
+        	this.passwordGenerator = passwordGenerator;
 
-            createUserModel = new CreateUserModel(providerManagers.MembershipSettings);
-            DataContext = createUserModel;
+        	CreateUserModel = new CreateUserModel(providerManagers.MembershipSettings);
         }
+
+		private CreateUserModel CreateUserModel
+		{
+			set { DataContext = value; }
+            get { return (CreateUserModel)DataContext; }
+		}
 
 		protected override bool OnOkExecuted()
         {
         	try
         	{
 				providerManagers.CreateUser(
-                                            createUserModel.Username,
-                                            createUserModel.Password,
-                                            createUserModel.EmailAddress,
-											createUserModel.PasswordQuestion,
-											createUserModel.PasswordQuestionAnswer);
+                                            CreateUserModel.Username,
+                                            CreateUserModel.Password,
+                                            CreateUserModel.EmailAddress,
+											CreateUserModel.PasswordQuestion,
+											CreateUserModel.PasswordQuestionAnswer);
         	}
         	catch (MembershipCreateUserException ex)
         	{
-                createUserModel.Error = ex.StatusCode.ToString();
+                CreateUserModel.Error = ex.StatusCode.ToString();
         		return false;
         	}
 
         	return base.OnOkExecuted();
         }
+
+    	private void AutoGeneratePassword_Click(object sender, RoutedEventArgs e)
+    	{
+    		CreateUserModel.SetAutoGenerateneratedPassword(passwordGenerator.GeneratePassword());
+    	}
     }
 }

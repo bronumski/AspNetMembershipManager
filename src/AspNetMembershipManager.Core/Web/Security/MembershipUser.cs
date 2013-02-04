@@ -207,6 +207,11 @@ namespace AspNetMembershipManager.Web.Security
 			return membershipUser.ChangePassword(membershipUser.ResetPassword(), password);
 		}
 
+		public bool ChangePasswordQuestionAndAnswer(string newPassword, string passwordQuestion, string passwordQuestionAnswer)
+		{
+			return membershipUser.ChangePasswordQuestionAndAnswer(newPassword, passwordQuestion, passwordQuestionAnswer);
+		}
+
 		public bool Unlock()
 		{
 			return membershipUser.UnlockUser();

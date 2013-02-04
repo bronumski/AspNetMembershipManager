@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Web.Security;
 using System.Windows;
 using AspNetMembershipManager.Web;
 
@@ -11,15 +10,15 @@ namespace AspNetMembershipManager.User
 	public partial class ResetPasswordWindow : EditDialogWindow
 	{
 		private readonly IUser user;
-		private readonly IProviderManagers providerManagers;
+		private readonly IPasswordGenerator passwordGenerator;
 
-		public ResetPasswordWindow(Window parentWindow, IUser user, IProviderManagers providerManagers)
+		public ResetPasswordWindow(Window parentWindow, IUser user, IProviderManagers providerManagers, IPasswordGenerator passwordGenerator)
 			: base(parentWindow)
 		{
 			this.user = user;
 
-			this.providerManagers = providerManagers;
-			
+			this.passwordGenerator = passwordGenerator;
+
 			InitializeComponent();
 
 			ResetPasswordModel = new ResetPasswordViewModel(providerManagers.MembershipSettings);
@@ -33,10 +32,7 @@ namespace AspNetMembershipManager.User
 
 		private void AutoGeneratePassword_Click(object sender, RoutedEventArgs e)
 		{
-			ResetPasswordModel.SetAutoGenerateneratedPassword(
-				Membership.GeneratePassword(
-					providerManagers.MembershipSettings.MinRequiredPasswordLength,
-					providerManagers.MembershipSettings.MinRequiredNonAlphanumericCharacters));
+			ResetPasswordModel.SetAutoGenerateneratedPassword(passwordGenerator.GeneratePassword());
 		}
 
 		protected override bool OnOkExecuted()
@@ -45,9 +41,27 @@ namespace AspNetMembershipManager.User
 			{
 				if (user.ChangePassword(ResetPasswordModel.NewPassword))
 				{
-					return base.OnOkExecuted();
+					if (ResetPasswordModel.ChangePasswordQuestionAndAnswer)
+					{
+						if (user.ChangePasswordQuestionAndAnswer(
+							ResetPasswordModel.NewPassword,
+							ResetPasswordModel.PasswordQuestion,
+							ResetPasswordModel.PasswordQuestionAnswer))
+						{
+							return base.OnOkExecuted();
+						}
+						ResetPasswordModel.Error = "Failed to change password question and answer";
+					}
+					else
+					{
+						return base.OnOkExecuted();
+					}
 				}
-				ResetPasswordModel.Error = "Failed to change password";
+				else
+				{
+					ResetPasswordModel.Error = "Failed to change password";
+				}
+				
 			}
 			catch (Exception ex)
 			{

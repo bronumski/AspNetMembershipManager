@@ -106,6 +106,13 @@
 
 		<Message Text="##teamcity[progressStart 'Running FxCop...']" />
 
+		<ItemGroup>
+
+			<TargetAssemblies Include="$(AssemblyOutputPath)\AspNetMembershipManager*.dll;$(AssemblyOutputPath)\AspNetMembershipManager*.exe" Exclude="$(SourceFolder)\Tests\**\*.*" />
+			<TestAssemblies Include="$(SourceFolder)\Tests\**\bin\Release\AspNetMembershipManager*.Tests.dll" />
+
+		</ItemGroup>
+		
 		<MSBuild.ExtensionPack.CodeQuality.FxCop
 		  TaskAction="Analyse"
 		  FxCopPath="$(FxCopBinPath)\FxCopCmd.exe"

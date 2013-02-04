@@ -41,7 +41,7 @@
 	
 	<Target Name="Publish" DependsOnTargets="BuildVersionNumbers">
 		
-		<MSBuild.ExtensionPack.Security.Certificate TaskAction="Add" FileName="$(SourceFolder)\AspNetMembershipManager.App\aspnetmemberman-beta.pfx">
+		<MSBuild.ExtensionPack.Security.Certificate TaskAction="Add" FileName="$(SourceFolder)\AspNetMembershipManager.App\aspnetmemberman-beta.pfx" CertPassword="">
             <Output TaskParameter="Thumbprint" PropertyName="CertificateThumbprint"/>
         </MSBuild.ExtensionPack.Security.Certificate>
 

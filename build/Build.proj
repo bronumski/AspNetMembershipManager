@@ -41,7 +41,7 @@
 	
 	<Target Name="Publish" DependsOnTargets="BuildVersionNumbers">
 		
-		<MSBuild.ExtensionPack.Security.Certificate TaskAction="Add" MachineStore="true" FileName="$(SourceFolder)\AspNetMembershipManager.App\aspnetmemberman-beta.pfx" CertPassword="Wibble">
+		<MSBuild.ExtensionPack.Security.Certificate TaskAction="Add" MachineStore="true" FileName="$(MSBuildProjectDirectory)\aspnetmemberman.pfx" CertPassword="">
             <Output TaskParameter="Thumbprint" PropertyName="CertificateThumbprint"/>
         </MSBuild.ExtensionPack.Security.Certificate>
 
@@ -55,7 +55,7 @@
 	</Target>
 	
 	<Target Name="TestCertificate">
-		<MSBuild.ExtensionPack.Security.Certificate TaskAction="Add" MachineStore="true" FileName="$(SourceFolder)\AspNetMembershipManager.App\aspnetmemberman-beta.pfx" CertPassword="Wibble">
+		<MSBuild.ExtensionPack.Security.Certificate TaskAction="Add" MachineStore="true" FileName="$(MSBuildProjectDirectory)\aspnetmemberman.pfx" CertPassword="">
             <Output TaskParameter="Thumbprint" PropertyName="CertificateThumbprint"/>
         </MSBuild.ExtensionPack.Security.Certificate>
 

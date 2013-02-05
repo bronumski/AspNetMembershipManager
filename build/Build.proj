@@ -10,12 +10,6 @@
 		<Version-Macro>0</Version-Macro>
 	</PropertyGroup>
 	
-	<PropertyGroup>
-	    <ProjectPath>$(SourceFolder)\AspNetMembershipManager.App\AspNetMembershipManager.App.csproj</ProjectPath>
-	    <ProjectPublishLocation>$(AssemblyOutputPath)\app.publish</ProjectPublishLocation>
-  </PropertyGroup>
-
-
 	<Target Name="GetTargetAssemblies" DependsOnTargets="Build">
 
 		<ItemGroup>
@@ -40,44 +34,57 @@
 	</Target>
 	
 	<Target Name="Publish" DependsOnTargets="BuildVersionNumbers">
+
+		<FormatVersion FormatType="Path" Version="$(Version-File)">
+			<Output TaskParameter="OutputVersion" PropertyName="VersionAsPath" />
+		</FormatVersion>
+
+		<PropertyGroup>
+			<ProjectPath>$(SourceFolder)\AspNetMembershipManager.App\AspNetMembershipManager.App.csproj</ProjectPath>
+			<ProjectPublishLocation>$(AssemblyOutputPath)\app.publish</ProjectPublishLocation>
+			<MagePath>$(ToolsFolder)\Microsoft\Mage\Mage.exe</MagePath>
+			<!--<SigningCertificatePath>$(MSBuildProjectDirectory)\aspnetmemberman.pfx</SigningCertificatePath>-->
+			<SigningCertificatePath>$(SourceFolder)\AspNetMembershipManager.App\aspnetmemberman-beta.pfx</SigningCertificatePath>
+			<ApplicationManifestPath>$(ProjectPublishLocation)\AspNetMembershipManager.App.application</ApplicationManifestPath>
+			<DeploymentApplicationFilesPath>$(ProjectPublishLocation)\Application Files\AspNetMembershipManager.App_$(VersionAsPath)</DeploymentApplicationFilesPath>
+			<DeploymentManifestPath>$(ProjectPublishLocation)\Application Files\AspNetMembershipManager.App_$(VersionAsPath)\AspNetMembershipManager.App.exe.manifest</DeploymentManifestPath>
+		</PropertyGroup>
 		
-		<MSBuild.ExtensionPack.Security.Certificate TaskAction="Add" MachineStore="true" FileName="$(MSBuildProjectDirectory)\aspnetmemberman.pfx" CertPassword="">
-            <Output TaskParameter="Thumbprint" PropertyName="CertificateThumbprint"/>
-        </MSBuild.ExtensionPack.Security.Certificate>
+		<Microsoft.Build.Tasks.RemoveDir Directories="$(ProjectPublishLocation)" Condition="Exists('$(ProjectPublishLocation)')"/>
 
 		<MSBuild Projects="$(ProjectPath)"
 				 Targets="Publish"
-				 Properties="Configuration=Release;Architecture=Any;ApplicationVersion=$(Version-File);OutputPath=$(AssemblyOutputPath)\;ManifestCertificateThumbprint=$(CertificateThumbprint);SignManifests=true" />
+				 Properties="Configuration=Release;Architecture=Any;ApplicationVersion=$(Version-File);OutputPath=$(AssemblyOutputPath)\;SignManifests=false" />
 		
+		<ItemGroup>
+			<DeployFiles Include="$(DeploymentApplicationFilesPath)\*.deploy" />
+		</ItemGroup>
 		
-		<MSBuild.ExtensionPack.Compression.Zip RemoveRoot="$(ProjectPublishLocation)" TaskAction="Create" CompressPath="$(ProjectPublishLocation)" ZipFileName="$(AssemblyOutputPath)\Publish.zip"/>
-		
-	</Target>
-	
-	<Target Name="TestCertificate">
-		<MSBuild.ExtensionPack.Security.Certificate TaskAction="Add" MachineStore="true" FileName="$(MSBuildProjectDirectory)\aspnetmemberman.pfx" CertPassword="">
-            <Output TaskParameter="Thumbprint" PropertyName="CertificateThumbprint"/>
-        </MSBuild.ExtensionPack.Security.Certificate>
+		<Move SourceFiles="@(DeployFiles)"
+			  DestinationFiles="@(DeployFiles->'$(DeploymentApplicationFilesPath)\%(RecursiveDir)%(Filename)')" />
 
-		<MSBuild.ExtensionPack.Security.Certificate TaskAction="GetInfo" MachineStore="true" Thumbprint="$(CertificateThumbprint)">
-            <Output TaskParameter="CertInfo" ItemName="ICertInfo" />
-        </MSBuild.ExtensionPack.Security.Certificate>
-        <Message Text="SubjectName: %(ICertInfo.SubjectName)"/>
-        <Message Text="SubjectNameOidValue: %(ICertInfo.SubjectNameOidValue)"/>
-        <Message Text="SerialNumber: %(ICertInfo.SerialNumber)"/>
-        <Message Text="Archived: %(ICertInfo.Archived)"/>
-        <Message Text="NotBefore: %(ICertInfo.NotBefore)"/>
-        <Message Text="NotAfter: %(ICertInfo.NotAfter)"/>
-        <Message Text="PrivateKeyFileName: %(ICertInfo.PrivateKeyFileName)"/>
-        <Message Text="FriendlyName: %(ICertInfo.FriendlyName)"/>
-        <Message Text="HasPrivateKey: %(ICertInfo.HasPrivateKey)"/>
-        <Message Text="Thumbprint: %(ICertInfo.Thumbprint)"/>
-        <Message Text="Version: %(ICertInfo.Version)"/>
-        <Message Text="PrivateKeyFileName: %(ICertInfo.PrivateKeyFileName)"/>
-        <Message Text="SignatureAlgorithm: %(ICertInfo.SignatureAlgorithm)"/>
-        <Message Text="IssuerName: %(ICertInfo.IssuerName)"/>
-        <Message Text="PrivateKeyFileName: %(ICertInfo.PrivateKeyFileName)"/>
+		
+		<!--<Exec Command="&quot;$(MagePath)&quot; -Update &quot;$(DeploymentManifestPath)&quot; -AppManifest &quot;$(ApplicationManifestPath)&quot;" />-->
+		
+		<!--<Exec Command="$(MagePath) –sign &quot;$(ApplicationManifestPath)&quot; -CertFile &quot;$(SigningCertificatePath)&quot; -Password &quot;Wibble&quot;" />
+		
+		<Exec Command="$(MagePath) –sign &quot;$(DeploymentManifestPath)&quot; -CertFile &quot;$(SigningCertificatePath)&quot; -Password &quot;Wibble&quot;" />-->
+		
+		
+		<!--<Exec Command="$(MagePath) –update &quot;$(ApplicationManifestPath)&quot;" />-->
 
+		<!--<Exec Command="$(MagePath) –sign &quot;$(ApplicationManifestPath)&quot; -CertFile &quot;$(SigningCertificatePath)&quot;" />-->
+		
+		<!--<Exec Command="$(MagePath) –update &quot;$(DeploymentManifestPath)&quot; -appm &quot;$(ApplicationManifestPath)&quot; -appc &quot;Application Files\AspNetMembershipManager.App_1_0_0_0&quot;" />-->
+
+		<!--<Exec Command="$(MagePath) –sign &quot;$(DeploymentManifestPath)&quot; -CertFile &quot;$(SigningCertificatePath)&quot;" />-->
+		
+		<!--<Exec Command="$(MagePath) –update &quot;$(ApplicationManifestPath)&quot; -appm &quot;$(DeploymentManifestPath)&quot;" />-->
+		
+		<!--<Exec Command="$(MagePath) –sign &quot;$(ApplicationManifestPath)&quot; -CertFile &quot;$(SigningCertificatePath)&quot;" />-->
+
+		<!--<MSBuild.ExtensionPack.Compression.Zip RemoveRoot="$(ProjectPublishLocation)" TaskAction="Create" CompressPath="$(ProjectPublishLocation)" ZipFileName="$(AssemblyOutputPath)\Publish.zip"/>-->
+		
 	</Target>
 
 </Project>

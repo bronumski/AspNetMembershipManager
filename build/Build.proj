@@ -41,7 +41,7 @@
 	
 	<Target Name="Publish" DependsOnTargets="BuildVersionNumbers">
 		
-		<MSBuild.ExtensionPack.Security.Certificate TaskAction="Add" FileName="$(SourceFolder)\AspNetMembershipManager.App\aspnetmemberman-beta.pfx" CertPassword="">
+		<MSBuild.ExtensionPack.Security.Certificate TaskAction="Add" MachineStore="true" FileName="$(SourceFolder)\AspNetMembershipManager.App\aspnetmemberman-beta.pfx" CertPassword="">
             <Output TaskParameter="Thumbprint" PropertyName="CertificateThumbprint"/>
         </MSBuild.ExtensionPack.Security.Certificate>
 
@@ -52,6 +52,32 @@
 		
 		<MSBuild.ExtensionPack.Compression.Zip RemoveRoot="$(ProjectPublishLocation)" TaskAction="Create" CompressPath="$(ProjectPublishLocation)" ZipFileName="$(AssemblyOutputPath)\Publish.zip"/>
 		
+	</Target>
+	
+	<Target Name="Test">
+		<MSBuild.ExtensionPack.Security.Certificate TaskAction="Add" MachineStore="true" FileName="$(SourceFolder)\AspNetMembershipManager.App\aspnetmemberman-beta.pfx" CertPassword="">
+            <Output TaskParameter="Thumbprint" PropertyName="CertificateThumbprint"/>
+        </MSBuild.ExtensionPack.Security.Certificate>
+
+		<MSBuild.ExtensionPack.Security.Certificate TaskAction="GetInfo" MachineStore="true" Thumbprint="$(CertificateThumbprint)">
+            <Output TaskParameter="CertInfo" ItemName="ICertInfo" />
+        </MSBuild.ExtensionPack.Security.Certificate>
+        <Message Text="SubjectName: %(ICertInfo.SubjectName)"/>
+        <Message Text="SubjectNameOidValue: %(ICertInfo.SubjectNameOidValue)"/>
+        <Message Text="SerialNumber: %(ICertInfo.SerialNumber)"/>
+        <Message Text="Archived: %(ICertInfo.Archived)"/>
+        <Message Text="NotBefore: %(ICertInfo.NotBefore)"/>
+        <Message Text="NotAfter: %(ICertInfo.NotAfter)"/>
+        <Message Text="PrivateKeyFileName: %(ICertInfo.PrivateKeyFileName)"/>
+        <Message Text="FriendlyName: %(ICertInfo.FriendlyName)"/>
+        <Message Text="HasPrivateKey: %(ICertInfo.HasPrivateKey)"/>
+        <Message Text="Thumbprint: %(ICertInfo.Thumbprint)"/>
+        <Message Text="Version: %(ICertInfo.Version)"/>
+        <Message Text="PrivateKeyFileName: %(ICertInfo.PrivateKeyFileName)"/>
+        <Message Text="SignatureAlgorithm: %(ICertInfo.SignatureAlgorithm)"/>
+        <Message Text="IssuerName: %(ICertInfo.IssuerName)"/>
+        <Message Text="PrivateKeyFileName: %(ICertInfo.PrivateKeyFileName)"/>
+
 	</Target>
 
 </Project>

@@ -33,10 +33,14 @@
 		
 	</Target>
 	
-	<Target Name="Publish" DependsOnTargets="BuildVersionNumbers">
+	<Target Name="Publish">
 
-		<FormatVersion FormatType="Path" Version="$(Version-File)">
-			<Output TaskParameter="OutputVersion" PropertyName="VersionAsPath" />
+		<PropertyGroup>
+			<Version-Publish Condition=" '$(build_number)' == '' " >$(Version-Major).$(Version-Minor).$(Version-Macro).0</Version-Publish>
+			<Version-Publish Condition=" '$(build_number)' != '' " >$(build_number)</Version-Publish>
+		</PropertyGroup>
+		<FormatVersion FormatType="Path" Version="$(Version-Publish)">
+			<Output TaskParameter="OutputVersion" PropertyName="Version-PublishAsPath" />
 		</FormatVersion>
 
 		<PropertyGroup>
@@ -47,7 +51,7 @@
 			<SigningCertificatePath>$(SourceFolder)\AspNetMembershipManager.App\aspnetmemberman-beta.pfx</SigningCertificatePath>
 			<SigningCertificatePassword>Wibble</SigningCertificatePassword>
 			<DeploymentManifestPath>$(ProjectPublishLocation)\AspNetMembershipManager.App.application</DeploymentManifestPath>
-			<ApplicationFilesRelativePath>Application Files\AspNetMembershipManager.App_$(VersionAsPath)</ApplicationFilesRelativePath>
+			<ApplicationFilesRelativePath>Application Files\AspNetMembershipManager.App_$(Version-PublishAsPath)</ApplicationFilesRelativePath>
 			<ApplicationFilesAbsolutePath>$(ProjectPublishLocation)\$(ApplicationFilesRelativePath)</ApplicationFilesAbsolutePath>
 			<ApplicationManifestRelativePath>$(ApplicationFilesRelativePath)\AspNetMembershipManager.App.exe.manifest</ApplicationManifestRelativePath>
 			<ApplicationManifestPath>$(ProjectPublishLocation)\$(ApplicationManifestRelativePath)</ApplicationManifestPath>
@@ -57,7 +61,7 @@
 
 		<MSBuild Projects="$(ProjectPath)"
 				 Targets="Publish"
-				 Properties="Configuration=Release;Architecture=Any;ApplicationVersion=$(Version-File);OutputPath=$(AssemblyOutputPath)\;SignManifests=false" />
+				 Properties="Configuration=Release;Architecture=Any;ApplicationVersion=$(Version-Publish);OutputPath=$(AssemblyOutputPath)\;SignManifests=false" />
 		
 		<ItemGroup>
 			<FilesToRemoveDeployExtensionFrom Include="$(ApplicationFilesAbsolutePath)\**\*.deploy" />

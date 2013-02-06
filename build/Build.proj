@@ -39,10 +39,15 @@
 			<Version-Publish Condition=" '$(build_number)' == '' " >$(Version-Major).$(Version-Minor).$(Version-Macro).0</Version-Publish>
 			<Version-Publish Condition=" '$(build_number)' != '' " >$(build_number)</Version-Publish>
 		</PropertyGroup>
+		
 		<FormatVersion FormatType="Path" Version="$(Version-Publish)">
 			<Output TaskParameter="OutputVersion" PropertyName="Version-PublishAsPath" />
 		</FormatVersion>
 
+		<Message Text="build_number: $(build_number)" />
+		<Message Text="Version-Publish: $(Version-Publish)" />
+		<Message Text="Version-PublishAsPath: $(Version-PublishAsPath)" />
+		
 		<PropertyGroup>
 			<ProjectPath>$(SourceFolder)\AspNetMembershipManager.App\AspNetMembershipManager.App.csproj</ProjectPath>
 			<ProjectPublishLocation>$(AssemblyOutputPath)\app.publish</ProjectPublishLocation>

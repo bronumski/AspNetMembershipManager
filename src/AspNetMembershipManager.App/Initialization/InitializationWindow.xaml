@@ -1,12 +1,20 @@
 ﻿<Window x:Class="AspNetMembershipManager.Initialization.InitializationWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:AspNetMembershipManager.Initialization"
+        d:DataContext="{d:DesignInstance vm:InitializationViewModel}" mc:Ignorable="d"
         Title="Select configuration" Height="142" Width="626" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
-    <Grid>
-		<TextBox Height="23" Text="{Binding ConfigurationPath}" HorizontalAlignment="Left" Margin="12,39,0,0" Name="txtConfigPath" VerticalAlignment="Top" Width="580" />
-		<Button Content="Browse" IsDefault="True" Height="23" HorizontalAlignment="Right" Margin="0,70,118,0" Name="btnFindConfigFile" VerticalAlignment="Top" Click="btnFindConfigFile_Click" Width="100" />
-        <Button Content="Load" IsEnabled="{Binding CanLoad}"  Height="23" HorizontalAlignment="Right" Margin="0,70,12,0" Name="btnLoadConfigFile" VerticalAlignment="Top" Click="btnLoadConfigFile_Click" Width="100" />
+	<Window.CommandBindings>
+		<CommandBinding Command="Find" Executed="BrowseForConfig" />
+		<CommandBinding Command="Open" CanExecute="OpenConfig_CanExecute" Executed="OpenConfig_Executed" />
+	</Window.CommandBindings>
+	<Grid>
+		<TextBox Height="23" Text="{Binding ConfigurationPath}" HorizontalAlignment="Left" Margin="12,39,0,0" VerticalAlignment="Top" Width="580" />
+		<Button Content="Browse" Command="Find" IsDefault="True" Height="23" HorizontalAlignment="Right" Margin="0,70,118,10" VerticalAlignment="Bottom" Width="100" />
+		<Button Content="Load" Command="Open" IsEnabled="{Binding CanLoad}" HorizontalAlignment="Right" Margin="0,70,12,10" VerticalAlignment="Bottom" Width="100" />
 		<Label Content="Select config file of website with membership database you want to administer" Height="28" HorizontalAlignment="Left" Margin="12,12,0,0" Name="label1" VerticalAlignment="Top" />
-		<CheckBox Content="Create and initialize databases if they don't exist" Height="15" HorizontalAlignment="Left" Margin="12,74,0,0" Name="chkCreateMembershipDatabases" VerticalAlignment="Top" IsChecked="{Binding CreateMembershipDatabases}"  />
+		<CheckBox Content="Create and initialize databases if they don't exist" Height="15" HorizontalAlignment="Left" Margin="12,74,0,13" VerticalAlignment="Bottom" IsChecked="{Binding CreateMembershipDatabases}"  />
 	</Grid>
 </Window>

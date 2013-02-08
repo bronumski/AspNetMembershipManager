@@ -66,13 +66,15 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="-\MapperExtensionsFixture\When_creating_a_converter_from_a_mapper.cs" />
+    <Compile Include="-\MapperExtensionsFixture\When_mapping_an_enumerable_with_the_appropriate_mapper.cs" />
     <Compile Include="AutoMockedSpecificationFor.cs" />
     <Compile Include="Collections\Specialized\NameValueCollectionExtensionsFixtures\When_converting_a_collection_to_a_dictionary.cs" />
     <Compile Include="LazyComponentAutoMocker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ProviderFactoryFixtures\When_loading_a_MembershipProvider_from_a_membership_provider_configuration.cs" />
-    <Compile Include="TypeNameFixtures\When_loading_a_type_name_without_a_fully_quallifed_name.cs" />
-    <Compile Include="TypeNameFixtures\When_loading_a_type_name_with_a_fully_quallifed_name.cs" />
+    <Compile Include="-\ProviderFactoryFixtures\When_loading_a_MembershipProvider_from_a_membership_provider_configuration.cs" />
+    <Compile Include="-\TypeNameFixtures\When_loading_a_type_name_without_a_fully_quallifed_name.cs" />
+    <Compile Include="-\TypeNameFixtures\When_loading_a_type_name_with_a_fully_quallifed_name.cs" />
     <Compile Include="User\ProfilePropertyTemplateSelectorFixtures\When_getting_a_data_template_with_a_null_property.cs" />
     <Compile Include="User\Profile\ProfileCollectionPropertyViewModelFixtures\SupportedDataTypeFixturesBase.cs" />
     <Compile Include="User\Profile\ProfileCollectionPropertyViewModelFixtures\When_adding_data_to_an_array_property_with_supported_data_type.cs" />
@@ -80,9 +82,15 @@
     <Compile Include="User\Profile\ProfileCollectionPropertyViewModelFixtures\When_getting_supported_data_types.cs" />
     <Compile Include="User\Profile\ProfileCollectionPropertyViewModelFixtures\When_viewing_a_null_string_array_property.cs" />
     <Compile Include="User\Profile\ProfileCollectionPropertyViewModelFixtures\When_viewing_a_string_array_property_with_existing_data.cs" />
+    <Compile Include="Web\MembershipManagerFixtures\When_creating_a_membership_user.cs" />
+    <Compile Include="Web\MembershipManagerFixtures\When_deleting_a_user.cs" />
+    <Compile Include="Web\MembershipManagerFixtures\When_deleting_a_user_unsuccesfully.cs" />
+    <Compile Include="Web\MembershipManagerFixtures\When_getting_all_membership_users.cs" />
+    <Compile Include="Web\MembershipManagerFixtures\When_getting_a_membership_user.cs" />
     <Compile Include="Web\MembershipUserFixtures\When_getting_users_roles\Given_roles_have_been_disabled.cs" />
     <Compile Include="Web\MembershipUserFixtures\When_getting_users_roles\Given_roles_have_been_enabled.cs" />
     <Compile Include="Web\MembershipUserFixtures\When_saving_a_user\Given_the_user_has_a_new_roles.cs" />
+    <Compile Include="Web\Profile\ProfileManagerFixtures\When_getting_if_profiles_are_enabled.cs" />
     <Compile Include="Web\ProviderManagerFixtures\When_creating_a_Role\Given_roles_have_been_enabled.cs" />
     <Compile Include="Web\ProviderManagerFixtures\When_creating_a_user.cs" />
     <Compile Include="Web\ProviderManagerFixtures\When_getting_All_Roles\Given_roles_have_been_disabled.cs" />
@@ -91,6 +99,18 @@
     <Compile Include="Web\RoleFixtures\When_deleting_a_role.cs" />
     <Compile Include="Web\MembershipUserFixtures\When_deleting_a_user.cs" />
     <Compile Include="Web\MembershipUserFixtures\When_saving_a_user\Given_the_user_has_no_new_roles.cs" />
+    <Compile Include="Web\RoleManagerFixtures\RoleManagerFixtureBase.cs" />
+    <Compile Include="Web\RoleManagerFixtures\When_adding_a_user_to_a_role.cs" />
+    <Compile Include="Web\RoleManagerFixtures\When_checking_if_a_user_is_in_a_role_that_they_are_assigned_to.cs" />
+    <Compile Include="Web\RoleManagerFixtures\When_checking_if_a_user_is_in_a_role_that_they_are_not_assigned_to.cs" />
+    <Compile Include="Web\RoleManagerFixtures\When_checking_if_roles_are_enabled.cs" />
+    <Compile Include="Web\RoleManagerFixtures\When_creating_a_role.cs" />
+    <Compile Include="Web\RoleManagerFixtures\When_deleting_a_role_sccesfully.cs" />
+    <Compile Include="Web\RoleManagerFixtures\When_deleting_a_role_unsccesfully.cs" />
+    <Compile Include="Web\RoleManagerFixtures\When_getting_all_roles_for_a_user.cs" />
+    <Compile Include="Web\RoleManagerFixtures\When_getting_all_the_user_roles.cs" />
+    <Compile Include="Web\RoleManagerFixtures\When_getting_all_users_in_a_role.cs" />
+    <Compile Include="Web\RoleManagerFixtures\When_removing_a_user_from_a_role.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AspNetMembershipManager.App\AspNetMembershipManager.App.csproj">

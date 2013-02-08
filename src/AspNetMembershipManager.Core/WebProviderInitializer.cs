@@ -110,7 +110,7 @@ namespace AspNetMembershipManager
 
 				System.Web.Profile.ProfileManager.Providers.Add(profileProvider);
 			}
-            return new ProfileManager(profileProvider, profileConfiguration);
+            return new ProfileManager(profileConfiguration);
         }
 
 		private static Assembly GetAssemblyForProfileType(ProfileSection profileSection)

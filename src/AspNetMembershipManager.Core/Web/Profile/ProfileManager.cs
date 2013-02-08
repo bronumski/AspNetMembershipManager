@@ -1,5 +1,4 @@
 using System.Web.Configuration;
-using System.Web.Profile;
 
 namespace AspNetMembershipManager.Web.Profile
 {
@@ -7,7 +6,7 @@ namespace AspNetMembershipManager.Web.Profile
     {
         private readonly ProfileSection profileSection;
 
-        public ProfileManager(ProfileProvider profileProvider, ProfileSection profileSection)
+        public ProfileManager(ProfileSection profileSection)
         {
             this.profileSection = profileSection;
         }

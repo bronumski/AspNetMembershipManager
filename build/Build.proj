@@ -47,7 +47,7 @@
 		<Message Text="build_number: $(build_number)" />
 		<Message Text="Version-Publish: $(Version-Publish)" />
 		<Message Text="Version-PublishAsPath: $(Version-PublishAsPath)" />
-		
+
 		<PropertyGroup>
 			<ProjectPath>$(SourceFolder)\AspNetMembershipManager.App\AspNetMembershipManager.App.csproj</ProjectPath>
 			<ProjectPublishLocation>$(AssemblyOutputPath)\app.publish</ProjectPublishLocation>
@@ -60,13 +60,14 @@
 			<ApplicationFilesAbsolutePath>$(ProjectPublishLocation)\$(ApplicationFilesRelativePath)</ApplicationFilesAbsolutePath>
 			<ApplicationManifestRelativePath>$(ApplicationFilesRelativePath)\AspNetMembershipManager.App.exe.manifest</ApplicationManifestRelativePath>
 			<ApplicationManifestPath>$(ProjectPublishLocation)\$(ApplicationManifestRelativePath)</ApplicationManifestPath>
+		    <BootstrapperSdkPath Condition=" '$(BootstrapperSdkPath)' == '' ">C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bootstrapper</BootstrapperSdkPath>
 		</PropertyGroup>
 		
 		<Microsoft.Build.Tasks.RemoveDir Directories="$(ProjectPublishLocation)" Condition="Exists('$(ProjectPublishLocation)')"/>
 
 		<MSBuild Projects="$(ProjectPath)"
 				 Targets="Publish"
-				 Properties="Configuration=Release;Architecture=Any;ApplicationVersion=$(Version-Publish);OutputPath=$(AssemblyOutputPath)\;SignManifests=false" />
+				 Properties="Configuration=Release;Architecture=Any;ApplicationVersion=$(Version-Publish);OutputPath=$(AssemblyOutputPath)\;SignManifests=false;GenerateBootstrapperSdkPath=$(BootstrapperSdkPath)" />
 		
 		<ItemGroup>
 			<FilesToRemoveDeployExtensionFrom Include="$(ApplicationFilesAbsolutePath)\**\*.deploy" />

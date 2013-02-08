@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using AspNetMembershipManager.Web;
 
 namespace AspNetMembershipManager.Initialization
@@ -11,17 +12,22 @@ namespace AspNetMembershipManager.Initialization
 	/// </summary>
 	public partial class InitializationWindow : Window
 	{
-		private readonly InitializationModel viewModel;
-
 		public InitializationWindow()
 		{
-			InitializeComponent();
+			InitializationViewModel = new InitializationViewModel();
 
-			viewModel = new InitializationModel();
-			DataContext = viewModel;
+			InitializeComponent();
 		}
 
-		private void btnFindConfigFile_Click(object sender, RoutedEventArgs e)
+		private InitializationViewModel InitializationViewModel
+		{
+			get { return (InitializationViewModel) DataContext; }
+			set { DataContext = value; }
+		}
+
+        public ProviderManagers ProviderManagers { get; private set; }
+
+		private void BrowseForConfig(object sender, ExecutedRoutedEventArgs e)
 		{
 			var findConfigDialog = new Microsoft.Win32.OpenFileDialog
 			                       	{
@@ -36,17 +42,21 @@ namespace AspNetMembershipManager.Initialization
 
 			if (result == true)
 			{
-				viewModel.ConfigurationPath = findConfigDialog.FileName;
+				InitializationViewModel.ConfigurationPath = findConfigDialog.FileName;
 			}
 		}
 
-        public ProviderManagers ProviderManagers { get; private set; }
+		private void OpenConfig_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = InitializationViewModel.CanLoad;
+			e.Handled = true;
+		}
 
-		private void btnLoadConfigFile_Click(object sender, RoutedEventArgs e)
+		private void OpenConfig_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			try
 			{
-				var webConfigDirectory = new FileInfo(viewModel.ConfigurationPath).Directory;
+				var webConfigDirectory = new FileInfo(InitializationViewModel.ConfigurationPath).Directory;
 				var binDirectory = webConfigDirectory.GetDirectories("bin").FirstOrDefault();
 
 				if (binDirectory == null)
@@ -54,7 +64,7 @@ namespace AspNetMembershipManager.Initialization
 					throw new DirectoryNotFoundException("Could not find web site bin folder. Bin folder should be in the same directory as the web.config");
 				}
 
-				ProviderManagers = new WebProviderInitializer(new ProviderFactory(binDirectory)).InitializeFromConfigurationFile(viewModel.ConfigurationPath, viewModel.CreateMembershipDatabases);
+				ProviderManagers = new WebProviderInitializer(new ProviderFactory(binDirectory)).InitializeFromConfigurationFile(InitializationViewModel.ConfigurationPath, InitializationViewModel.CreateMembershipDatabases);
 
 				DialogResult = true;
 				Close();

@@ -114,7 +114,7 @@
       <DependentUpon>CreateUserWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="User\CreateUserModel.cs" />
-    <Compile Include="Initialization\InitializationModel.cs" />
+    <Compile Include="Initialization\InitializationViewModel.cs" />
     <Compile Include="Initialization\InitializationWindow.xaml.cs">
       <DependentUpon>InitializationWindow.xaml</DependentUpon>
     </Compile>

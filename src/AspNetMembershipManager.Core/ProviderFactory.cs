@@ -24,12 +24,12 @@ namespace AspNetMembershipManager
 
             if (providerType == null)
             {
-                throw new TypeLoadException(string.Format("Unable to load provider of type '{0}'", providerSettings.Type));
+                throw new TypeLoadException("Unable to load provider of type '{0}'".Composite(providerSettings.Type));
             }
 
 			if (!typeof(TProvider).IsAssignableFrom(providerType))
 			{
-                throw new TypeLoadException(string.Format("Invalid provider type '{0}', it is not assignable to '{1}", providerType, typeof(TProvider)));
+                throw new TypeLoadException("Invalid provider type '{0}', it is not assignable to '{1}".Composite(providerType, typeof(TProvider)));
 			}
 
 			var provider = (TProvider)Activator.CreateInstance(providerType);
@@ -58,7 +58,7 @@ namespace AspNetMembershipManager
         {
             if (typeName.AssemblyName != null)
             {
-                var assemblyFile = binDirectory.GetFiles(string.Format("{0}.dll", typeName.AssemblyName.Name)).SingleOrDefault();
+                var assemblyFile = binDirectory.GetFiles("{0}.dll".Composite(typeName.AssemblyName.Name)).SingleOrDefault();
 
                 if (assemblyFile != null)
                 {

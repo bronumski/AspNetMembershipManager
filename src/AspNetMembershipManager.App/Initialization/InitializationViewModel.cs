@@ -3,7 +3,7 @@ using System.IO;
 
 namespace AspNetMembershipManager.Initialization
 {
-	class InitializationModel : INotifyPropertyChanged
+	class InitializationViewModel : INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
 

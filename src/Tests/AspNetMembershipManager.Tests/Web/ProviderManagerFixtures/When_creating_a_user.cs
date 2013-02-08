@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Web.Security;
 using AspNetMembershipManager.Web.Security;
 using FluentAssertions;
 using NUnit.Framework;

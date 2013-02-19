@@ -72,7 +72,6 @@ namespace AspNetMembershipManager
 
     	private IProfileManager LoadAndInitializeProfileProvider(SystemWebSectionGroup remoteWebConfigurationGroup)
     	{
-    	    ProfileProvider profileProvider = null;
     		var profileConfiguration = remoteWebConfigurationGroup.Profile;
 
 			if (profileConfiguration.Enabled)
@@ -102,7 +101,7 @@ namespace AspNetMembershipManager
 				var defaultProfileProviderConfiguration =
 					remoteWebConfigurationGroup.Profile.Providers[remoteWebConfigurationGroup.Profile.DefaultProvider];
 
-				profileProvider = providerFactory.CreateProviderFromConfig<ProfileProvider>(defaultProfileProviderConfiguration);
+				var profileProvider = providerFactory.CreateProviderFromConfig<ProfileProvider>(defaultProfileProviderConfiguration);
 
 				RemoveReadonlyFlagFromProviderCollection(System.Web.Profile.ProfileManager.Providers);
 

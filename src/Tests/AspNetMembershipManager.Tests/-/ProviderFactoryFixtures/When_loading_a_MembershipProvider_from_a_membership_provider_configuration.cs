@@ -339,5 +339,4 @@ namespace AspNetMembershipManager.ProviderFactoryFixtures
 		}
 	}
 #endregion
-
 }

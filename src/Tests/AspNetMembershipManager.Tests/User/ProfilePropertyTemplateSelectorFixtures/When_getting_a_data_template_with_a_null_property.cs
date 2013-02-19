@@ -88,8 +88,8 @@ namespace AspNetMembershipManager.User.ProfilePropertyTemplateSelectorFixtures
 		private ITestCaseData CreateTestData(Type propertyType, DataTemplate expectedDataTemplate)
 		{
 			return new TestCaseData(CreateSettingsProperty(propertyType), expectedDataTemplate)
-				.SetName(string.Format("Property type '{0}'", propertyType))
-				.SetDescription(string.Format("Testing property type '{0}'", propertyType));
+				.SetName("Property type '{0}'".Composite(propertyType))
+				.SetDescription("Testing property type '{0}'".Composite(propertyType));
 		}
 		private SettingsProperty CreateSettingsProperty(Type propertyType)
 		{

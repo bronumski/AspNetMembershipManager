@@ -87,6 +87,7 @@
     <Compile Include="Web\MembershipManagerFixtures\When_deleting_a_user_unsuccesfully.cs" />
     <Compile Include="Web\MembershipManagerFixtures\When_getting_all_membership_users.cs" />
     <Compile Include="Web\MembershipManagerFixtures\When_getting_a_membership_user.cs" />
+    <Compile Include="Web\MembershipPasswordGeneratorFixtures\When_generating_a_password.cs" />
     <Compile Include="Web\MembershipSettingsFixtures\When_getting_membership_settings.cs" />
     <Compile Include="Web\MembershipSettingsFixtures\When_getting_minimum_password_length.cs" />
     <Compile Include="Web\MembershipSettingsFixtures\When_getting_if_a_passowrd_question_and_answer_is_required.cs" />

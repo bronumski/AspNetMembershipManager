@@ -76,7 +76,7 @@ namespace AspNetMembershipManager
 
 			if (profileConfiguration.Enabled)
 			{
-				if (profileConfiguration.Inherits != string.Empty && Type.GetType(profileConfiguration.Inherits) == null)
+				if (profileConfiguration.Inherits.IsNotNullOrEmpty() && Type.GetType(profileConfiguration.Inherits) == null)
 				{
 					var profileTypeAssembly = GetAssemblyForProfileType(profileConfiguration);
 

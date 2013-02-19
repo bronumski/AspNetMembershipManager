@@ -9,9 +9,9 @@ namespace AspNetMembershipManager.Web.Security
 		IEnumerable<string> GetAllRoles();
 		void CreateRole(string roleName);
 		IEnumerable<string> GetRolesForUser(string userName);
-		bool IsUserInRole(string username, string roleName);
-		void AddUserToRole(string username, string roleName);
-		void RemoveUserFromRole(string username, string roleName);
+		bool IsUserInRole(string userName, string roleName);
+		void AddUserToRole(string userName, string roleName);
+		void RemoveUserFromRole(string userName, string roleName);
         IEnumerable<string> GetUsersInRole(string roleName);
 	}
 }

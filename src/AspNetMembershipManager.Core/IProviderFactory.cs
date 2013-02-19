@@ -5,6 +5,6 @@ namespace AspNetMembershipManager
 {
 	public interface IProviderFactory
 	{
-		TProvider CreateProviderFromConfig<TProvider>(ProviderSettings settings) where TProvider : ProviderBase;
+		TProvider CreateProviderFromConfig<TProvider>(ProviderSettings providerSettings) where TProvider : ProviderBase;
 	}
 }

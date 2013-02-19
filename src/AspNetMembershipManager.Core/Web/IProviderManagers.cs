@@ -12,7 +12,7 @@ namespace AspNetMembershipManager.Web
 
 		IEnumerable<IUser> GetAllUsers();
 
-		IUser CreateUser(string username, string password, string emailAddress, string passwordQuestion, string passwordQuestionAnswer);
+		IUser CreateUser(string userName, string password, string emailAddress, string passwordQuestion, string passwordQuestionAnswer);
 
 	    IEnumerable<IRole> GetAllRoles();
 

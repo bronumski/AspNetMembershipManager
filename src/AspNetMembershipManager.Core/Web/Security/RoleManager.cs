@@ -37,19 +37,19 @@ namespace AspNetMembershipManager.Web.Security
 			return roleProvider.GetRolesForUser(userName);
 		}
 
-		public bool IsUserInRole(string username, string roleName)
+		public bool IsUserInRole(string userName, string roleName)
 		{
-			return roleProvider.IsUserInRole(username, roleName);
+			return roleProvider.IsUserInRole(userName, roleName);
 		}
 
-		public void AddUserToRole(string username, string roleName)
+		public void AddUserToRole(string userName, string roleName)
 		{
-			roleProvider.AddUserToRole(username, roleName);
+			roleProvider.AddUserToRole(userName, roleName);
 		}
 
-		public void RemoveUserFromRole(string username, string roleName)
+		public void RemoveUserFromRole(string userName, string roleName)
 		{
-			roleProvider.RemoveUserFromRole(username, roleName);
+			roleProvider.RemoveUserFromRole(userName, roleName);
 		}
 
 	    public IEnumerable<string> GetUsersInRole(string roleName)

@@ -29,17 +29,17 @@ namespace AspNetMembershipManager.Web.Security
 			membershipProvider.UpdateUser(user);
 		}
 
-		public MembershipCreateStatus CreateUser(string username, string password, string emailAddress, string passwordQuestion, string passwordQuestionAnswer)
+		public MembershipCreateStatus CreateUser(string userName, string password, string emailAddress, string passwordQuestion, string passwordQuestionAnswer)
 		{
 			MembershipCreateStatus createStatus;
-			membershipProvider.CreateUser(username, password, emailAddress, passwordQuestion, passwordQuestionAnswer, true, null, out createStatus);
+			membershipProvider.CreateUser(userName, password, emailAddress, passwordQuestion, passwordQuestionAnswer, true, null, out createStatus);
 
 			return createStatus;
 		}
 
-		public System.Web.Security.MembershipUser GetUser(string username)
+		public System.Web.Security.MembershipUser GetUser(string userName)
 		{
-			return membershipProvider.GetUser(username, false);
+			return membershipProvider.GetUser(userName, false);
 		}
 
 		public IMembershipSettings Settings

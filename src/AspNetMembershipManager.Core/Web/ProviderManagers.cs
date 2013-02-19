@@ -45,13 +45,13 @@ namespace AspNetMembershipManager.Web
 	        return membershipUserMapper.MapAll(membershipManager.GetAllUsers());
 		}
 
-		public IUser CreateUser(string username, string password, string emailAddress, string passwordQuestion, string passwordQuestionAnswer)
+		public IUser CreateUser(string userName, string password, string emailAddress, string passwordQuestion, string passwordQuestionAnswer)
 		{
-			var status = membershipManager.CreateUser(username, password, emailAddress, passwordQuestion, passwordQuestionAnswer);
+			var status = membershipManager.CreateUser(userName, password, emailAddress, passwordQuestion, passwordQuestionAnswer);
 
 			if (status == MembershipCreateStatus.Success)
 			{
-				return membershipUserMapper.Map(membershipManager.GetUser(username));
+				return membershipUserMapper.Map(membershipManager.GetUser(userName));
 			}
 			throw new MembershipCreateUserException(status);
 		}

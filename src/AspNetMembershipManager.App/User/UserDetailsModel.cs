@@ -15,7 +15,17 @@ namespace AspNetMembershipManager.User
 		{
 			this.user = user;
 			this.providerManagers = providerManagers;
+
+			UnlockUserCommand = new RelayCommand<UserDetailsModel>(u => u != null && u.IsAccountLocked, u => u.UnlockAccount());
+			ActivateUserCommand = new RelayCommand<UserDetailsModel>(u => u != null && ! u.IsAccountActivated, u => u.ActivatedAccount());
+			DeactivateUserCommand = new RelayCommand<UserDetailsModel>(u => u != null && u.IsAccountActivated, u => u.DeactivateAccount());
 		}
+
+		public RelayCommand<UserDetailsModel> UnlockUserCommand { get; set; }
+
+		public RelayCommand<UserDetailsModel> ActivateUserCommand { get; set; }
+
+		public RelayCommand<UserDetailsModel> DeactivateUserCommand { get; set; }
 
 		public string Username
 		{
@@ -52,6 +62,16 @@ namespace AspNetMembershipManager.User
 		public bool IsAccountLocked
 		{
 			get { return user.IsLockedOut; }
+		}
+
+		public bool IsAccountActivated
+		{
+			get { return user.IsApproved; }
+		}
+
+		public bool IsAccountDectivated
+		{
+			get { return ! user.IsApproved; }
 		}
 
 		public bool RequiresQuestionAndAnswer
@@ -95,9 +115,34 @@ namespace AspNetMembershipManager.User
 			set { user.Comment = value; }
 		}
 
-		public void AccountUnlocked()
+		private void UnlockAccount()
 		{
-			OnPropertyChanged("IsAccountLocked");
+			if (user.Unlock())
+			{
+				OnPropertyChanged("IsAccountLocked");
+				UnlockUserCommand.UpdateCanExecuteState();
+			}
+		}
+
+		private void ActivatedAccount()
+		{
+			user.Activate();
+
+			AccountActiveStateChanged();
+		}
+
+		private void DeactivateAccount()
+		{
+			user.Deactivate();
+			AccountActiveStateChanged();
+		}
+
+		private void AccountActiveStateChanged()
+		{
+			OnPropertyChanged("IsAccountActivated");
+			OnPropertyChanged("IsAccountDectivated");
+			ActivateUserCommand.UpdateCanExecuteState();
+			DeactivateUserCommand.UpdateCanExecuteState();
 		}
 
 		private static IProfileProperty CreateProfilePropertyViewModel(SettingsPropertyValue x)

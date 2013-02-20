@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web.Profile;
+using System.Web.Security;
 using AspNetMembershipManager.Web.Profile;
 
 namespace AspNetMembershipManager.Web.Security
@@ -59,6 +60,11 @@ namespace AspNetMembershipManager.Web.Security
 		public bool IsApproved
 		{
 			get { return membershipUser.IsApproved; }
+			set
+			{
+				membershipUser.IsApproved = value;
+				membershipManager.UpdateUser(membershipUser);
+			}
 		}
 
 		public bool IsLockedOut
@@ -210,6 +216,16 @@ namespace AspNetMembershipManager.Web.Security
 		public bool ChangePasswordQuestionAndAnswer(string newPassword, string passwordQuestion, string passwordQuestionAnswer)
 		{
 			return membershipUser.ChangePasswordQuestionAndAnswer(newPassword, passwordQuestion, passwordQuestionAnswer);
+		}
+
+		public void Activate()
+		{
+			IsApproved = true;
+		}
+
+		public void Deactivate()
+		{
+			IsApproved = false;
 		}
 
 		public bool Unlock()

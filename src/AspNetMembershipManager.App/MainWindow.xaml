@@ -15,26 +15,38 @@
 			<TabControl Margin="12">
 				<TabItem Header="Users">
 					<Grid>
-						<DataGrid ItemsSource="{Binding Users}" IsReadOnly="True" Margin="6,37,6,6">
+						<DataGrid ItemsSource="{Binding Users}" IsReadOnly="True" Margin="6,37,6,6" SelectedItem="{Binding Path=SelectedUser}" SelectionMode="Single">
 							<DataGrid.RowStyle>
 								<Style TargetType="{x:Type DataGridRow}">
 									<EventSetter Event="MouseDoubleClick" Handler="UserRowDoubleClick"/>
 								</Style>
 							</DataGrid.RowStyle>
+							<DataGrid.ContextMenu>
+								<ContextMenu>
+									<MenuItem Command="ApplicationCommands.New" Header="New user"/>
+									<Separator />
+									<MenuItem Command="vm:MainWindowCommands.ResetPassword" Header="Reset password"/>
+									<MenuItem Header="Activate user"
+											  CommandParameter="{Binding SelectedUser}"
+											  Command="{Binding ActivateUserCommand}" />
+									<MenuItem Header="Deactivate user"
+									          CommandParameter="{Binding SelectedUser}"
+									          Command="{Binding DeactivateUserCommand}" />
+									<MenuItem Header="Unlock user"
+											  CommandParameter="{Binding SelectedUser}"
+											  Command="{Binding UnlockUserCommand}" />
+									<Separator />
+									<MenuItem Command="ApplicationCommands.Delete" Header="Delete user"/>
+								</ContextMenu>
+							</DataGrid.ContextMenu>
+							<DataGrid.CommandBindings>
+								<CommandBinding Command="ApplicationCommands.New" Executed="CreateUserExecuted" />
+								<CommandBinding Command="vm:MainWindowCommands.ResetPassword" Executed="ResetPasswordExecuted" />
+								<CommandBinding Command="ApplicationCommands.Delete" Executed="DeleteUserExecuted" />
+							</DataGrid.CommandBindings>
 							<DataGrid.Columns>
-                                <DataGridTemplateColumn Header="Actions">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-											<StackPanel Orientation="Horizontal">
-												<Button Click="DeleteUser">Delete</Button>
-												<Button Click="ResetPassword">Reset password</Button>
-												<Button Click="UnlockAccount" IsEnabled="{Binding IsLockedOut}">Unlock account</Button>
-											</StackPanel>
-										</DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
 								<DataGridTextColumn Header="Username" Binding="{Binding UserName}" />
-								<DataGridTextColumn Header="Email address" Binding="{Binding EmailAddress}" />
+								<DataGridTextColumn Header="Email address" Binding="{Binding EmailAddress}" Width="*" />
 								<DataGridTextColumn Header="Approved" Binding="{Binding IsApproved, Converter={StaticResource BooleanToYesNo}}">
 									<DataGridTextColumn.ElementStyle>
 										<Style TargetType="{x:Type TextBlock}">
@@ -67,23 +79,27 @@
 								<DataGridTextColumn Header="Last login date" Binding="{Binding LastLoginDate}" />
                             </DataGrid.Columns>
 						</DataGrid>
-						<Button Content="Create new user" Height="23" HorizontalAlignment="Right" Margin="0,6,6,0" VerticalAlignment="Top" Width="114" Click="btnCreateUser_Click" />
+						<Button Content="Create new user" Height="23" HorizontalAlignment="Right" Margin="0,6,6,0" VerticalAlignment="Top" Width="114" Click="CreateUserExecuted" />
 					</Grid>
 				</TabItem>
 				<TabItem Header="Roles" Visibility="{Binding RolesEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
 					<Grid>
-						<Button Content="Create new role" Height="23" HorizontalAlignment="Right" Margin="0,6,6,0" VerticalAlignment="Top" Width="114" Click="btnCreateRole_Click" />
-						<DataGrid ItemsSource="{Binding Roles}" IsReadOnly="True" Margin="6,37,6,6">
+						<Button Content="Create new role" Height="23" HorizontalAlignment="Right" Margin="0,6,6,0" VerticalAlignment="Top" Width="114" Click="CreateRoleExecuted" />
+						<DataGrid ItemsSource="{Binding Roles}" IsReadOnly="True" Margin="6,37,6,6" SelectedItem="{Binding Path=SelectedRole}" SelectionMode="Single">
+							<DataGrid.ContextMenu>
+								<ContextMenu>
+									<MenuItem Command="ApplicationCommands.New" Header="New role"/>
+									<Separator />
+									<MenuItem Command="ApplicationCommands.Delete" Header="Delete role"/>
+								</ContextMenu>
+							</DataGrid.ContextMenu>
+							<DataGrid.CommandBindings>
+								<CommandBinding Command="ApplicationCommands.New" Executed="CreateRoleExecuted" />
+								<CommandBinding Command="ApplicationCommands.Delete" Executed="DeleteRoleExecuted" />
+							</DataGrid.CommandBindings>
 							<DataGrid.Columns>
-                                <DataGridTemplateColumn Header="Actions">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Button Click="DeleteRole">Delete</Button>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
 								<DataGridTextColumn Header="Role name" Binding="{Binding Name}" />
-								<DataGridTextColumn Header="Number of users" Binding="{Binding UsersInRole}" />
+								<DataGridTextColumn Header="Number of users" Binding="{Binding UsersInRole}" Width="*" />
 							</DataGrid.Columns>
 						</DataGrid>
 					</Grid>

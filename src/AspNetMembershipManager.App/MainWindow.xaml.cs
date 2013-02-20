@@ -8,6 +8,11 @@ using AspNetMembershipManager.Web;
 
 namespace AspNetMembershipManager
 {
+	public static class MainWindowCommands
+	{
+		public static readonly RoutedUICommand ResetPassword = new RoutedUICommand("Reset password", "ResetPassword", typeof(MainWindow));
+			 
+	}
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
@@ -15,6 +20,8 @@ namespace AspNetMembershipManager
 	{
 		private readonly MainWindowViewModel viewModel;
 	    private readonly IProviderManagers providerManagers;
+
+		
 
         public MainWindow(IProviderManagers providerManagers)
         {
@@ -40,7 +47,7 @@ namespace AspNetMembershipManager
             }
         }
 
-	    private void btnCreateUser_Click(object sender, RoutedEventArgs e)
+	    private void CreateUserExecuted(object sender, RoutedEventArgs e)
         {
             var createUserDialog = new CreateUserWindow(this, providerManagers, new MembershipPasswordGenerator(providerManagers.MembershipSettings));
             var createResult = createUserDialog.ShowDialog();
@@ -51,34 +58,11 @@ namespace AspNetMembershipManager
 			}
         }
 
-        private void btnCreateRole_Click(object sender, RoutedEventArgs e)
-        {
-            var createRoleDialog = new CreateRoleWindow(this, providerManagers);
-            var createResult = createRoleDialog.ShowDialog();
-
-            if (createResult == true)
-            {
-				RefreshRoles();
-            }
-        }
-		
-		private void DeleteRole(object sender, RoutedEventArgs e)
+		private void DeleteUserExecuted(object sender, RoutedEventArgs e)
 		{
-			var role = (IRole)((Button) sender).DataContext;
+			var user = (IUser)((DataGrid) sender).SelectedItem;
 
-			if (MessageBox.Show(this, "Delete role?", "Delete role", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-			{
-			    role.Delete();
-				
-				RefreshRoles();
-			}
-		}
-
-		private void DeleteUser(object sender, RoutedEventArgs e)
-		{
-			var user = (IUser)((MenuItem) sender).DataContext;
-
-			if (MessageBox.Show(this, "Delete user?", "Delete user", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+			if (MessageBox.Show(this, "Delete user?", "Delete user", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
 			{
 				user.Delete();
 				
@@ -93,13 +77,44 @@ namespace AspNetMembershipManager
 			var user = (IUser) row.DataContext;
 
 			var userDialog = new UserDetailsWindow(this, user, providerManagers);
-            var refreshResult = userDialog.ShowDialog();
+			var refreshResult = userDialog.ShowDialog();
 
-            if (refreshResult == true)
-            {
-            	RefreshMembers();
-            	RefreshRoles();
-            }
+			if (refreshResult == true)
+			{
+				RefreshMembers();
+				RefreshRoles();
+			}
+		}
+
+		private void ResetPasswordExecuted(object sender, RoutedEventArgs e)
+		{
+			var user = (IUser)((DataGrid) sender).SelectedItem;
+
+			var resetPasswordDialog = new ResetPasswordWindow(this, user, providerManagers, new MembershipPasswordGenerator(providerManagers.MembershipSettings));
+			resetPasswordDialog.ShowDialog();
+		}
+
+		private void CreateRoleExecuted(object sender, RoutedEventArgs e)
+        {
+        	var createRoleDialog = new CreateRoleWindow(this, providerManagers);
+			var createResult = createRoleDialog.ShowDialog();
+
+			if (createResult == true)
+			{
+				RefreshRoles();
+			}
+        }
+
+		private void DeleteRoleExecuted(object sender, RoutedEventArgs e)
+		{
+			var role = (IRole)((DataGrid) sender).SelectedItem;
+
+			if (MessageBox.Show(this, "Delete role?", "Delete role", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+			{
+			    role.Delete();
+				
+				RefreshRoles();
+			}
 		}
 
 		private void RefreshMembers()
@@ -110,14 +125,6 @@ namespace AspNetMembershipManager
 		private void RefreshRoles()
 		{
 			viewModel.RefreshRoles();
-		}
-
-		private void ResetPassword(object sender, RoutedEventArgs e)
-		{
-			var user = (IUser)((Button) sender).DataContext;
-
-			var resetPasswordDialog = new ResetPasswordWindow(this, user, providerManagers, new MembershipPasswordGenerator(providerManagers.MembershipSettings));
-            resetPasswordDialog.ShowDialog();
 		}
 
 		private void UnlockAccount(object sender, RoutedEventArgs e)

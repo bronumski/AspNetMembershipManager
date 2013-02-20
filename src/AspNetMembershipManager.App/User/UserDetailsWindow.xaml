@@ -157,7 +157,19 @@
 						</Style>
 					</StackPanel.Resources>
 					<Button Content="Reset password" Click="ResetPassword_Click" />
-					<Button Content="Unlock account" Click="UnlockAccount_Click" IsEnabled="{Binding IsAccountLocked}" />
+					<Button Content="Unlock account"
+							CommandParameter="{Binding}"
+					        Command="{Binding UnlockUserCommand}" />
+					<Button Content="Activate account"
+							Width="130"
+							Visibility="{Binding IsAccountDectivated, Converter={StaticResource BooleanToVisibilityConverter}}"
+							CommandParameter="{Binding}"
+							Command="{Binding ActivateUserCommand}" />
+					<Button Content="Deactivate account"
+							Width="130"
+							Visibility="{Binding IsAccountActivated, Converter={StaticResource BooleanToVisibilityConverter}}"
+							CommandParameter="{Binding}"
+							Command="{Binding DeactivateUserCommand}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Grid.Column="1">
 					<StackPanel.Resources>

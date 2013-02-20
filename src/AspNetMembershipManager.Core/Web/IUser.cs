@@ -26,5 +26,7 @@ namespace AspNetMembershipManager.Web
 		bool Unlock();
 		bool ChangePassword(string password);
 		bool ChangePasswordQuestionAndAnswer(string newPassword, string passwordQuestion, string passwordQuestionAnswer);
+		void Activate();
+		void Deactivate();
 	}
 }

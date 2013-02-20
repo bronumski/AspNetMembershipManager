@@ -41,7 +41,7 @@
 							</DataGrid.ContextMenu>
 							<DataGrid.CommandBindings>
 								<CommandBinding Command="ApplicationCommands.New" Executed="CreateUserExecuted" />
-								<CommandBinding Command="vm:MainWindowCommands.ResetPassword" Executed="ResetPasswordExecuted" />
+								<CommandBinding Command="vm:MainWindowCommands.ResetPassword" CanExecute="CanResetPassword" Executed="ResetPasswordExecuted" />
 								<CommandBinding Command="ApplicationCommands.Delete" Executed="DeleteUserExecuted" />
 							</DataGrid.CommandBindings>
 							<DataGrid.Columns>

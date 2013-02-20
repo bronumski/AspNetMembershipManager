@@ -25,5 +25,10 @@ namespace AspNetMembershipManager.Web
         {
             get { return membershipProvider.MinRequiredNonAlphanumericCharacters; }
         }
+
+		public bool CanResetPasswords
+		{
+			get { return membershipProvider.EnablePasswordReset && (! membershipProvider.RequiresQuestionAndAnswer); }
+		}
 	}
 }

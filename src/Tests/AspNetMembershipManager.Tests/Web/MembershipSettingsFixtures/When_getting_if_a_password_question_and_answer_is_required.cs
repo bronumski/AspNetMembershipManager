@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace AspNetMembershipManager.Web.MembershipSettingsFixtures
 {
-	class When_getting_if_a_passowrd_question_and_answer_is_required : When_getting_membership_settings<bool>
+	class When_getting_if_a_password_question_and_answer_is_required : When_getting_membership_settings<bool>
 	{
 		protected override void SetupContext()
 		{

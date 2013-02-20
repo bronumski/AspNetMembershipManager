@@ -8,11 +8,6 @@ using AspNetMembershipManager.Web;
 
 namespace AspNetMembershipManager
 {
-	public static class MainWindowCommands
-	{
-		public static readonly RoutedUICommand ResetPassword = new RoutedUICommand("Reset password", "ResetPassword", typeof(MainWindow));
-			 
-	}
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
@@ -125,6 +120,12 @@ namespace AspNetMembershipManager
 		private void RefreshRoles()
 		{
 			viewModel.RefreshRoles();
+		}
+
+		private void CanResetPassword(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = providerManagers.MembershipSettings.CanResetPasswords;
+			e.Handled = true;
 		}
 	}
 }

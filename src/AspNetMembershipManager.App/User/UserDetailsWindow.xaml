@@ -10,6 +10,7 @@
         Title="User Details" Height="425" Width="967">
 	<Window.CommandBindings>
 		<CommandBinding Command="Save" CanExecute="Ok_CanExecute" Executed="Ok_Executed" />
+		<CommandBinding Command="vm:UserDetailsWindowCommands.ResetPassword" CanExecute="CanResetPassword" Executed="ResetPassword" />
 	</Window.CommandBindings>
     <Grid>
 		<Grid.Resources>
@@ -156,7 +157,7 @@
 							<Setter Property="Padding" Value="10,0,10,0" />
 						</Style>
 					</StackPanel.Resources>
-					<Button Content="Reset password" Click="ResetPassword_Click" />
+					<Button Content="Reset password" Command="vm:UserDetailsWindowCommands.ResetPassword" />
 					<Button Content="Unlock account"
 							CommandParameter="{Binding}"
 					        Command="{Binding UnlockUserCommand}" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using AspNetMembershipManager.User.Profile;
 using AspNetMembershipManager.Web;
 
@@ -59,10 +60,16 @@ namespace AspNetMembershipManager.User
 			propertyWindow.ShowDialog();
 		}
 
-		private void ResetPassword_Click(object sender, RoutedEventArgs e)
+		private void ResetPassword(object sender, RoutedEventArgs e)
 		{
 			var resetPasswordDialog = new ResetPasswordWindow(this, userDetails.user, providerManagers, new MembershipPasswordGenerator(providerManagers.MembershipSettings));
             resetPasswordDialog.ShowDialog();
+		}
+
+		private void CanResetPassword(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = providerManagers.MembershipSettings.CanResetPasswords;
+			e.Handled = true;
 		}
 	}
 }

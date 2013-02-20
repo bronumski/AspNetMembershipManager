@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Input;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AspNetMembershipManager.User;
 using AspNetMembershipManager.Web;
 
 namespace AspNetMembershipManager
@@ -13,28 +13,28 @@ namespace AspNetMembershipManager
 		{
 			this.providerManagers = providerManagers;
 
-			UnlockUserCommand = new RelayCommand<IUser>(user => user != null && user.IsLockedOut, user => { user.Unlock(); RefreshMembershipUsers(); });
-			ActivateUserCommand = new RelayCommand<IUser>(user => user != null && ! user.IsApproved, user => { user.Activate(); RefreshMembershipUsers(); });
-			DeactivateUserCommand = new RelayCommand<IUser>(user => user != null && user.IsApproved, user => { user.Deactivate(); RefreshMembershipUsers(); });
+			//UnlockUserCommand = new RelayCommand<UserDetailsModel>(user => user != null && user.IsAccountLocked, user => { user.Unlock(); RefreshMembershipUsers(); });
+			//ActivateUserCommand = new RelayCommand<UserDetailsModel>(user => user != null && user.IsAccountDectivated, user => { user.Activate(); RefreshMembershipUsers(); });
+			//DeactivateUserCommand = new RelayCommand<UserDetailsModel>(user => user != null && user.Is, user => { user.Deactivate(); RefreshMembershipUsers(); });
 		}
 
-		public RelayCommand<IUser> UnlockUserCommand { get; set; }
+		//public RelayCommand<IUser> UnlockUserCommand { get; set; }
 
-		public RelayCommand<IUser> ActivateUserCommand { get; set; }
+		//public RelayCommand<IUser> ActivateUserCommand { get; set; }
 
-		public RelayCommand<IUser> DeactivateUserCommand { get; set; }
+		//public RelayCommand<IUser> DeactivateUserCommand { get; set; }
 
-		private IUser selectedUser;
-		public IUser SelectedUser
+		private UserDetailsModel selectedUser;
+		public UserDetailsModel SelectedUser
 		{
 			get { return selectedUser; }
 			set
 			{
 				selectedUser = value;
 
-				UnlockUserCommand.UpdateCanExecuteState();
-				ActivateUserCommand.UpdateCanExecuteState();
-				DeactivateUserCommand.UpdateCanExecuteState();
+				//UnlockUserCommand.UpdateCanExecuteState();
+				//ActivateUserCommand.UpdateCanExecuteState();
+				//DeactivateUserCommand.UpdateCanExecuteState();
 
 				OnPropertyChanged("SelectedUser");
 			}
@@ -42,11 +42,11 @@ namespace AspNetMembershipManager
 
 		public IRole SelectedRole { get; set; }
 
-		public IEnumerable<IUser> Users { get; private set; }
+		public IEnumerable<UserDetailsModel> Users { get; private set; }
 
 		public void RefreshMembershipUsers()
 		{
-			Users = providerManagers.GetAllUsers();
+			Users = providerManagers.GetAllUsers().Select(x => new UserDetailsModel(x, providerManagers));
 
 			OnPropertyChanged("Users");
 		}

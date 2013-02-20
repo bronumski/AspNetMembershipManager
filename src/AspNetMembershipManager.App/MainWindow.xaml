@@ -28,13 +28,13 @@
 									<MenuItem Command="vm:MainWindowCommands.ResetPassword" Header="Reset password"/>
 									<MenuItem Header="Activate user"
 											  CommandParameter="{Binding SelectedUser}"
-											  Command="{Binding ActivateUserCommand}" />
+											  Command="{Binding SelectedUser.ActivateUserCommand}" />
 									<MenuItem Header="Deactivate user"
 									          CommandParameter="{Binding SelectedUser}"
-									          Command="{Binding DeactivateUserCommand}" />
+									          Command="{Binding SelectedUser.DeactivateUserCommand}" />
 									<MenuItem Header="Unlock user"
 											  CommandParameter="{Binding SelectedUser}"
-											  Command="{Binding UnlockUserCommand}" />
+											  Command="{Binding SelectedUser.UnlockUserCommand}" />
 									<Separator />
 									<MenuItem Command="ApplicationCommands.Delete" Header="Delete user"/>
 								</ContextMenu>
@@ -47,7 +47,7 @@
 							<DataGrid.Columns>
 								<DataGridTextColumn Header="Username" Binding="{Binding UserName}" />
 								<DataGridTextColumn Header="Email address" Binding="{Binding EmailAddress}" Width="*" />
-								<DataGridTextColumn Header="Approved" Binding="{Binding IsApproved, Converter={StaticResource BooleanToYesNo}}">
+								<DataGridTextColumn Header="Activated" Binding="{Binding IsAccountActivated, Converter={StaticResource BooleanToYesNo}}">
 									<DataGridTextColumn.ElementStyle>
 										<Style TargetType="{x:Type TextBlock}">
 											<Style.Triggers>
@@ -61,7 +61,7 @@
 										</Style>
 									</DataGridTextColumn.ElementStyle>
 								</DataGridTextColumn>
-								<DataGridTextColumn Header="Locked out" Binding="{Binding IsLockedOut, Converter={StaticResource BooleanToYesNo}}">
+								<DataGridTextColumn Header="Locked out" Binding="{Binding IsAccountLocked, Converter={StaticResource BooleanToYesNo}}">
 									<DataGridTextColumn.ElementStyle>
 										<Style TargetType="{x:Type TextBlock}">
 											<Style.Triggers>

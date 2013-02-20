@@ -12,17 +12,15 @@ namespace AspNetMembershipManager.User
 	partial class UserDetailsWindow : EditDialogWindow
 	{
 		private readonly UserDetailsModel userDetails;
-		private readonly IUser user;
 		private readonly IProviderManagers providerManagers;
 
-		internal UserDetailsWindow(Window parentWindow, IUser user, IProviderManagers providerManagers)
+		internal UserDetailsWindow(Window parentWindow, UserDetailsModel userDetails, IProviderManagers providerManagers)
 			: base(parentWindow)
 		{
-	    	this.user = user;
 			this.providerManagers = providerManagers;
 			InitializeComponent();
 
-            userDetails = new UserDetailsModel(user, providerManagers);
+            this.userDetails = userDetails;
 
 			DataContext = userDetails;
 		}
@@ -31,7 +29,8 @@ namespace AspNetMembershipManager.User
         {
         	try
         	{
-				user.Save();
+				//TODO: Change!!
+				userDetails.user.Save();
         	}
         	catch (Exception ex)
         	{
@@ -62,7 +61,7 @@ namespace AspNetMembershipManager.User
 
 		private void ResetPassword_Click(object sender, RoutedEventArgs e)
 		{
-			var resetPasswordDialog = new ResetPasswordWindow(this, user, providerManagers, new MembershipPasswordGenerator(providerManagers.MembershipSettings));
+			var resetPasswordDialog = new ResetPasswordWindow(this, userDetails.user, providerManagers, new MembershipPasswordGenerator(providerManagers.MembershipSettings));
             resetPasswordDialog.ShowDialog();
 		}
 	}

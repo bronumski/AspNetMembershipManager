@@ -60,12 +60,12 @@ namespace AspNetMembershipManager
 
 		private void DeleteUserExecuted(object sender, RoutedEventArgs e)
 		{
-			var user = (IUser)((DataGrid) sender).SelectedItem;
+			var user = (UserDetailsModel)((DataGrid) sender).SelectedItem;
 
 			if (MessageBox.Show(this, "Delete user?", "Delete user", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
 			{
-				user.Delete();
-				
+				//TODO: Change!
+				user.user.Delete();
 				RefreshMembers();
 			}
 		}
@@ -74,7 +74,7 @@ namespace AspNetMembershipManager
 		{
 			var row = (DataGridRow) sender;
 
-			var user = (IUser) row.DataContext;
+			var user = (UserDetailsModel) row.DataContext;
 
 			var userDialog = new UserDetailsWindow(this, user, providerManagers);
 			var refreshResult = userDialog.ShowDialog();
@@ -88,9 +88,9 @@ namespace AspNetMembershipManager
 
 		private void ResetPasswordExecuted(object sender, RoutedEventArgs e)
 		{
-			var user = (IUser)((DataGrid) sender).SelectedItem;
+			var user = (UserDetailsModel)((DataGrid) sender).SelectedItem;
 
-			var resetPasswordDialog = new ResetPasswordWindow(this, user, providerManagers, new MembershipPasswordGenerator(providerManagers.MembershipSettings));
+			var resetPasswordDialog = new ResetPasswordWindow(this, /*TODO: Change*/ user.user, providerManagers, new MembershipPasswordGenerator(providerManagers.MembershipSettings));
 			resetPasswordDialog.ShowDialog();
 		}
 
@@ -125,15 +125,6 @@ namespace AspNetMembershipManager
 		private void RefreshRoles()
 		{
 			viewModel.RefreshRoles();
-		}
-
-		private void UnlockAccount(object sender, RoutedEventArgs e)
-		{
-			var user = (IUser)((Button) sender).DataContext;
-
-			user.Unlock();
-
-			viewModel.RefreshMembershipUsers();
 		}
 	}
 }

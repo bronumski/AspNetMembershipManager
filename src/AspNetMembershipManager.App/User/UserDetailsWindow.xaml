@@ -40,7 +40,7 @@
 								</Grid.RowDefinitions>
 								<Label Content="Username:" Grid.Column="0" Grid.Row="0" />
 								<Label Content="Email address:" Grid.Column="0" Grid.Row="1" />
-								<TextBox Text="{Binding Username, Mode=OneWay}" IsReadOnly="True" Name="txtUserName" Grid.Column="1" Grid.Row="0" />
+								<TextBox Text="{Binding UserName, Mode=OneWay}" IsReadOnly="True" Name="txtUserName" Grid.Column="1" Grid.Row="0" />
 								<TextBox Grid.Column="1" Grid.Row="1"
 									 Validation.Error="Validation_Error"
 									 Text="{Binding UpdateSourceTrigger=PropertyChanged, Path=EmailAddress, ValidatesOnDataErrors=true, NotifyOnValidationError=true}" />

@@ -49,7 +49,7 @@ namespace AspNetMembershipManager.User
     		{
     			switch (columnName)
     			{
-                    case "Username":
+                    case "UserName":
                         if (string.IsNullOrEmpty(Username))
 						{
 							return "Please enter a unique username";

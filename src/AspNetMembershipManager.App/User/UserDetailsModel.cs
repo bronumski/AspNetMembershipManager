@@ -8,7 +8,7 @@ namespace AspNetMembershipManager.User
 {
 	class UserDetailsModel : SaveViewModelBase
     {
-		private readonly IUser user;
+		public readonly IUser user;
 		private readonly IProviderManagers providerManagers;
 
 		public UserDetailsModel(IUser user, IProviderManagers providerManagers)
@@ -27,7 +27,7 @@ namespace AspNetMembershipManager.User
 
 		public RelayCommand<UserDetailsModel> DeactivateUserCommand { get; set; }
 
-		public string Username
+		public string UserName
 		{
 			get { return user.UserName; }
 		}
@@ -120,6 +120,7 @@ namespace AspNetMembershipManager.User
 			if (user.Unlock())
 			{
 				OnPropertyChanged("IsAccountLocked");
+
 				UnlockUserCommand.UpdateCanExecuteState();
 			}
 		}
@@ -134,6 +135,7 @@ namespace AspNetMembershipManager.User
 		private void DeactivateAccount()
 		{
 			user.Deactivate();
+
 			AccountActiveStateChanged();
 		}
 
@@ -162,8 +164,8 @@ namespace AspNetMembershipManager.User
 							return "Please enter a valid email address";
 						}
 						break;
-                    case "Username":
-                        if (string.IsNullOrEmpty(Username))
+                    case "UserName":
+                        if (string.IsNullOrEmpty(UserName))
 						{
 							return "Please enter a unique username";
 						}

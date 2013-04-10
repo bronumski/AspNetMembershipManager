@@ -107,12 +107,12 @@ namespace AspNetMembershipManager.TestWebsitesCommon
 
         public override bool EnablePasswordRetrieval
         {
-            get { throw new System.NotImplementedException(); }
+            get { return false; }
         }
 
         public override bool EnablePasswordReset
         {
-            get { throw new System.NotImplementedException(); }
+            get { return true; }
         }
 
         public override bool RequiresQuestionAndAnswer

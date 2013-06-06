@@ -15,7 +15,7 @@
 			<TabControl Margin="12">
 				<TabItem Header="Users">
 					<Grid>
-						<DataGrid ItemsSource="{Binding Users}" IsReadOnly="True" Margin="6,37,6,6" SelectedItem="{Binding Path=SelectedUser}" SelectionMode="Single">
+						<DataGrid ItemsSource="{Binding Users}" IsReadOnly="True" Margin="6,37,6,6" SelectedItem="{Binding Path=SelectedUser}" SelectionMode="Single" AutoGenerateColumns="False">
 							<DataGrid.RowStyle>
 								<Style TargetType="{x:Type DataGridRow}">
 									<EventSetter Event="MouseDoubleClick" Handler="UserRowDoubleClick"/>

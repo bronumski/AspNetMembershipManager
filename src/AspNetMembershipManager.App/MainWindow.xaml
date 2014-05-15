@@ -8,7 +8,6 @@
 		d:DataContext="{d:DesignInstance vm:MainWindowViewModel}">
     <Grid>
 		<Grid.Resources>
-			<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 			<vm:BoolToStringConverter x:Key="BooleanToYesNo" FalseValue="No" TrueValue="Yes" />
 		</Grid.Resources>
 		<DockPanel>
@@ -82,7 +81,17 @@
 						<Button Content="Create new user" Height="23" HorizontalAlignment="Right" Margin="0,6,6,0" VerticalAlignment="Top" Width="114" Click="CreateUserExecuted" />
 					</Grid>
 				</TabItem>
-				<TabItem Header="Roles" Visibility="{Binding RolesEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+				<TabItem Header="Roles" IsEnabled="{Binding RolesEnabled}">
+                    <TabItem.Style>
+                        <Style TargetType="{x:Type TabItem}">
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="ToolTip" Value="Membership roles are not enabled"/>
+                                    <Setter Property="ToolTipService.ShowOnDisabled" Value="True"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TabItem.Style>
 					<Grid>
 						<Button Content="Create new role" Height="23" HorizontalAlignment="Right" Margin="0,6,6,0" VerticalAlignment="Top" Width="114" Click="CreateRoleExecuted" />
 						<DataGrid ItemsSource="{Binding Roles}" IsReadOnly="True" Margin="6,37,6,6" SelectedItem="{Binding Path=SelectedRole}" SelectionMode="Single">

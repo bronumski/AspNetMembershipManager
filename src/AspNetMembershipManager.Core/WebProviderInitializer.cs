@@ -45,7 +45,13 @@ namespace AspNetMembershipManager
 				remoteWebConfigurationGroup.Membership.SectionInformation.GetRawXml());
 			localWebConfigurationGroup.Profile.SectionInformation.SetRawXml(
 				remoteWebConfigurationGroup.Profile.SectionInformation.GetRawXml());
-        	
+
+            if (remoteWebConfigurationGroup.MachineKey.SectionInformation.IsDeclared)
+            {
+                localWebConfigurationGroup.MachineKey.SectionInformation.SetRawXml(
+                remoteWebConfigurationGroup.MachineKey.SectionInformation.GetRawXml());
+            }
+
     		localConfiguration.Save();
 
 			ConfigurationManager.RefreshSection("system.web/membership");
